@@ -1,0 +1,257 @@
+:root {
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #1f3347;
+  background: #f4f8fb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --brand-navy: #14324a;
+  --brand-teal: #1f7a8c;
+  --brand-sand: #f8f2e7;
+  --brand-sky: #e9f3fb;
+  --brand-gold: #d8a85f;
+  --text-soft: #5d7287;
+  --border-soft: rgba(20, 50, 74, 0.08);
+  --shadow-soft: 0 16px 40px rgba(20, 50, 74, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(circle at top right, rgba(31, 122, 140, 0.08), transparent 28%),
+    linear-gradient(180deg, #eef6fb 0%, #f9fcfe 48%, #ffffff 100%);
+  color: #1f3347;
+}
+
+a {
+  text-decoration: none;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.site-main {
+  position: relative;
+}
+
+.site-navbar {
+  background: rgba(20, 50, 74, 0.95);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 30px rgba(10, 27, 41, 0.14);
+}
+
+.brand-mark {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.8rem;
+  background: linear-gradient(135deg, var(--brand-gold), #f6d27b);
+  color: var(--brand-navy);
+  font-weight: 700;
+}
+
+.brand-copy {
+  line-height: 1.1;
+}
+
+.brand-copy small {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.navbar .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+  color: #ffffff;
+}
+
+.navbar .nav-link.active {
+  font-weight: 600;
+}
+
+.page-section,
+.auth-card,
+.feature-card,
+.info-card,
+.cta-panel {
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-soft);
+}
+
+.hero-card,
+.page-section,
+.auth-card,
+.feature-card,
+.info-card,
+.cta-panel {
+  border-radius: 1.5rem;
+}
+
+.hero-card {
+  background: linear-gradient(135deg, rgba(20, 50, 74, 0.98), rgba(31, 122, 140, 0.9));
+  color: #ffffff;
+  padding: 2rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -60px -80px auto;
+  width: 180px;
+  height: 180px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2rem;
+  transform: rotate(18deg);
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.88rem;
+}
+
+.hero-card h1 {
+  font-size: clamp(2rem, 3vw, 3.5rem);
+  line-height: 1.1;
+}
+
+.hero-stats {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+}
+
+.hero-stats strong {
+  display: block;
+  font-size: 1.75rem;
+}
+
+.section-heading {
+  max-width: 640px;
+}
+
+.section-heading p,
+.page-copy,
+.info-card p,
+.feature-card p,
+.auth-card p {
+  color: var(--text-soft);
+}
+
+.feature-card,
+.info-card,
+.page-section,
+.auth-card,
+.cta-panel {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.feature-card,
+.info-card,
+.cta-panel {
+  padding: 1.5rem;
+  height: 100%;
+}
+
+.feature-icon {
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  background: var(--brand-sky);
+  color: var(--brand-teal);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.page-section {
+  padding: 2rem;
+}
+
+.page-header {
+  margin-bottom: 1.5rem;
+}
+
+.auth-card {
+  padding: 2rem;
+}
+
+.auth-card .form-control {
+  min-height: 3rem;
+  border-radius: 0.9rem;
+  border-color: rgba(20, 50, 74, 0.14);
+}
+
+.auth-card .form-control:focus {
+  border-color: rgba(31, 122, 140, 0.6);
+  box-shadow: 0 0 0 0.25rem rgba(31, 122, 140, 0.14);
+}
+
+.site-footer {
+  border-top: 1px solid rgba(20, 50, 74, 0.08);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+.site-footer p,
+.site-footer span {
+  color: var(--text-soft);
+}
+
+.btn-brand {
+  background: var(--brand-gold);
+  border-color: var(--brand-gold);
+  color: var(--brand-navy);
+}
+
+.btn-brand:hover,
+.btn-brand:focus {
+  background: #c89242;
+  border-color: #c89242;
+  color: var(--brand-navy);
+}
+
+.btn-outline-light:hover {
+  color: var(--brand-navy);
+}
+
+@media (max-width: 991.98px) {
+  .hero-card,
+  .page-section,
+  .auth-card {
+    padding: 1.5rem;
+  }
+}
