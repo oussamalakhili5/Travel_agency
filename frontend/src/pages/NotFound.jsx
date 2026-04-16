@@ -3,21 +3,28 @@ import { Link } from 'react-router-dom'
 function NotFound() {
   return (
     <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-lg-7">
-          <section className="page-section text-center">
-            <span className="badge text-bg-dark mb-3">404</span>
-            <h1 className="h2 fw-semibold mb-3">The page you requested could not be found.</h1>
-            <p className="page-copy mb-4">
-              The route may have changed or is not available yet. Head back to the homepage to
-              continue exploring the travel platform.
-            </p>
-            <Link className="btn btn-dark px-4" to="/">
-              Return Home
-            </Link>
-          </section>
+      <section className="not-found-shell">
+        <div className="row justify-content-center">
+          <div className="col-lg-8">
+            <div className="not-found-card">
+              <span className="section-label">404 Error</span>
+              <h1 className="section-title section-title-sm">This destination is not on the map yet.</h1>
+              <p className="mb-4">
+                The page you requested may have moved or does not exist. Head back to the main
+                experience and continue exploring hotels, transport, and travel offers.
+              </p>
+              <div className="d-flex flex-column flex-sm-row justify-content-center gap-3">
+                <Link className="btn btn-brand px-4" to="/">
+                  Return Home
+                </Link>
+                <Link className="btn btn-outline-brand px-4" to="/hotels">
+                  Browse Hotels
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   )
 }

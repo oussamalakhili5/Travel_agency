@@ -1,0 +1,42 @@
+function HotelCard({ hotel }) {
+  return (
+    <article className="hotel-card h-100">
+      <div className="hotel-card__media">
+        <img
+          alt={hotel.name}
+          className="hotel-card__image"
+          loading="lazy"
+          src={hotel.image}
+        />
+        <span className="badge hotel-card__badge rounded-pill">{hotel.tag}</span>
+      </div>
+
+      <div className="hotel-card__body">
+        <div className="d-flex justify-content-between align-items-start gap-3 mb-3">
+          <div>
+            <p className="hotel-card__city mb-1">{hotel.city}</p>
+            <h3 className="h5 fw-semibold mb-0">{hotel.name}</h3>
+          </div>
+          <span className="hotel-card__rating">{hotel.rating} / 5</span>
+        </div>
+
+        <p className="mb-4">{hotel.description}</p>
+
+        <div className="d-flex justify-content-between align-items-end gap-3 mt-auto">
+          <div>
+            <small className="d-block text-uppercase text-muted mb-1">From</small>
+            <div className="hotel-card__price">
+              {hotel.pricePerNight}
+              <span> / night</span>
+            </div>
+          </div>
+          <button className="btn btn-outline-brand" type="button">
+            View Details
+          </button>
+        </div>
+      </div>
+    </article>
+  )
+}
+
+export default HotelCard
