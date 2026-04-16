@@ -160,8 +160,17 @@
       "remember": "Remember me",
       "supportLink": "Need access?",
       "submit": "Sign In",
+      "submitting": "Signing In...",
       "newHere": "New here?",
       "createAccount": "Create your account"
+    },
+    "validation": {
+      "requiredEmail": "Email address is required.",
+      "invalidEmail": "Please enter a valid email address.",
+      "requiredPassword": "Password is required."
+    },
+    "success": {
+      "message": "Login form submitted successfully. You can connect this flow to the Django API next."
     }
   },
   "register": {
@@ -180,26 +189,37 @@
       "description": "Fill in the fields below to set up a travel-agency workspace."
     },
     "form": {
-      "fullNameLabel": "Full name",
-      "fullNamePlaceholder": "Your full name",
-      "agencyNameLabel": "Agency name",
-      "agencyNamePlaceholder": "Atlas Travel Agency",
+      "firstNameLabel": "First name",
+      "firstNamePlaceholder": "Enter your first name",
+      "lastNameLabel": "Last name",
+      "lastNamePlaceholder": "Enter your last name",
       "emailLabel": "Email address",
       "emailPlaceholder": "contact@atlastravel.com",
-      "roleLabel": "Role",
-      "roles": {
-        "agent": "Travel Agent",
-        "manager": "Manager",
-        "operations": "Operations"
-      },
+      "phoneLabel": "Phone number",
+      "phonePlaceholder": "+212 600 000 000",
       "passwordLabel": "Password",
       "passwordPlaceholder": "Create a password",
       "confirmPasswordLabel": "Confirm password",
       "confirmPasswordPlaceholder": "Confirm your password",
-      "terms": "I agree to the agency terms and traveler data policies.",
+      "passwordHint": "Use at least {{count}} characters for a secure password.",
       "submit": "Register",
+      "submitting": "Creating Account...",
       "alreadyRegistered": "Already registered?",
       "signIn": "Sign in here"
+    },
+    "validation": {
+      "requiredFirstName": "First name is required.",
+      "requiredLastName": "Last name is required.",
+      "requiredEmail": "Email address is required.",
+      "invalidEmail": "Please enter a valid email address.",
+      "requiredPhone": "Phone number is required.",
+      "requiredPassword": "Password is required.",
+      "passwordMinLength": "Password must be at least {{count}} characters long.",
+      "requiredConfirmPassword": "Please confirm your password.",
+      "passwordMismatch": "Password confirmation does not match."
+    },
+    "success": {
+      "message": "Registration form submitted successfully. It is ready to connect to your Django API."
     }
   },
   "notFound": {

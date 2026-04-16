@@ -160,8 +160,17 @@
       "remember": "تذكرني",
       "supportLink": "تحتاج إلى صلاحية؟",
       "submit": "تسجيل الدخول",
+      "submitting": "جارٍ تسجيل الدخول...",
       "newHere": "جديد هنا؟",
       "createAccount": "أنشئ حسابك"
+    },
+    "validation": {
+      "requiredEmail": "البريد الإلكتروني مطلوب.",
+      "invalidEmail": "يرجى إدخال بريد إلكتروني صحيح.",
+      "requiredPassword": "كلمة المرور مطلوبة."
+    },
+    "success": {
+      "message": "تم إرسال نموذج تسجيل الدخول بنجاح. يمكنك ربط هذا التدفق بواجهة Django لاحقًا."
     }
   },
   "register": {
@@ -180,26 +189,37 @@
       "description": "املأ الحقول التالية لإعداد مساحة عمل لوكالة السفر."
     },
     "form": {
-      "fullNameLabel": "الاسم الكامل",
-      "fullNamePlaceholder": "اكتب اسمك الكامل",
-      "agencyNameLabel": "اسم الوكالة",
-      "agencyNamePlaceholder": "Atlas Travel Agency",
+      "firstNameLabel": "الاسم الأول",
+      "firstNamePlaceholder": "أدخل اسمك الأول",
+      "lastNameLabel": "اسم العائلة",
+      "lastNamePlaceholder": "أدخل اسم العائلة",
       "emailLabel": "البريد الإلكتروني",
       "emailPlaceholder": "contact@atlastravel.com",
-      "roleLabel": "الدور",
-      "roles": {
-        "agent": "وكيل سفر",
-        "manager": "مدير",
-        "operations": "العمليات"
-      },
+      "phoneLabel": "رقم الهاتف",
+      "phonePlaceholder": "+212 600 000 000",
       "passwordLabel": "كلمة المرور",
       "passwordPlaceholder": "أنشئ كلمة مرور",
       "confirmPasswordLabel": "تأكيد كلمة المرور",
       "confirmPasswordPlaceholder": "أكد كلمة المرور",
-      "terms": "أوافق على شروط الوكالة وسياسات بيانات المسافرين.",
+      "passwordHint": "استخدم {{count}} أحرف على الأقل للحصول على كلمة مرور آمنة.",
       "submit": "إنشاء الحساب",
+      "submitting": "جارٍ إنشاء الحساب...",
       "alreadyRegistered": "لديك حساب بالفعل؟",
       "signIn": "سجّل الدخول من هنا"
+    },
+    "validation": {
+      "requiredFirstName": "الاسم الأول مطلوب.",
+      "requiredLastName": "اسم العائلة مطلوب.",
+      "requiredEmail": "البريد الإلكتروني مطلوب.",
+      "invalidEmail": "يرجى إدخال بريد إلكتروني صحيح.",
+      "requiredPhone": "رقم الهاتف مطلوب.",
+      "requiredPassword": "كلمة المرور مطلوبة.",
+      "passwordMinLength": "يجب أن تتكون كلمة المرور من {{count}} أحرف على الأقل.",
+      "requiredConfirmPassword": "يرجى تأكيد كلمة المرور.",
+      "passwordMismatch": "تأكيد كلمة المرور غير مطابق."
+    },
+    "success": {
+      "message": "تم إرسال نموذج التسجيل بنجاح. وهو جاهز للربط مع واجهة Django لاحقًا."
     }
   },
   "notFound": {

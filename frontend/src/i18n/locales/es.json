@@ -160,8 +160,17 @@
       "remember": "Recordarme",
       "supportLink": "¿Necesitas acceso?",
       "submit": "Iniciar sesión",
+      "submitting": "Iniciando sesión...",
       "newHere": "¿Eres nuevo?",
       "createAccount": "Crear tu cuenta"
+    },
+    "validation": {
+      "requiredEmail": "El correo electrónico es obligatorio.",
+      "invalidEmail": "Introduce un correo electrónico válido.",
+      "requiredPassword": "La contraseña es obligatoria."
+    },
+    "success": {
+      "message": "El formulario de inicio de sesión se envió correctamente. Después podrás conectarlo con la API de Django."
     }
   },
   "register": {
@@ -180,26 +189,37 @@
       "description": "Completa los campos siguientes para configurar el espacio de trabajo de tu agencia."
     },
     "form": {
-      "fullNameLabel": "Nombre completo",
-      "fullNamePlaceholder": "Tu nombre completo",
-      "agencyNameLabel": "Nombre de la agencia",
-      "agencyNamePlaceholder": "Atlas Travel Agency",
+      "firstNameLabel": "Nombre",
+      "firstNamePlaceholder": "Introduce tu nombre",
+      "lastNameLabel": "Apellido",
+      "lastNamePlaceholder": "Introduce tu apellido",
       "emailLabel": "Correo electrónico",
       "emailPlaceholder": "contact@atlastravel.com",
-      "roleLabel": "Rol",
-      "roles": {
-        "agent": "Agente de viajes",
-        "manager": "Gerente",
-        "operations": "Operaciones"
-      },
+      "phoneLabel": "Número de teléfono",
+      "phonePlaceholder": "+212 600 000 000",
       "passwordLabel": "Contraseña",
       "passwordPlaceholder": "Crea una contraseña",
       "confirmPasswordLabel": "Confirmar contraseña",
       "confirmPasswordPlaceholder": "Confirma tu contraseña",
-      "terms": "Acepto los términos de la agencia y las políticas de datos del viajero.",
+      "passwordHint": "Usa al menos {{count}} caracteres para una contraseña segura.",
       "submit": "Registrarse",
+      "submitting": "Creando cuenta...",
       "alreadyRegistered": "¿Ya estás registrado?",
       "signIn": "Inicia sesión aquí"
+    },
+    "validation": {
+      "requiredFirstName": "El nombre es obligatorio.",
+      "requiredLastName": "El apellido es obligatorio.",
+      "requiredEmail": "El correo electrónico es obligatorio.",
+      "invalidEmail": "Introduce un correo electrónico válido.",
+      "requiredPhone": "El número de teléfono es obligatorio.",
+      "requiredPassword": "La contraseña es obligatoria.",
+      "passwordMinLength": "La contraseña debe tener al menos {{count}} caracteres.",
+      "requiredConfirmPassword": "Confirma tu contraseña.",
+      "passwordMismatch": "La confirmación de la contraseña no coincide."
+    },
+    "success": {
+      "message": "El formulario de registro se envió correctamente. Está listo para conectarse con tu API de Django."
     }
   },
   "notFound": {

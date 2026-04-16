@@ -1,8 +1,74 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import {
+  buildRegisterPayload,
+  simulateAuthRequest,
+  validateRegisterForm,
+} from '../utils/authForms'
 
 function Register() {
   const { t } = useTranslation()
+  const [formValues, setFormValues] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+  })
+  const [errors, setErrors] = useState({})
+  const [statusMessage, setStatusMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  function handleChange(event) {
+    const { name, value } = event.target
+
+    setFormValues((currentValues) => ({
+      ...currentValues,
+      [name]: value,
+    }))
+
+    setErrors((currentErrors) => ({
+      ...currentErrors,
+      [name]: '',
+    }))
+
+    setStatusMessage('')
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault()
+
+    const nextErrors = validateRegisterForm(formValues, t)
+
+    setErrors(nextErrors)
+    setStatusMessage('')
+
+    if (Object.keys(nextErrors).length > 0) {
+      return
+    }
+
+    const payload = buildRegisterPayload(formValues)
+
+    setIsSubmitting(true)
+
+    try {
+      await simulateAuthRequest(payload)
+      setStatusMessage(t('register.success.message'))
+      setFormValues({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        password: '',
+        confirmPassword: '',
+      })
+      setErrors({})
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <div className="container">
@@ -30,30 +96,48 @@ function Register() {
                 <p className="mb-0">{t('register.card.description')}</p>
               </div>
 
-              <form>
+              {statusMessage ? (
+                <div className="alert alert-success auth-alert" role="status">
+                  {statusMessage}
+                </div>
+              ) : null}
+
+              <form noValidate onSubmit={handleSubmit}>
                 <div className="row g-3">
                   <div className="col-md-6">
-                    <label className="form-label" htmlFor="register-name">
-                      {t('register.form.fullNameLabel')}
+                    <label className="form-label" htmlFor="register-first-name">
+                      {t('register.form.firstNameLabel')}
                     </label>
                     <input
                       className="form-control"
-                      id="register-name"
-                      placeholder={t('register.form.fullNamePlaceholder')}
+                      id="register-first-name"
+                      name="firstName"
+                      onChange={handleChange}
+                      placeholder={t('register.form.firstNamePlaceholder')}
                       type="text"
+                      value={formValues.firstName}
                     />
+                    {errors.firstName ? (
+                      <div className="invalid-feedback d-block">{errors.firstName}</div>
+                    ) : null}
                   </div>
 
                   <div className="col-md-6">
-                    <label className="form-label" htmlFor="register-company">
-                      {t('register.form.agencyNameLabel')}
+                    <label className="form-label" htmlFor="register-last-name">
+                      {t('register.form.lastNameLabel')}
                     </label>
                     <input
                       className="form-control"
-                      id="register-company"
-                      placeholder={t('register.form.agencyNamePlaceholder')}
+                      id="register-last-name"
+                      name="lastName"
+                      onChange={handleChange}
+                      placeholder={t('register.form.lastNamePlaceholder')}
                       type="text"
+                      value={formValues.lastName}
                     />
+                    {errors.lastName ? (
+                      <div className="invalid-feedback d-block">{errors.lastName}</div>
+                    ) : null}
                   </div>
 
                   <div className="col-md-6">
@@ -63,20 +147,33 @@ function Register() {
                     <input
                       className="form-control"
                       id="register-email"
+                      name="email"
+                      onChange={handleChange}
                       placeholder={t('register.form.emailPlaceholder')}
                       type="email"
+                      value={formValues.email}
                     />
+                    {errors.email ? (
+                      <div className="invalid-feedback d-block">{errors.email}</div>
+                    ) : null}
                   </div>
 
                   <div className="col-md-6">
-                    <label className="form-label" htmlFor="register-role">
-                      {t('register.form.roleLabel')}
+                    <label className="form-label" htmlFor="register-phone">
+                      {t('register.form.phoneLabel')}
                     </label>
-                    <select className="form-select" id="register-role">
-                      <option>{t('register.form.roles.agent')}</option>
-                      <option>{t('register.form.roles.manager')}</option>
-                      <option>{t('register.form.roles.operations')}</option>
-                    </select>
+                    <input
+                      className="form-control"
+                      id="register-phone"
+                      name="phone"
+                      onChange={handleChange}
+                      placeholder={t('register.form.phonePlaceholder')}
+                      type="tel"
+                      value={formValues.phone}
+                    />
+                    {errors.phone ? (
+                      <div className="invalid-feedback d-block">{errors.phone}</div>
+                    ) : null}
                   </div>
 
                   <div className="col-md-6">
@@ -86,9 +183,15 @@ function Register() {
                     <input
                       className="form-control"
                       id="register-password"
+                      name="password"
+                      onChange={handleChange}
                       placeholder={t('register.form.passwordPlaceholder')}
                       type="password"
+                      value={formValues.password}
                     />
+                    {errors.password ? (
+                      <div className="invalid-feedback d-block">{errors.password}</div>
+                    ) : null}
                   </div>
 
                   <div className="col-md-6">
@@ -98,21 +201,35 @@ function Register() {
                     <input
                       className="form-control"
                       id="register-confirm-password"
+                      name="confirmPassword"
+                      onChange={handleChange}
                       placeholder={t('register.form.confirmPasswordPlaceholder')}
                       type="password"
+                      value={formValues.confirmPassword}
                     />
+                    {errors.confirmPassword ? (
+                      <div className="invalid-feedback d-block">{errors.confirmPassword}</div>
+                    ) : null}
                   </div>
                 </div>
 
-                <div className="form-check my-4">
-                  <input className="form-check-input" id="terms-check" type="checkbox" />
-                  <label className="form-check-label" htmlFor="terms-check">
-                    {t('register.form.terms')}
-                  </label>
+                <div className="auth-helper-text mt-4">
+                  {t('register.form.passwordHint', { count: 8 })}
                 </div>
 
-                <button className="btn btn-brand w-100 py-3" type="submit">
-                  {t('register.form.submit')}
+                <button className="btn btn-brand w-100 py-3 mt-4" disabled={isSubmitting} type="submit">
+                  {isSubmitting ? (
+                    <span className="d-inline-flex align-items-center gap-2">
+                      <span
+                        aria-hidden="true"
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                      />
+                      {t('register.form.submitting')}
+                    </span>
+                  ) : (
+                    t('register.form.submit')
+                  )}
                 </button>
               </form>
 
