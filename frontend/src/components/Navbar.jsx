@@ -1,12 +1,16 @@
 import { NavLink } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import LanguageSelector from './LanguageSelector'
 
 const mainLinks = [
-  { label: 'Home', path: '/' },
-  { label: 'Hotels', path: '/hotels' },
-  { label: 'Transports', path: '/transports' },
+  { key: 'home', path: '/' },
+  { key: 'hotels', path: '/hotels' },
+  { key: 'transports', path: '/transports' },
 ]
 
 function Navbar() {
+  const { t } = useTranslation()
+
   return (
     <nav className="navbar navbar-expand-lg site-navbar sticky-top" data-bs-theme="dark">
       <div className="container">
@@ -16,7 +20,7 @@ function Navbar() {
             <span className="brand-copy__name d-block fw-semibold text-white">
               Atlas Travel
             </span>
-            <small>Premium agency booking</small>
+            <small>{t('navbar.brandSubtitle')}</small>
           </span>
         </NavLink>
 
@@ -41,22 +45,23 @@ function Navbar() {
                 end={item.path === '/'}
                 to={item.path}
               >
-                {item.label}
+                {t(`navbar.${item.key}`)}
               </NavLink>
             ))}
           </div>
 
-          <div className="d-flex flex-column flex-lg-row gap-2 pt-3 pt-lg-0">
+          <div className="navbar-utility-group d-flex flex-column flex-lg-row align-items-lg-center gap-2 pt-3 pt-lg-0">
+            <LanguageSelector />
             <NavLink
               className={({ isActive }) =>
                 `nav-link nav-link-soft px-3 ${isActive ? 'active' : ''}`
               }
               to="/login"
             >
-              Login
+              {t('navbar.login')}
             </NavLink>
             <NavLink className="btn btn-brand nav-cta" to="/register">
-              Register
+              {t('navbar.register')}
             </NavLink>
           </div>
         </div>

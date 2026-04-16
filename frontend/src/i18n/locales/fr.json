@@ -1,0 +1,318 @@
+{
+  "navbar": {
+    "home": "Accueil",
+    "hotels": "Hôtels",
+    "transports": "Transports",
+    "login": "Connexion",
+    "register": "Inscription",
+    "brandSubtitle": "Réservation premium pour agence",
+    "language": "Langue",
+    "languageCurrent": "Actuelle"
+  },
+  "footer": {
+    "brandTitle": "Atlas Travel Agency",
+    "brandSubtitle": "Des voyages professionnels pour les affaires et les loisirs.",
+    "description": "Planifiez hôtels, transports et offres organisées avec une interface pensée pour une expérience voyageur claire et des workflows d'agence évolutifs.",
+    "sections": {
+      "explore": "Explorer",
+      "account": "Compte",
+      "contact": "Contact"
+    },
+    "links": {
+      "home": "Accueil",
+      "hotels": "Hôtels",
+      "transports": "Transports",
+      "login": "Connexion",
+      "register": "Inscription",
+      "support": "Assistance voyageur"
+    },
+    "contact": {
+      "district": "Quartier d'affaires de Casablanca"
+    },
+    "bottom": {
+      "rights": "Atlas Travel Agency. Tous droits réservés.",
+      "tagline": "Conçu pour la réservation moderne, la planification et l'assistance voyageur."
+    }
+  },
+  "home": {
+    "hero": {
+      "kicker": "Planification de voyage avec une finition haut de gamme",
+      "title": "Réservation professionnelle d'hôtels, de transports et de voyages mémorables.",
+      "description": "Atlas Travel aide les agences et les voyageurs à passer de la recherche à la réservation grâce à une interface claire et élégante conçue pour inspirer confiance et rapidité.",
+      "primaryCta": "Explorer les hôtels",
+      "secondaryCta": "Planifier le transport",
+      "highlightLabel": "Prochain départ sélectionné",
+      "highlightTitle": "Forfait exécutif Casablanca - Dubaï",
+      "highlightDescription": "Un parcours de voyage fluide avec vols, transferts aéroport et séjour premium en ville.",
+      "flightLabel": "Vol",
+      "hotelLabel": "Hôtel",
+      "packageFlight": "BlueSky Airways",
+      "packageHotel": "Skyline Grand Dubai",
+      "packageFlightDuration": "7 h 40",
+      "packageHotelDuration": "4 nuits",
+      "airportPickupTitle": "Accueil aéroport",
+      "airportPickupText": "Inclus à l'arrivée",
+      "supportTitle": "Assistance prioritaire",
+      "supportText": "Aide itinéraire 24h/24 et 7j/7"
+    },
+    "metrics": {
+      "experience": "Années d'expérience en planification de voyage",
+      "destinations": "Destinations gérées sur des marchés clés",
+      "support": "Assistance voyageur pour les changements urgents"
+    },
+    "services": {
+      "eyebrow": "Services phares",
+      "title": "Des services de voyage pensés pour de vrais besoins de réservation.",
+      "description": "Des vols et hôtels aux forfaits organisés et à l'assistance continue, l'expérience inspire confiance, efficacité et simplicité.",
+      "items": {
+        "flights": {
+          "title": "Vols",
+          "description": "Organisez des départs fiables, la billetterie et des options aériennes pour les voyages d'affaires ou de loisirs."
+        },
+        "hotels": {
+          "title": "Hôtels",
+          "description": "Proposez des établissements sélectionnés, des options de chambres claires et un excellent rapport emplacement-valeur."
+        },
+        "packages": {
+          "title": "Forfaits",
+          "description": "Regroupez hébergement, transport et activités dans des programmes de voyage mémorables."
+        },
+        "support": {
+          "title": "Assistance",
+          "description": "Tenez les voyageurs informés grâce à un accompagnement réactif avant, pendant et après chaque voyage."
+        }
+      }
+    },
+    "whyChooseUs": {
+      "eyebrow": "Pourquoi nous choisir",
+      "title": "Un partenaire de confiance pour les voyages d'affaires et les escapades premium.",
+      "description": "L'interface est pensée pour soutenir des décisions sereines, une planification réaliste et une présentation professionnelle de l'agence.",
+      "items": {
+        "itinerary": {
+          "title": "Conception d'itinéraires expérimentée",
+          "description": "Nous combinons connaissance des destinations et organisation professionnelle afin que chaque voyage soit réellement réfléchi."
+        },
+        "coordination": {
+          "title": "Coordination de réservation rapide",
+          "description": "Hôtels, transports et détails voyageurs sont structurés clairement pour des confirmations plus rapides."
+        },
+        "care": {
+          "title": "Suivi voyageur constant",
+          "description": "Notre méthode réduit les frictions, gère les changements et maintient les voyages sur la bonne voie."
+        }
+      }
+    },
+    "destinations": {
+      "eyebrow": "Destinations en vedette",
+      "title": "Des offres populaires qui donnent à votre agence un vrai visage commercial.",
+      "description": "Ces cartes de destinations montrent comment présenter des voyages phares ou des offres promotionnelles dans une vitrine de voyage moderne.",
+      "reserveInterest": "Réserver l'intérêt",
+      "items": {
+        "marrakech": {
+          "name": "Escapade à Marrakech",
+          "location": "Maroc",
+          "duration": "4 jours / 3 nuits",
+          "price": "À partir de 420 $",
+          "description": "Un city-break premium avec hébergements boutique, visites culturelles et expériences guidées dans la médina."
+        },
+        "paris": {
+          "name": "Escapade affaires à Paris",
+          "location": "France",
+          "duration": "3 jours / 2 nuits",
+          "price": "À partir de 610 $",
+          "description": "Un hébergement central soigné et des transferts fluides pour réunions, conférences et voyages exécutifs."
+        },
+        "dubai": {
+          "name": "Séjour premium à Dubaï",
+          "location": "EAU",
+          "duration": "5 jours / 4 nuits",
+          "price": "À partir de 890 $",
+          "description": "Vues de luxe sur la ville, assistance aéroport et transport organisé pour des voyages haut de gamme."
+        }
+      }
+    },
+    "cta": {
+      "title": "Prêt à transformer cette interface soignée en vrai parcours de réservation ?",
+      "description": "Le frontend ressemble désormais à une vraie plateforme d'agence, ce qui facilite la connexion future aux formulaires, filtres et API en direct.",
+      "button": "Créer un compte agence"
+    }
+  },
+  "login": {
+    "aside": {
+      "kicker": "Accès sécurisé",
+      "title": "Connectez-vous pour gérer voyageurs et réservations.",
+      "description": "Accédez aux réservations, demandes d'hôtels, transports et mises à jour clients depuis un tableau de bord centralisé.",
+      "checklist": {
+        "review": "Consultez les itinéraires à venir et les demandes de réservation.",
+        "track": "Suivez les hôtels, transports et tâches d'assistance voyageur.",
+        "organize": "Gardez le workflow de votre agence organisé pour chaque destination."
+      }
+    },
+    "card": {
+      "title": "Bon retour",
+      "description": "Connectez-vous avec votre e-mail d'agence pour continuer à planifier et gérer les voyages."
+    },
+    "form": {
+      "emailLabel": "Adresse e-mail",
+      "emailPlaceholder": "agent@atlastravel.com",
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "Entrez votre mot de passe",
+      "remember": "Se souvenir de moi",
+      "supportLink": "Besoin d'un accès ?",
+      "submit": "Se connecter",
+      "newHere": "Nouveau ici ?",
+      "createAccount": "Créer votre compte"
+    }
+  },
+  "register": {
+    "aside": {
+      "kicker": "Créer un espace",
+      "title": "Inscrivez votre agence et commencez à construire des expériences de voyage raffinées.",
+      "description": "Configurez votre compte pour gérer les hôtels, la coordination des transports et la communication client depuis un seul endroit.",
+      "checklist": {
+        "access": "Organisez l'accès de l'équipe et la communication client dans un tableau de bord unique.",
+        "offers": "Préparez plus rapidement des offres, réservations et transports.",
+        "scale": "Passez des données fictives d'aujourd'hui à de vrais workflows connectés demain."
+      }
+    },
+    "card": {
+      "title": "Créer votre compte",
+      "description": "Remplissez les champs ci-dessous pour configurer un espace de travail d'agence."
+    },
+    "form": {
+      "fullNameLabel": "Nom complet",
+      "fullNamePlaceholder": "Votre nom complet",
+      "agencyNameLabel": "Nom de l'agence",
+      "agencyNamePlaceholder": "Atlas Travel Agency",
+      "emailLabel": "Adresse e-mail",
+      "emailPlaceholder": "contact@atlastravel.com",
+      "roleLabel": "Rôle",
+      "roles": {
+        "agent": "Agent de voyage",
+        "manager": "Responsable",
+        "operations": "Opérations"
+      },
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "Créez un mot de passe",
+      "confirmPasswordLabel": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "Confirmez votre mot de passe",
+      "terms": "J'accepte les conditions de l'agence et les politiques relatives aux données voyageurs.",
+      "submit": "S'inscrire",
+      "alreadyRegistered": "Déjà inscrit ?",
+      "signIn": "Connectez-vous ici"
+    }
+  },
+  "notFound": {
+    "badge": "Erreur 404",
+    "title": "Cette destination n'est pas encore sur la carte.",
+    "description": "La page demandée a peut-être été déplacée ou n'existe pas. Revenez à l'expérience principale pour continuer à explorer hôtels, transports et offres de voyage.",
+    "returnHome": "Retour à l'accueil",
+    "browseHotels": "Voir les hôtels"
+  },
+  "hotels": {
+    "eyebrow": "Liste des hôtels",
+    "pageTitle": "Des séjours sélectionnés pour les voyages d'affaires, les city-breaks et les vacances premium.",
+    "intro": "Cette page de résultats utilise des cartes d'hôtels réalistes, une hiérarchie claire et un filtre propre afin de se rapprocher d'une expérience de réservation en production.",
+    "filters": {
+      "title": "Rechercher un hébergement",
+      "description": "Recherchez par destination, dates de séjour et budget. Les champs sont uniquement visuels pour l'instant et prêts à être connectés à un filtrage backend plus tard.",
+      "destination": "Destination",
+      "destinationPlaceholder": "Où allez-vous ?",
+      "checkIn": "Arrivée",
+      "checkOut": "Départ",
+      "budget": "Budget",
+      "budgetOptions": {
+        "any": "Tous les budgets",
+        "rangeOne": "0 $ - 150 $",
+        "rangeTwo": "150 $ - 250 $",
+        "rangeThree": "250 $+"
+      },
+      "search": "Rechercher des hôtels"
+    },
+    "summary": "{{count}} options d'hôtels sélectionnées prêtes pour la recherche et les pages de détail.",
+    "summaryBadge": "Villes populaires et séjours premium",
+    "card": {
+      "from": "À partir de",
+      "perNight": "par nuit",
+      "viewDetails": "Voir les détails"
+    },
+    "data": {
+      "tags": {
+        "businessStay": "Séjour affaires",
+        "boutique": "Boutique",
+        "cityView": "Vue sur la ville",
+        "luxury": "Luxe",
+        "executive": "Exécutif",
+        "leisure": "Loisirs"
+      },
+      "descriptions": {
+        "atlasMarina": "Chambres modernes en bord de mer, enregistrement rapide et accès direct aux principaux quartiers d'affaires.",
+        "riadLumiere": "Intérieurs de riad élégants avec spa, excursions organisées et restauration intime en patio.",
+        "blueHorizon": "Suites spacieuses près du port avec réservations flexibles pour couples et voyages professionnels.",
+        "skylineGrand": "Confort en hauteur avec prise en charge aéroport, salons premium et restauration avec vue panoramique.",
+        "seineResidence": "Un séjour central soigné conçu pour les visites d'affaires courtes, les événements et un accès rapide à la ville.",
+        "costaSol": "Chambres côtières lumineuses avec expériences locales, transferts faciles et forfaits de séjour flexibles."
+      }
+    }
+  },
+  "transports": {
+    "eyebrow": "Réservation de transport",
+    "pageTitle": "Comparez vols, trains et transferts dans une vue de réservation soignée.",
+    "intro": "La page transport ressemble désormais à un véritable écran de réservation, en combinant filtres d'itinéraire et liste structurée des services disponibles.",
+    "filters": {
+      "title": "Rechercher des options de transport",
+      "description": "Choisissez un départ, une destination, une date et un type de transport. Il s'agit d'une interface de filtre front-end propre, prête pour une future intégration backend.",
+      "departure": "Départ",
+      "departurePlaceholder": "Départ depuis",
+      "destination": "Destination",
+      "destinationPlaceholder": "Destination visée",
+      "date": "Date",
+      "type": "Type",
+      "allTypes": "Tous les types",
+      "search": "Rechercher"
+    },
+    "summary": "{{count}} options de transport affichées avec itinéraire, date et détails tarifaires.",
+    "summaryBadge": "Vols, rail et navettes",
+    "types": {
+      "flight": "Vol",
+      "train": "Train",
+      "bus": "Bus"
+    },
+    "card": {
+      "price": "Prix",
+      "departure": "Départ",
+      "arrival": "Arrivée",
+      "date": "Date",
+      "bookNow": "Réserver"
+    },
+    "data": {
+      "dateLabels": {
+        "dailyService": "Service quotidien"
+      },
+      "durations": {
+        "casablancaParis": "3 h 10",
+        "tangierRabat": "2 h 05",
+        "marrakechAgadir": "3 h 45",
+        "rabatDubai": "7 h 40",
+        "parisLyon": "1 h 58",
+        "airportTransfer": "45 min"
+      },
+      "classes": {
+        "economyFlex": "Économie Flex",
+        "firstClass": "Première classe",
+        "premiumCoach": "Autocar premium",
+        "businessSaver": "Business Saver",
+        "businessClass": "Classe affaires",
+        "sharedTransfer": "Transfert partagé"
+      },
+      "notes": {
+        "atlasAirConnect": "Départ direct en soirée avec un horaire adapté aux voyageurs d'affaires.",
+        "maghrebRail": "Connexion interurbaine confortable avec accès au salon.",
+        "saharaLine": "Transfert économique avec sièges réservés et Wi-Fi à bord.",
+        "blueSky": "Option long-courrier avec franchise bagages généreuse.",
+        "euroCity": "Liaison ferroviaire rapide avec embarquement prioritaire et voitures calmes.",
+        "atlasShuttle": "Option fiable de transfert à l'arrivée pour voyageurs seuls ou en groupe."
+      }
+    }
+  }
+}

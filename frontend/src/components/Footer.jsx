@@ -1,18 +1,21 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const quickLinks = [
-  { label: 'Home', path: '/' },
-  { label: 'Hotels', path: '/hotels' },
-  { label: 'Transports', path: '/transports' },
+  { key: 'home', path: '/' },
+  { key: 'hotels', path: '/hotels' },
+  { key: 'transports', path: '/transports' },
 ]
 
 const accountLinks = [
-  { label: 'Login', path: '/login' },
-  { label: 'Register', path: '/register' },
-  { label: 'Traveler Support', path: '/transports' },
+  { key: 'login', path: '/login' },
+  { key: 'register', path: '/register' },
+  { key: 'support', path: '/transports' },
 ]
 
 function Footer() {
+  const { t } = useTranslation()
+
   return (
     <footer className="site-footer">
       <div className="container">
@@ -23,24 +26,21 @@ function Footer() {
                 <div className="d-flex align-items-center gap-3 mb-3">
                   <span className="brand-mark">AT</span>
                   <div>
-                    <h2 className="h5 mb-1">Atlas Travel Agency</h2>
-                    <p className="mb-0">Professional journeys for business and leisure.</p>
+                    <h2 className="h5 mb-1">{t('footer.brandTitle')}</h2>
+                    <p className="mb-0">{t('footer.brandSubtitle')}</p>
                   </div>
                 </div>
-                <p className="mb-0">
-                  Plan hotels, transport, and curated packages with a frontend designed for clear
-                  traveler experiences and scalable agency workflows.
-                </p>
+                <p className="mb-0">{t('footer.description')}</p>
               </div>
             </div>
 
             <div className="col-6 col-lg-2">
               <div className="footer-column">
-                <h3 className="footer-title">Explore</h3>
+                <h3 className="footer-title">{t('footer.sections.explore')}</h3>
                 <ul className="footer-link-list">
                   {quickLinks.map((link) => (
                     <li key={link.path}>
-                      <Link to={link.path}>{link.label}</Link>
+                      <Link to={link.path}>{t(`footer.links.${link.key}`)}</Link>
                     </li>
                   ))}
                 </ul>
@@ -49,11 +49,11 @@ function Footer() {
 
             <div className="col-6 col-lg-2">
               <div className="footer-column">
-                <h3 className="footer-title">Account</h3>
+                <h3 className="footer-title">{t('footer.sections.account')}</h3>
                 <ul className="footer-link-list">
                   {accountLinks.map((link) => (
-                    <li key={link.label}>
-                      <Link to={link.path}>{link.label}</Link>
+                    <li key={link.key}>
+                      <Link to={link.path}>{t(`footer.links.${link.key}`)}</Link>
                     </li>
                   ))}
                 </ul>
@@ -62,8 +62,8 @@ function Footer() {
 
             <div className="col-lg-3">
               <div className="footer-column">
-                <h3 className="footer-title">Contact</h3>
-                <p className="mb-2">Casablanca Business District</p>
+                <h3 className="footer-title">{t('footer.sections.contact')}</h3>
+                <p className="mb-2">{t('footer.contact.district')}</p>
                 <p className="mb-2">support@atlastravel.com</p>
                 <p className="mb-0">+212 522 000 000</p>
               </div>
@@ -71,8 +71,10 @@ function Footer() {
           </div>
 
           <div className="footer-bottom d-flex justify-content-between gap-3">
-            <span>&copy; {new Date().getFullYear()} Atlas Travel Agency. All rights reserved.</span>
-            <span>Designed for modern booking, planning, and traveler support.</span>
+            <span>
+              &copy; {new Date().getFullYear()} {t('footer.bottom.rights')}
+            </span>
+            <span>{t('footer.bottom.tagline')}</span>
           </div>
         </div>
       </div>

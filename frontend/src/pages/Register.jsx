@@ -1,25 +1,23 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 function Register() {
+  const { t } = useTranslation()
+
   return (
     <div className="container">
       <section className="auth-shell">
         <div className="row g-4 justify-content-center align-items-stretch">
           <div className="col-lg-5">
             <aside className="auth-aside h-100">
-              <span className="hero-kicker">Create workspace</span>
-              <h1 className="section-title text-white mt-4">
-                Register your agency and start building polished travel experiences.
-              </h1>
-              <p className="mb-0">
-                Set up your account to manage hotel selections, transport coordination, and
-                customer communication from one place.
-              </p>
+              <span className="hero-kicker">{t('register.aside.kicker')}</span>
+              <h1 className="section-title text-white mt-4">{t('register.aside.title')}</h1>
+              <p className="mb-0">{t('register.aside.description')}</p>
 
               <ul className="auth-checklist">
-                <li>Organize team access and client communication in one dashboard.</li>
-                <li>Prepare package offers, reservations, and transport bookings faster.</li>
-                <li>Scale from mock data today to real API-driven workflows next.</li>
+                <li>{t('register.aside.checklist.access')}</li>
+                <li>{t('register.aside.checklist.offers')}</li>
+                <li>{t('register.aside.checklist.scale')}</li>
               </ul>
             </aside>
           </div>
@@ -28,81 +26,79 @@ function Register() {
             <section className="auth-card h-100">
               <div className="mb-4">
                 <span className="auth-badge mb-3">UP</span>
-                <h2 className="h3 fw-semibold mb-2">Create your account</h2>
-                <p className="mb-0">
-                  Fill in the fields below to set up a travel-agency workspace.
-                </p>
+                <h2 className="h3 fw-semibold mb-2">{t('register.card.title')}</h2>
+                <p className="mb-0">{t('register.card.description')}</p>
               </div>
 
               <form>
                 <div className="row g-3">
                   <div className="col-md-6">
                     <label className="form-label" htmlFor="register-name">
-                      Full name
+                      {t('register.form.fullNameLabel')}
                     </label>
                     <input
                       className="form-control"
                       id="register-name"
-                      placeholder="Your full name"
+                      placeholder={t('register.form.fullNamePlaceholder')}
                       type="text"
                     />
                   </div>
 
                   <div className="col-md-6">
                     <label className="form-label" htmlFor="register-company">
-                      Agency name
+                      {t('register.form.agencyNameLabel')}
                     </label>
                     <input
                       className="form-control"
                       id="register-company"
-                      placeholder="Atlas Travel Agency"
+                      placeholder={t('register.form.agencyNamePlaceholder')}
                       type="text"
                     />
                   </div>
 
                   <div className="col-md-6">
                     <label className="form-label" htmlFor="register-email">
-                      Email address
+                      {t('register.form.emailLabel')}
                     </label>
                     <input
                       className="form-control"
                       id="register-email"
-                      placeholder="contact@atlastravel.com"
+                      placeholder={t('register.form.emailPlaceholder')}
                       type="email"
                     />
                   </div>
 
                   <div className="col-md-6">
                     <label className="form-label" htmlFor="register-role">
-                      Role
+                      {t('register.form.roleLabel')}
                     </label>
                     <select className="form-select" id="register-role">
-                      <option>Travel Agent</option>
-                      <option>Manager</option>
-                      <option>Operations</option>
+                      <option>{t('register.form.roles.agent')}</option>
+                      <option>{t('register.form.roles.manager')}</option>
+                      <option>{t('register.form.roles.operations')}</option>
                     </select>
                   </div>
 
                   <div className="col-md-6">
                     <label className="form-label" htmlFor="register-password">
-                      Password
+                      {t('register.form.passwordLabel')}
                     </label>
                     <input
                       className="form-control"
                       id="register-password"
-                      placeholder="Create a password"
+                      placeholder={t('register.form.passwordPlaceholder')}
                       type="password"
                     />
                   </div>
 
                   <div className="col-md-6">
                     <label className="form-label" htmlFor="register-confirm-password">
-                      Confirm password
+                      {t('register.form.confirmPasswordLabel')}
                     </label>
                     <input
                       className="form-control"
                       id="register-confirm-password"
-                      placeholder="Confirm your password"
+                      placeholder={t('register.form.confirmPasswordPlaceholder')}
                       type="password"
                     />
                   </div>
@@ -111,17 +107,18 @@ function Register() {
                 <div className="form-check my-4">
                   <input className="form-check-input" id="terms-check" type="checkbox" />
                   <label className="form-check-label" htmlFor="terms-check">
-                    I agree to the agency terms and traveler data policies.
+                    {t('register.form.terms')}
                   </label>
                 </div>
 
                 <button className="btn btn-brand w-100 py-3" type="submit">
-                  Register
+                  {t('register.form.submit')}
                 </button>
               </form>
 
               <p className="auth-note text-center mt-4 mb-0">
-                Already registered? <Link to="/login">Sign in here</Link>
+                {t('register.form.alreadyRegistered')}{' '}
+                <Link to="/login">{t('register.form.signIn')}</Link>
               </p>
             </section>
           </div>

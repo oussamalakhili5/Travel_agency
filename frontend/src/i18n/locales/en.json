@@ -1,0 +1,318 @@
+{
+  "navbar": {
+    "home": "Home",
+    "hotels": "Hotels",
+    "transports": "Transports",
+    "login": "Login",
+    "register": "Register",
+    "brandSubtitle": "Premium agency booking",
+    "language": "Language",
+    "languageCurrent": "Current"
+  },
+  "footer": {
+    "brandTitle": "Atlas Travel Agency",
+    "brandSubtitle": "Professional journeys for business and leisure.",
+    "description": "Plan hotels, transport, and curated packages with a frontend designed for clear traveler experiences and scalable agency workflows.",
+    "sections": {
+      "explore": "Explore",
+      "account": "Account",
+      "contact": "Contact"
+    },
+    "links": {
+      "home": "Home",
+      "hotels": "Hotels",
+      "transports": "Transports",
+      "login": "Login",
+      "register": "Register",
+      "support": "Traveler Support"
+    },
+    "contact": {
+      "district": "Casablanca Business District"
+    },
+    "bottom": {
+      "rights": "Atlas Travel Agency. All rights reserved.",
+      "tagline": "Designed for modern booking, planning, and traveler support."
+    }
+  },
+  "home": {
+    "hero": {
+      "kicker": "Travel planning with business-class polish",
+      "title": "Professional travel booking for hotels, transport, and memorable journeys.",
+      "description": "Atlas Travel helps agencies and independent travelers move from searching to booking with a clear, elegant interface built for confidence and speed.",
+      "primaryCta": "Explore Hotels",
+      "secondaryCta": "Plan Transport",
+      "highlightLabel": "Next curated departure",
+      "highlightTitle": "Casablanca to Dubai executive package",
+      "highlightDescription": "A polished travel flow with flights, airport transfers, and a premium city stay.",
+      "flightLabel": "Flight",
+      "hotelLabel": "Hotel",
+      "packageFlight": "BlueSky Airways",
+      "packageHotel": "Skyline Grand Dubai",
+      "packageFlightDuration": "7h 40m",
+      "packageHotelDuration": "4 Nights",
+      "airportPickupTitle": "Airport pickup",
+      "airportPickupText": "Included on arrival",
+      "supportTitle": "Priority support",
+      "supportText": "24/7 itinerary help"
+    },
+    "metrics": {
+      "experience": "Years of travel planning experience",
+      "destinations": "Destinations managed across key markets",
+      "support": "Traveler support for urgent changes"
+    },
+    "services": {
+      "eyebrow": "Featured Services",
+      "title": "Travel services designed around real booking needs.",
+      "description": "From flights and hotels to curated packages and ongoing support, the experience is built to feel trustworthy, efficient, and easy to navigate.",
+      "items": {
+        "flights": {
+          "title": "Flights",
+          "description": "Organize reliable departures, ticketing, and flight options for business or leisure."
+        },
+        "hotels": {
+          "title": "Hotels",
+          "description": "Match travelers with curated properties, clean room options, and strong location value."
+        },
+        "packages": {
+          "title": "Packages",
+          "description": "Bundle stays, transport, and activities into memorable travel programs."
+        },
+        "support": {
+          "title": "Support",
+          "description": "Keep travelers informed with responsive assistance before, during, and after each trip."
+        }
+      }
+    },
+    "whyChooseUs": {
+      "eyebrow": "Why Choose Us",
+      "title": "A dependable travel partner for business trips and premium escapes.",
+      "description": "The interface is structured to support confident decisions, realistic travel planning, and a professional agency presentation.",
+      "items": {
+        "itinerary": {
+          "title": "Experienced itinerary design",
+          "description": "We combine destination knowledge with business-ready planning so every trip feels intentional."
+        },
+        "coordination": {
+          "title": "Fast booking coordination",
+          "description": "Hotels, transport, and traveler details are organized clearly for quicker confirmations."
+        },
+        "care": {
+          "title": "Consistent traveler care",
+          "description": "Our process is built to reduce friction, manage changes, and keep journeys on track."
+        }
+      }
+    },
+    "destinations": {
+      "eyebrow": "Featured Destinations",
+      "title": "Popular offers that make your agency feel ready for real customers.",
+      "description": "These highlighted destination cards show how featured trips or promotional offers can be presented in a modern travel storefront.",
+      "reserveInterest": "Reserve Interest",
+      "items": {
+        "marrakech": {
+          "name": "Marrakech Escape",
+          "location": "Morocco",
+          "duration": "4 Days / 3 Nights",
+          "price": "From $420",
+          "description": "A premium city break with boutique stays, cultural tours, and guided medina experiences."
+        },
+        "paris": {
+          "name": "Paris Business Stopover",
+          "location": "France",
+          "duration": "3 Days / 2 Nights",
+          "price": "From $610",
+          "description": "Smart central accommodation and smooth transfers for meetings, conferences, and executive travel."
+        },
+        "dubai": {
+          "name": "Dubai Premium Break",
+          "location": "UAE",
+          "duration": "5 Days / 4 Nights",
+          "price": "From $890",
+          "description": "Luxury city views, airport assistance, and curated transport for high-comfort travel plans."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to turn this polished UI into a full booking flow?",
+      "description": "The frontend is now shaped like a realistic agency platform, making it easier to connect forms, search filters, and live API data next.",
+      "button": "Create Agency Account"
+    }
+  },
+  "login": {
+    "aside": {
+      "kicker": "Secure access",
+      "title": "Sign in to manage travelers and bookings.",
+      "description": "Access reservations, hotel inquiries, transport requests, and client updates from one central dashboard.",
+      "checklist": {
+        "review": "Review upcoming itineraries and booking requests.",
+        "track": "Track hotels, transport, and traveler support tasks.",
+        "organize": "Keep your agency workflow organized across every destination."
+      }
+    },
+    "card": {
+      "title": "Welcome back",
+      "description": "Sign in with your agency email to continue planning and managing trips."
+    },
+    "form": {
+      "emailLabel": "Email address",
+      "emailPlaceholder": "agent@atlastravel.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "remember": "Remember me",
+      "supportLink": "Need access?",
+      "submit": "Sign In",
+      "newHere": "New here?",
+      "createAccount": "Create your account"
+    }
+  },
+  "register": {
+    "aside": {
+      "kicker": "Create workspace",
+      "title": "Register your agency and start building polished travel experiences.",
+      "description": "Set up your account to manage hotel selections, transport coordination, and customer communication from one place.",
+      "checklist": {
+        "access": "Organize team access and client communication in one dashboard.",
+        "offers": "Prepare package offers, reservations, and transport bookings faster.",
+        "scale": "Scale from mock data today to real API-driven workflows next."
+      }
+    },
+    "card": {
+      "title": "Create your account",
+      "description": "Fill in the fields below to set up a travel-agency workspace."
+    },
+    "form": {
+      "fullNameLabel": "Full name",
+      "fullNamePlaceholder": "Your full name",
+      "agencyNameLabel": "Agency name",
+      "agencyNamePlaceholder": "Atlas Travel Agency",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "contact@atlastravel.com",
+      "roleLabel": "Role",
+      "roles": {
+        "agent": "Travel Agent",
+        "manager": "Manager",
+        "operations": "Operations"
+      },
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Create a password",
+      "confirmPasswordLabel": "Confirm password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "terms": "I agree to the agency terms and traveler data policies.",
+      "submit": "Register",
+      "alreadyRegistered": "Already registered?",
+      "signIn": "Sign in here"
+    }
+  },
+  "notFound": {
+    "badge": "404 Error",
+    "title": "This destination is not on the map yet.",
+    "description": "The page you requested may have moved or does not exist. Head back to the main experience and continue exploring hotels, transport, and travel offers.",
+    "returnHome": "Return Home",
+    "browseHotels": "Browse Hotels"
+  },
+  "hotels": {
+    "eyebrow": "Hotel Listings",
+    "pageTitle": "Curated stays for business travel, city breaks, and premium vacations.",
+    "intro": "This listing page uses realistic hotel cards, strong hierarchy, and a clean filter layout so it already feels close to a production booking experience.",
+    "filters": {
+      "title": "Search accommodations",
+      "description": "Search by destination, stay dates, and budget range. The fields are UI-only for now and ready to connect to future backend filtering.",
+      "destination": "Destination",
+      "destinationPlaceholder": "Where are you going?",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "budget": "Budget",
+      "budgetOptions": {
+        "any": "Any budget",
+        "rangeOne": "$0 - $150",
+        "rangeTwo": "$150 - $250",
+        "rangeThree": "$250+"
+      },
+      "search": "Search Hotels"
+    },
+    "summary": "{{count}} curated hotel options ready for search and detail pages.",
+    "summaryBadge": "Popular cities and premium stays",
+    "card": {
+      "from": "From",
+      "perNight": "per night",
+      "viewDetails": "View Details"
+    },
+    "data": {
+      "tags": {
+        "businessStay": "Business Stay",
+        "boutique": "Boutique",
+        "cityView": "City View",
+        "luxury": "Luxury",
+        "executive": "Executive",
+        "leisure": "Leisure"
+      },
+      "descriptions": {
+        "atlasMarina": "Modern waterfront rooms, fast check-in, and direct access to key business districts.",
+        "riadLumiere": "Elegant riad interiors with spa access, curated excursions, and intimate courtyard dining.",
+        "blueHorizon": "Spacious suites near the port with flexible bookings for couples and work trips alike.",
+        "skylineGrand": "High-rise comfort with airport pickup options, premium lounges, and skyline dining.",
+        "seineResidence": "A polished central stay built for short business visits, events, and quick city access.",
+        "costaSol": "Bright coastal rooms with local experiences, easy transfers, and flexible stay packages."
+      }
+    }
+  },
+  "transports": {
+    "eyebrow": "Transport Booking",
+    "pageTitle": "Compare flights, trains, and transfer options in one polished booking view.",
+    "intro": "The transport page now behaves like a realistic reservation screen, combining route filters with a structured list of available services.",
+    "filters": {
+      "title": "Search transport options",
+      "description": "Choose a departure point, destination, date, and transport type. This is a clean frontend-only filter UI, ready for backend integration later.",
+      "departure": "Departure",
+      "departurePlaceholder": "Leaving from",
+      "destination": "Destination",
+      "destinationPlaceholder": "Going to",
+      "date": "Date",
+      "type": "Type",
+      "allTypes": "All types",
+      "search": "Search"
+    },
+    "summary": "{{count}} transport options displayed with route, date, and pricing details.",
+    "summaryBadge": "Flights, rail, and shuttle transfers",
+    "types": {
+      "flight": "Flight",
+      "train": "Train",
+      "bus": "Bus"
+    },
+    "card": {
+      "price": "Price",
+      "departure": "Departure",
+      "arrival": "Arrival",
+      "date": "Date",
+      "bookNow": "Book Now"
+    },
+    "data": {
+      "dateLabels": {
+        "dailyService": "Daily Service"
+      },
+      "durations": {
+        "casablancaParis": "3h 10m",
+        "tangierRabat": "2h 05m",
+        "marrakechAgadir": "3h 45m",
+        "rabatDubai": "7h 40m",
+        "parisLyon": "1h 58m",
+        "airportTransfer": "45m"
+      },
+      "classes": {
+        "economyFlex": "Economy Flex",
+        "firstClass": "First Class",
+        "premiumCoach": "Premium Coach",
+        "businessSaver": "Business Saver",
+        "businessClass": "Business Class",
+        "sharedTransfer": "Shared Transfer"
+      },
+      "notes": {
+        "atlasAirConnect": "Direct evening departure with business-friendly schedule.",
+        "maghrebRail": "Comfortable city-to-city connection with lounge access.",
+        "saharaLine": "Affordable transfer with reserved seating and onboard Wi-Fi.",
+        "blueSky": "Long-haul option with generous baggage allowance.",
+        "euroCity": "Fast intercity rail with priority boarding and quiet carriages.",
+        "atlasShuttle": "Reliable arrival transfer option for solo travelers and groups."
+      }
+    }
+  }
+}

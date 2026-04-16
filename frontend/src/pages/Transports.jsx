@@ -1,76 +1,79 @@
+import { useTranslation } from 'react-i18next'
 import FilterPanel from '../components/FilterPanel'
 import SectionHeader from '../components/SectionHeader'
 import TransportCard from '../components/TransportCard'
 import transports from '../data/transports'
 
 function Transports() {
+  const { t } = useTranslation()
+
   return (
     <div className="container">
       <section className="mb-4">
         <SectionHeader
-          eyebrow="Transport Booking"
-          title="Compare flights, trains, and transfer options in one polished booking view."
-          description="The transport page now behaves like a realistic reservation screen, combining route filters with a structured list of available services."
+          eyebrow={t('transports.eyebrow')}
+          title={t('transports.pageTitle')}
+          description={t('transports.intro')}
         />
       </section>
 
       <FilterPanel
-        description="Choose a departure point, destination, date, and transport type. This is a clean frontend-only filter UI, ready for backend integration later."
-        title="Search transport options"
+        description={t('transports.filters.description')}
+        title={t('transports.filters.title')}
       >
         <div className="col-md-6 col-xl-3">
           <label className="form-label" htmlFor="departure-city">
-            Departure
+            {t('transports.filters.departure')}
           </label>
           <input
             className="form-control"
             id="departure-city"
-            placeholder="Leaving from"
+            placeholder={t('transports.filters.departurePlaceholder')}
             type="text"
           />
         </div>
 
         <div className="col-md-6 col-xl-3">
           <label className="form-label" htmlFor="arrival-city">
-            Destination
+            {t('transports.filters.destination')}
           </label>
           <input
             className="form-control"
             id="arrival-city"
-            placeholder="Going to"
+            placeholder={t('transports.filters.destinationPlaceholder')}
             type="text"
           />
         </div>
 
         <div className="col-md-6 col-xl-2">
           <label className="form-label" htmlFor="travel-date">
-            Date
+            {t('transports.filters.date')}
           </label>
           <input className="form-control" id="travel-date" type="date" />
         </div>
 
         <div className="col-md-6 col-xl-2">
           <label className="form-label" htmlFor="travel-type">
-            Type
+            {t('transports.filters.type')}
           </label>
           <select className="form-select" id="travel-type">
-            <option>All types</option>
-            <option>Flight</option>
-            <option>Train</option>
-            <option>Bus</option>
+            <option>{t('transports.filters.allTypes')}</option>
+            <option>{t('transports.types.flight')}</option>
+            <option>{t('transports.types.train')}</option>
+            <option>{t('transports.types.bus')}</option>
           </select>
         </div>
 
         <div className="col-xl-2 d-grid">
           <button className="btn btn-dark btn-lg mt-xl-4" type="button">
-            Search
+            {t('transports.filters.search')}
           </button>
         </div>
       </FilterPanel>
 
       <div className="listing-summary">
-        <p>{transports.length} transport options displayed with route, date, and pricing details.</p>
-        <span className="results-pill">Flights, rail, and shuttle transfers</span>
+        <p>{t('transports.summary', { count: transports.length })}</p>
+        <span className="results-pill">{t('transports.summaryBadge')}</span>
       </div>
 
       <section>
