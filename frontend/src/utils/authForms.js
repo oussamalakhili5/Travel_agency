@@ -77,17 +77,6 @@ export function buildRegisterPayload(values) {
     email: values.email.trim(),
     phone: values.phone.trim(),
     password: values.password,
-    password_confirmation: values.confirmPassword,
-  }
-}
-
-export async function simulateAuthRequest(payload) {
-  await new Promise((resolve) => {
-    setTimeout(resolve, 900)
-  })
-
-  return {
-    ok: true,
-    payload,
+    confirm_password: values.confirmPassword,
   }
 }

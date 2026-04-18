@@ -5,9 +5,15 @@
     "transports": "Transports",
     "login": "Login",
     "register": "Register",
+    "profile": "Profile",
+    "logout": "Logout",
+    "greeting": "Hi, {{name}}",
     "brandSubtitle": "Premium agency booking",
     "language": "Language",
     "languageCurrent": "Current"
+  },
+  "auth": {
+    "loading": "Checking your session..."
   },
   "footer": {
     "brandTitle": "Atlas Travel Agency",
@@ -169,8 +175,14 @@
       "invalidEmail": "Please enter a valid email address.",
       "requiredPassword": "Password is required."
     },
+    "errors": {
+      "invalidCredentials": "Invalid email or password.",
+      "inactiveAccount": "This account is inactive.",
+      "network": "The server could not be reached. Please check that the Django API is running.",
+      "generic": "We could not sign you in right now. Please try again."
+    },
     "success": {
-      "message": "Login form submitted successfully. You can connect this flow to the Django API next."
+      "message": "Login successful."
     }
   },
   "register": {
@@ -218,8 +230,30 @@
       "requiredConfirmPassword": "Please confirm your password.",
       "passwordMismatch": "Password confirmation does not match."
     },
+    "errors": {
+      "network": "The server could not be reached. Please check that the Django API is running.",
+      "generic": "We could not create your account right now. Please try again."
+    },
     "success": {
-      "message": "Registration form submitted successfully. It is ready to connect to your Django API."
+      "message": "Your account has been created successfully. You can sign in now."
+    }
+  },
+  "profile": {
+    "badge": "Member area",
+    "title": "Welcome, {{name}}",
+    "description": "Your account is now connected to the Django API, and this protected page reads from the authenticated frontend state.",
+    "fields": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email address",
+      "phone": "Phone number",
+      "role": "Role"
+    },
+    "next": {
+      "title": "Protected space ready for the next step",
+      "description": "Future reservation, checkout, and traveler management pages can use the same private-route guard and shared auth context.",
+      "hotels": "Browse hotels",
+      "transports": "Browse transports"
     }
   },
   "notFound": {

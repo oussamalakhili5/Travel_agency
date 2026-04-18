@@ -1,5 +1,6 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useAuth } from '../hooks/useAuth'
 import LanguageSelector from './LanguageSelector'
 
 const mainLinks = [
@@ -10,6 +11,15 @@ const mainLinks = [
 
 function Navbar() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
+  const { isAuthenticated, logout, user } = useAuth()
+  const fullName = [user?.first_name, user?.last_name].filter(Boolean).join(' ').trim()
+  const displayName = fullName || user?.email
+
+  function handleLogout() {
+    logout()
+    navigate('/', { replace: true })
+  }
 
   return (
     <nav className="navbar navbar-expand-lg site-navbar sticky-top" data-bs-theme="dark">
@@ -52,17 +62,36 @@ function Navbar() {
 
           <div className="navbar-utility-group d-flex flex-column flex-lg-row align-items-lg-center gap-2 pt-3 pt-lg-0">
             <LanguageSelector />
-            <NavLink
-              className={({ isActive }) =>
-                `nav-link nav-link-soft px-3 ${isActive ? 'active' : ''}`
-              }
-              to="/login"
-            >
-              {t('navbar.login')}
-            </NavLink>
-            <NavLink className="btn btn-brand nav-cta" to="/register">
-              {t('navbar.register')}
-            </NavLink>
+            {isAuthenticated ? (
+              <>
+                <span className="navbar-text px-lg-2">{t('navbar.greeting', { name: displayName })}</span>
+                <NavLink
+                  className={({ isActive }) =>
+                    `nav-link nav-link-soft px-3 ${isActive ? 'active' : ''}`
+                  }
+                  to="/profile"
+                >
+                  {t('navbar.profile')}
+                </NavLink>
+                <button className="btn btn-outline-light nav-cta" onClick={handleLogout} type="button">
+                  {t('navbar.logout')}
+                </button>
+              </>
+            ) : (
+              <>
+                <NavLink
+                  className={({ isActive }) =>
+                    `nav-link nav-link-soft px-3 ${isActive ? 'active' : ''}`
+                  }
+                  to="/login"
+                >
+                  {t('navbar.login')}
+                </NavLink>
+                <NavLink className="btn btn-brand nav-cta" to="/register">
+                  {t('navbar.register')}
+                </NavLink>
+              </>
+            )}
           </div>
         </div>
       </div>

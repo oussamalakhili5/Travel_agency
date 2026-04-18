@@ -5,9 +5,15 @@
     "transports": "Transportes",
     "login": "Iniciar sesión",
     "register": "Registrarse",
+    "profile": "Perfil",
+    "logout": "Cerrar sesión",
+    "greeting": "Hola, {{name}}",
     "brandSubtitle": "Reservas premium para agencias",
     "language": "Idioma",
     "languageCurrent": "Actual"
+  },
+  "auth": {
+    "loading": "Comprobando tu sesión..."
   },
   "footer": {
     "brandTitle": "Atlas Travel Agency",
@@ -169,8 +175,14 @@
       "invalidEmail": "Introduce un correo electrónico válido.",
       "requiredPassword": "La contraseña es obligatoria."
     },
+    "errors": {
+      "invalidCredentials": "Correo o contraseña no válidos.",
+      "inactiveAccount": "Esta cuenta está inactiva.",
+      "network": "No se pudo conectar con el servidor. Verifica que la API de Django esté en ejecución.",
+      "generic": "No pudimos iniciar sesión ahora mismo. Inténtalo de nuevo."
+    },
     "success": {
-      "message": "El formulario de inicio de sesión se envió correctamente. Después podrás conectarlo con la API de Django."
+      "message": "Inicio de sesión correcto."
     }
   },
   "register": {
@@ -218,8 +230,30 @@
       "requiredConfirmPassword": "Confirma tu contraseña.",
       "passwordMismatch": "La confirmación de la contraseña no coincide."
     },
+    "errors": {
+      "network": "No se pudo conectar con el servidor. Verifica que la API de Django esté en ejecución.",
+      "generic": "No pudimos crear tu cuenta ahora mismo. Inténtalo de nuevo."
+    },
     "success": {
-      "message": "El formulario de registro se envió correctamente. Está listo para conectarse con tu API de Django."
+      "message": "Tu cuenta se creó correctamente. Ya puedes iniciar sesión."
+    }
+  },
+  "profile": {
+    "badge": "Zona privada",
+    "title": "Bienvenido, {{name}}",
+    "description": "Tu cuenta ya está conectada con la API de Django y esta página protegida usa el estado autenticado del frontend.",
+    "fields": {
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Correo electrónico",
+      "phone": "Número de teléfono",
+      "role": "Rol"
+    },
+    "next": {
+      "title": "Espacio protegido listo para lo siguiente",
+      "description": "Las futuras páginas de reservas, pagos y gestión de viajeros pueden reutilizar esta misma protección de rutas y el contexto de autenticación.",
+      "hotels": "Ver hoteles",
+      "transports": "Ver transportes"
     }
   },
   "notFound": {

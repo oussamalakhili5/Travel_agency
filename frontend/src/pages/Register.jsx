@@ -1,14 +1,13 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import {
-  buildRegisterPayload,
-  simulateAuthRequest,
-  validateRegisterForm,
-} from '../utils/authForms'
+import { useAuth } from '../hooks/useAuth'
+import { buildRegisterPayload, validateRegisterForm } from '../utils/authForms'
+import { mapAuthErrors } from '../utils/authErrors'
 
 function Register() {
   const { t } = useTranslation()
+  const { isAuthenticated, register: registerUser } = useAuth()
   const [formValues, setFormValues] = useState({
     firstName: '',
     lastName: '',
@@ -21,6 +20,10 @@ function Register() {
   const [statusMessage, setStatusMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  if (isAuthenticated) {
+    return <Navigate replace to="/profile" />
+  }
+
   function handleChange(event) {
     const { name, value } = event.target
 
@@ -32,6 +35,7 @@ function Register() {
     setErrors((currentErrors) => ({
       ...currentErrors,
       [name]: '',
+      form: '',
     }))
 
     setStatusMessage('')
@@ -54,8 +58,8 @@ function Register() {
     setIsSubmitting(true)
 
     try {
-      await simulateAuthRequest(payload)
-      setStatusMessage(t('register.success.message'))
+      const response = await registerUser(payload)
+      setStatusMessage(response.message || t('register.success.message'))
       setFormValues({
         firstName: '',
         lastName: '',
@@ -65,6 +69,8 @@ function Register() {
         confirmPassword: '',
       })
       setErrors({})
+    } catch (error) {
+      setErrors(mapAuthErrors(error, t, 'register'))
     } finally {
       setIsSubmitting(false)
     }
@@ -102,6 +108,12 @@ function Register() {
                 </div>
               ) : null}
 
+              {errors.form ? (
+                <div className="alert alert-danger auth-alert" role="alert">
+                  {errors.form}
+                </div>
+              ) : null}
+
               <form noValidate onSubmit={handleSubmit}>
                 <div className="row g-3">
                   <div className="col-md-6">
@@ -109,7 +121,7 @@ function Register() {
                       {t('register.form.firstNameLabel')}
                     </label>
                     <input
-                      className="form-control"
+                      className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
                       id="register-first-name"
                       name="firstName"
                       onChange={handleChange}
@@ -127,7 +139,7 @@ function Register() {
                       {t('register.form.lastNameLabel')}
                     </label>
                     <input
-                      className="form-control"
+                      className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
                       id="register-last-name"
                       name="lastName"
                       onChange={handleChange}
@@ -145,7 +157,7 @@ function Register() {
                       {t('register.form.emailLabel')}
                     </label>
                     <input
-                      className="form-control"
+                      className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                       id="register-email"
                       name="email"
                       onChange={handleChange}
@@ -163,7 +175,7 @@ function Register() {
                       {t('register.form.phoneLabel')}
                     </label>
                     <input
-                      className="form-control"
+                      className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
                       id="register-phone"
                       name="phone"
                       onChange={handleChange}
@@ -181,7 +193,7 @@ function Register() {
                       {t('register.form.passwordLabel')}
                     </label>
                     <input
-                      className="form-control"
+                      className={`form-control ${errors.password ? 'is-invalid' : ''}`}
                       id="register-password"
                       name="password"
                       onChange={handleChange}
@@ -199,7 +211,7 @@ function Register() {
                       {t('register.form.confirmPasswordLabel')}
                     </label>
                     <input
-                      className="form-control"
+                      className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`}
                       id="register-confirm-password"
                       name="confirmPassword"
                       onChange={handleChange}

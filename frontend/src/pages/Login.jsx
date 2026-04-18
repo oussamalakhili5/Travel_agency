@@ -1,21 +1,29 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import {
-  buildLoginPayload,
-  simulateAuthRequest,
-  validateLoginForm,
-} from '../utils/authForms'
+import { useAuth } from '../hooks/useAuth'
+import { buildLoginPayload, validateLoginForm } from '../utils/authForms'
+import { mapAuthErrors } from '../utils/authErrors'
 
 function Login() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { login, isAuthenticated } = useAuth()
   const [formValues, setFormValues] = useState({
     email: '',
     password: '',
   })
   const [errors, setErrors] = useState({})
-  const [statusMessage, setStatusMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const redirectPath =
+    location.state?.from?.pathname && location.state.from.pathname !== '/login'
+      ? location.state.from.pathname
+      : '/profile'
+
+  if (isAuthenticated) {
+    return <Navigate replace to={redirectPath} />
+  }
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -28,9 +36,8 @@ function Login() {
     setErrors((currentErrors) => ({
       ...currentErrors,
       [name]: '',
+      form: '',
     }))
-
-    setStatusMessage('')
   }
 
   async function handleSubmit(event) {
@@ -39,7 +46,6 @@ function Login() {
     const nextErrors = validateLoginForm(formValues, t)
 
     setErrors(nextErrors)
-    setStatusMessage('')
 
     if (Object.keys(nextErrors).length > 0) {
       return
@@ -50,13 +56,11 @@ function Login() {
     setIsSubmitting(true)
 
     try {
-      await simulateAuthRequest(payload)
-      setStatusMessage(t('login.success.message'))
-      setFormValues({
-        email: '',
-        password: '',
-      })
+      await login(payload)
       setErrors({})
+      navigate(redirectPath, { replace: true })
+    } catch (error) {
+      setErrors(mapAuthErrors(error, t, 'login'))
     } finally {
       setIsSubmitting(false)
     }
@@ -88,9 +92,9 @@ function Login() {
                 <p className="mb-0">{t('login.card.description')}</p>
               </div>
 
-              {statusMessage ? (
-                <div className="alert alert-success auth-alert" role="status">
-                  {statusMessage}
+              {errors.form ? (
+                <div className="alert alert-danger auth-alert" role="alert">
+                  {errors.form}
                 </div>
               ) : null}
 
@@ -100,7 +104,7 @@ function Login() {
                     {t('login.form.emailLabel')}
                   </label>
                   <input
-                    className="form-control"
+                    className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                     id="login-email"
                     name="email"
                     onChange={handleChange}
@@ -116,7 +120,7 @@ function Login() {
                     {t('login.form.passwordLabel')}
                   </label>
                   <input
-                    className="form-control"
+                    className={`form-control ${errors.password ? 'is-invalid' : ''}`}
                     id="login-password"
                     name="password"
                     onChange={handleChange}
