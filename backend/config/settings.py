@@ -136,6 +136,15 @@ SIMPLE_JWT = {
 
 AUTH_USER_MODEL = "users.User"
 
+EMAIL_BACKEND = os.getenv(
+    "DJANGO_EMAIL_BACKEND",
+    "django.core.mail.backends.console.EmailBackend",
+)
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "noreply@atlastravel.local")
+EMAIL_VERIFICATION_CODE_TTL_MINUTES = int(
+    os.getenv("EMAIL_VERIFICATION_CODE_TTL_MINUTES", "15")
+)
+
 STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

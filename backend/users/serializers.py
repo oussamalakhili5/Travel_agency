@@ -1,7 +1,11 @@
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.password_validation import validate_password
+from django.utils import timezone
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+from .exceptions import EmailVerificationRequired
+from .services import issue_email_verification
 
 User = get_user_model()
 
@@ -16,6 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
             "last_name",
             "phone",
             "role",
+            "is_email_verified",
         )
         read_only_fields = fields
 
@@ -63,7 +68,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        return User.objects.create_user(
+        user = User.objects.create_user(
             email=validated_data["email"],
             password=validated_data["password"],
             first_name=validated_data["first_name"],
@@ -72,7 +77,79 @@ class RegisterSerializer(serializers.ModelSerializer):
             role=User.Role.USER,
             is_staff=False,
             is_superuser=False,
+            is_email_verified=False,
         )
+        issue_email_verification(user)
+        return user
+
+
+class VerifyEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    verification_code = serializers.CharField(max_length=20, trim_whitespace=True)
+
+    default_error_messages = {
+        "invalid_email": "No account was found for this email address.",
+        "already_verified": "This email address is already verified.",
+        "invalid_code": "The verification code is invalid.",
+        "expired_code": "The verification code has expired. Please request a new one.",
+    }
+
+    def validate_email(self, value):
+        return User.objects.normalize_email(value)
+
+    def validate(self, attrs):
+        email = attrs["email"]
+        verification_code = attrs["verification_code"].strip()
+
+        try:
+            user = User.objects.get(email__iexact=email)
+        except User.DoesNotExist as exc:
+            raise serializers.ValidationError({"email": self.error_messages["invalid_email"]}) from exc
+
+        if user.is_email_verified:
+            raise serializers.ValidationError(
+                {"detail": self.error_messages["already_verified"]}
+            )
+
+        if not user.email_verification_code or not user.email_verification_expires_at:
+            raise serializers.ValidationError(
+                {"verification_code": self.error_messages["invalid_code"]}
+            )
+
+        if user.email_verification_expires_at < timezone.now():
+            raise serializers.ValidationError(
+                {"verification_code": self.error_messages["expired_code"]}
+            )
+
+        if not user.is_email_verification_code_valid(verification_code):
+            raise serializers.ValidationError(
+                {"verification_code": self.error_messages["invalid_code"]}
+            )
+
+        attrs["user"] = user
+        attrs["verification_code"] = verification_code
+        return attrs
+
+    def save(self, **kwargs):
+        user = self.validated_data["user"]
+        user.clear_email_verification(mark_verified=True)
+        return user
+
+
+class ResendVerificationCodeSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validate_email(self, value):
+        return User.objects.normalize_email(value)
+
+    def save(self, **kwargs):
+        email = self.validated_data["email"]
+        user = User.objects.filter(email__iexact=email).first()
+
+        if user and not user.is_email_verified:
+            issue_email_verification(user)
+
+        return user
 
 
 class AuthTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -101,6 +178,9 @@ class AuthTokenObtainPairSerializer(TokenObtainPairSerializer):
             raise serializers.ValidationError(
                 {"detail": "This account is inactive."}
             )
+
+        if not user.is_email_verified:
+            raise EmailVerificationRequired()
 
         refresh = self.get_token(user)
         return {
