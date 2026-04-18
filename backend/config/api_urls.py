@@ -7,5 +7,6 @@ urlpatterns = [
     path("health/", health_check, name="health-check"),
     path("auth/", include("users.urls")),
     path("hotels/", include("hotels.urls")),
+    path("reservations/", include("reservations.urls")),
     path("transports/", include("transports.urls")),
 ]

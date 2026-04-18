@@ -2,7 +2,10 @@ from datetime import date, timedelta
 
 from django.core.exceptions import ValidationError
 from django.test import TestCase
+from django.urls import reverse
 from django.utils import timezone
+from rest_framework import status
+from rest_framework.test import APITestCase
 
 from hotels.models import Hotel
 from transports.models import Transport
@@ -90,6 +93,169 @@ class ReservationModelTests(TestCase):
 
         with self.assertRaises(ValidationError):
             reservation.full_clean()
+
+
+class ReservationApiTests(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            email="api-user@example.com",
+            password="TravelPass123!",
+            first_name="API",
+            last_name="User",
+            phone="+212600000200",
+            is_email_verified=True,
+        )
+        self.other_user = User.objects.create_user(
+            email="other-user@example.com",
+            password="TravelPass123!",
+            first_name="Other",
+            last_name="User",
+            phone="+212600000201",
+            is_email_verified=True,
+        )
+        self.hotel = Hotel.objects.create(
+            name="Skyline Grand",
+            city="Dubai",
+            address="Downtown Dubai",
+            description="Luxury city stay",
+            price_per_night=295,
+            rating=4.9,
+            number_of_rooms=80,
+            available_rooms=20,
+            image="https://example.com/skyline.jpg",
+        )
+        self.transport = Transport.objects.create(
+            type=Transport.TransportType.FLIGHT,
+            company="BlueSky Airways",
+            departure_city="Rabat",
+            arrival_city="Dubai",
+            departure_time=timezone.now() + timedelta(days=3),
+            arrival_time=timezone.now() + timedelta(days=3, hours=7),
+            price=520,
+            available_seats=16,
+            total_seats=120,
+            service_class=Transport.ServiceClass.BUSINESS,
+            notes="Long-haul business route",
+        )
+        self.list_url = reverse("reservation-list-create")
+
+    def test_authentication_is_required(self):
+        response = self.client.get(self.list_url)
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_create_hotel_reservation_for_authenticated_user(self):
+        self.client.force_authenticate(self.user)
+
+        response = self.client.post(
+            self.list_url,
+            {
+                "reservation_type": Reservation.ReservationType.HOTEL,
+                "hotel": self.hotel.id,
+                "check_in_date": "2026-06-01",
+                "check_out_date": "2026-06-05",
+                "guests_count": 2,
+                "rooms_reserved": 1,
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        reservation = Reservation.objects.get()
+        self.assertEqual(reservation.user, self.user)
+        self.assertEqual(response.data["reservation_type"], Reservation.ReservationType.HOTEL)
+        self.assertEqual(response.data["hotel"]["id"], self.hotel.id)
+
+    def test_create_transport_reservation_for_authenticated_user(self):
+        self.client.force_authenticate(self.user)
+
+        response = self.client.post(
+            self.list_url,
+            {
+                "reservation_type": Reservation.ReservationType.TRANSPORT,
+                "transport": self.transport.id,
+                "passengers_count": 2,
+                "special_request": "Window seats if possible",
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        reservation = Reservation.objects.get()
+        self.assertEqual(reservation.user, self.user)
+        self.assertEqual(response.data["transport"]["id"], self.transport.id)
+
+    def test_list_returns_only_current_users_reservations(self):
+        Reservation.objects.create(
+            user=self.user,
+            hotel=self.hotel,
+            reservation_type=Reservation.ReservationType.HOTEL,
+            check_in_date=date(2026, 6, 1),
+            check_out_date=date(2026, 6, 5),
+            guests_count=2,
+            rooms_reserved=1,
+        )
+        Reservation.objects.create(
+            user=self.other_user,
+            transport=self.transport,
+            reservation_type=Reservation.ReservationType.TRANSPORT,
+            passengers_count=1,
+        )
+
+        self.client.force_authenticate(self.user)
+        response = self.client.get(self.list_url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]["reservation_type"], Reservation.ReservationType.HOTEL)
+
+    def test_detail_is_limited_to_current_users_reservation(self):
+        own_reservation = Reservation.objects.create(
+            user=self.user,
+            hotel=self.hotel,
+            reservation_type=Reservation.ReservationType.HOTEL,
+            check_in_date=date(2026, 7, 1),
+            check_out_date=date(2026, 7, 3),
+            guests_count=2,
+            rooms_reserved=1,
+        )
+        other_reservation = Reservation.objects.create(
+            user=self.other_user,
+            transport=self.transport,
+            reservation_type=Reservation.ReservationType.TRANSPORT,
+            passengers_count=2,
+        )
+
+        self.client.force_authenticate(self.user)
+
+        own_response = self.client.get(
+            reverse("reservation-detail", kwargs={"pk": own_reservation.pk})
+        )
+        other_response = self.client.get(
+            reverse("reservation-detail", kwargs={"pk": other_reservation.pk})
+        )
+
+        self.assertEqual(own_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(other_response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_create_reservation_rejects_invalid_payload(self):
+        self.client.force_authenticate(self.user)
+
+        response = self.client.post(
+            self.list_url,
+            {
+                "reservation_type": Reservation.ReservationType.HOTEL,
+                "hotel": self.hotel.id,
+                "check_in_date": "2026-06-05",
+                "check_out_date": "2026-06-01",
+                "guests_count": 2,
+                "rooms_reserved": 1,
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("check_out_date", response.data)
 
     def test_hotel_checkout_must_be_after_checkin(self):
         reservation = Reservation(
