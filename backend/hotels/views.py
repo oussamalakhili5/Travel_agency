@@ -1,3 +1,36 @@
-from django.shortcuts import render
+from decimal import Decimal, InvalidOperation
 
-# Create your views here.
+from rest_framework import generics, permissions
+from rest_framework.exceptions import ValidationError
+
+from .models import Hotel
+from .serializers import HotelSerializer
+
+
+class HotelListAPIView(generics.ListAPIView):
+    serializer_class = HotelSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        queryset = Hotel.objects.filter(is_active=True).order_by("city", "name")
+        city = self.request.query_params.get("city")
+        max_price = self.request.query_params.get("max_price")
+
+        if city:
+            queryset = queryset.filter(city__iexact=city.strip())
+
+        if max_price:
+            try:
+                max_price_value = Decimal(max_price)
+            except (InvalidOperation, TypeError):
+                raise ValidationError({"max_price": "max_price must be a valid number."})
+
+            queryset = queryset.filter(price_per_night__lte=max_price_value)
+
+        return queryset
+
+
+class HotelDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = HotelSerializer
+    permission_classes = [permissions.AllowAny]
+    queryset = Hotel.objects.filter(is_active=True)

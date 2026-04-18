@@ -6,4 +6,6 @@ from .api_views import health_check
 urlpatterns = [
     path("health/", health_check, name="health-check"),
     path("auth/", include("users.urls")),
+    path("hotels/", include("hotels.urls")),
+    path("transports/", include("transports.urls")),
 ]
