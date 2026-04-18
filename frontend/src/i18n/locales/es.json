@@ -287,6 +287,61 @@
       "generic": "No pudimos verificar tu correo ahora mismo. Inténtalo de nuevo."
     }
   },
+  "hotelDetail": {
+    "badge": "Detalles del hotel",
+    "actions": {
+      "back": "Volver a Hoteles",
+      "reserve": "Reservar ahora"
+    },
+    "fields": {
+      "city": "Ciudad",
+      "address": "Dirección",
+      "price": "Precio por noche",
+      "priceSuffix": "por noche",
+      "availableRooms": "Habitaciones disponibles",
+      "availableRoomsValue": "{{count}} habitaciones disponibles"
+    },
+    "status": {
+      "loading": "Cargando detalles del hotel...",
+      "error": "No pudimos cargar este hotel ahora mismo. Inténtalo de nuevo.",
+      "notFoundBadge": "Hotel no encontrado",
+      "notFoundTitle": "Este hotel no está disponible en el catálogo.",
+      "notFoundDescription": "La publicación puede haber sido retirada o ya no estar activa. Vuelve al catálogo de hoteles para seguir explorando."
+    }
+  },
+  "transportDetail": {
+    "badge": "Detalles del transporte",
+    "routeSeparator": "a",
+    "summary": "Revisa la ruta, los horarios y la disponibilidad antes de pasar a un futuro flujo de reserva.",
+    "actions": {
+      "back": "Volver a Transportes",
+      "reserve": "Reservar ahora"
+    },
+    "fields": {
+      "type": "Tipo de transporte",
+      "company": "Compañía",
+      "departureCity": "Ciudad de salida",
+      "arrivalCity": "Ciudad de llegada",
+      "departureTime": "Hora de salida",
+      "arrivalTime": "Hora de llegada",
+      "duration": "Duración",
+      "durationValue": "{{hours}} h {{minutes}} min",
+      "durationFallback": "Duración pendiente",
+      "price": "Precio",
+      "availableSeats": "Asientos disponibles",
+      "availableSeatsValue": "{{count}} asientos disponibles",
+      "serviceClass": "Clase de servicio",
+      "notes": "Notas",
+      "noNotes": "Las notas del viaje aparecerán aquí cuando estén disponibles."
+    },
+    "status": {
+      "loading": "Cargando detalles del transporte...",
+      "error": "No pudimos cargar este transporte ahora mismo. Inténtalo de nuevo.",
+      "notFoundBadge": "Transporte no encontrado",
+      "notFoundTitle": "Esta opción de transporte no está disponible ahora mismo.",
+      "notFoundDescription": "La ruta puede haber sido retirada o ya no estar activa. Vuelve al listado de transportes para explorar otras opciones."
+    }
+  },
   "profile": {
     "badge": "Zona privada",
     "title": "Bienvenido, {{name}}",

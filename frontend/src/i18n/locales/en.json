@@ -287,6 +287,61 @@
       "generic": "We could not verify your email right now. Please try again."
     }
   },
+  "hotelDetail": {
+    "badge": "Hotel details",
+    "actions": {
+      "back": "Back to Hotels",
+      "reserve": "Reserve Now"
+    },
+    "fields": {
+      "city": "City",
+      "address": "Address",
+      "price": "Price per night",
+      "priceSuffix": "per night",
+      "availableRooms": "Available rooms",
+      "availableRoomsValue": "{{count}} rooms available"
+    },
+    "status": {
+      "loading": "Loading hotel details...",
+      "error": "We could not load this hotel right now. Please try again.",
+      "notFoundBadge": "Hotel not found",
+      "notFoundTitle": "This hotel is not available in the catalog.",
+      "notFoundDescription": "The listing may have been removed or is no longer active. Return to the hotel catalog to keep exploring."
+    }
+  },
+  "transportDetail": {
+    "badge": "Transport details",
+    "routeSeparator": "to",
+    "summary": "Review the route, timing, and seat availability before moving to a future reservation flow.",
+    "actions": {
+      "back": "Back to Transports",
+      "reserve": "Reserve Now"
+    },
+    "fields": {
+      "type": "Transport type",
+      "company": "Company",
+      "departureCity": "Departure city",
+      "arrivalCity": "Arrival city",
+      "departureTime": "Departure time",
+      "arrivalTime": "Arrival time",
+      "duration": "Duration",
+      "durationValue": "{{hours}}h {{minutes}}m",
+      "durationFallback": "Scheduled duration pending",
+      "price": "Price",
+      "availableSeats": "Available seats",
+      "availableSeatsValue": "{{count}} seats available",
+      "serviceClass": "Service class",
+      "notes": "Notes",
+      "noNotes": "Travel notes will appear here once provided."
+    },
+    "status": {
+      "loading": "Loading transport details...",
+      "error": "We could not load this transport right now. Please try again.",
+      "notFoundBadge": "Transport not found",
+      "notFoundTitle": "This transport option is not available right now.",
+      "notFoundDescription": "The route may have been removed or is no longer active. Return to the transport listing to explore other options."
+    }
+  },
   "profile": {
     "badge": "Member area",
     "title": "Welcome, {{name}}",

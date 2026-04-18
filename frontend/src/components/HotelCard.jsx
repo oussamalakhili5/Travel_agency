@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 function HotelCard({ hotel }) {
@@ -43,9 +44,9 @@ function HotelCard({ hotel }) {
               <span> {t('hotels.card.perNight')}</span>
             </div>
           </div>
-          <button className="btn btn-outline-brand" type="button">
+          <Link className="btn btn-outline-brand" to={`/hotels/${hotel.id}`}>
             {t('hotels.card.viewDetails')}
-          </button>
+          </Link>
         </div>
       </div>
     </article>

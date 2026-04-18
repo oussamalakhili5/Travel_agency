@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 function formatDuration(duration, t) {
@@ -72,9 +73,9 @@ function TransportCard({ transport }) {
           <span>{formatDuration(transport.duration, t)}</span>
           <span>{t(`transports.serviceClasses.${transport.service_class}`)}</span>
         </div>
-        <button className="btn btn-brand" type="button">
+        <Link className="btn btn-brand" to={`/transports/${transport.id}`}>
           {t('transports.card.bookNow')}
-        </button>
+        </Link>
       </div>
     </article>
   )

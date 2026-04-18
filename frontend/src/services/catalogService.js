@@ -19,6 +19,11 @@ export async function getHotels(filters = {}) {
   return response.data
 }
 
+export async function getHotelById(id) {
+  const response = await api.get(`hotels/${id}/`)
+  return response.data
+}
+
 export async function getTransports(filters = {}) {
   const response = await api.get('transports/', {
     params: buildParams(filters),
@@ -27,9 +32,16 @@ export async function getTransports(filters = {}) {
   return response.data
 }
 
+export async function getTransportById(id) {
+  const response = await api.get(`transports/${id}/`)
+  return response.data
+}
+
 const catalogService = {
   getHotels,
+  getHotelById,
   getTransports,
+  getTransportById,
 }
 
 export default catalogService

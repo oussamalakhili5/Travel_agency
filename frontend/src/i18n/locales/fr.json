@@ -287,6 +287,61 @@
       "generic": "Nous n'avons pas pu vérifier votre e-mail pour le moment. Veuillez réessayer."
     }
   },
+  "hotelDetail": {
+    "badge": "Détails de l'hôtel",
+    "actions": {
+      "back": "Retour aux hôtels",
+      "reserve": "Réserver maintenant"
+    },
+    "fields": {
+      "city": "Ville",
+      "address": "Adresse",
+      "price": "Prix par nuit",
+      "priceSuffix": "par nuit",
+      "availableRooms": "Chambres disponibles",
+      "availableRoomsValue": "{{count}} chambres disponibles"
+    },
+    "status": {
+      "loading": "Chargement des détails de l'hôtel...",
+      "error": "Impossible de charger cet hôtel pour le moment. Veuillez réessayer.",
+      "notFoundBadge": "Hôtel introuvable",
+      "notFoundTitle": "Cet hôtel n'est pas disponible dans le catalogue.",
+      "notFoundDescription": "L'annonce a peut-être été retirée ou n'est plus active. Revenez au catalogue des hôtels pour continuer votre recherche."
+    }
+  },
+  "transportDetail": {
+    "badge": "Détails du transport",
+    "routeSeparator": "vers",
+    "summary": "Consultez l'itinéraire, les horaires et la disponibilité avant de passer à un futur flux de réservation.",
+    "actions": {
+      "back": "Retour aux transports",
+      "reserve": "Réserver maintenant"
+    },
+    "fields": {
+      "type": "Type de transport",
+      "company": "Compagnie",
+      "departureCity": "Ville de départ",
+      "arrivalCity": "Ville d'arrivée",
+      "departureTime": "Heure de départ",
+      "arrivalTime": "Heure d'arrivée",
+      "duration": "Durée",
+      "durationValue": "{{hours}} h {{minutes}}",
+      "durationFallback": "Durée prévue en attente",
+      "price": "Prix",
+      "availableSeats": "Places disponibles",
+      "availableSeatsValue": "{{count}} places disponibles",
+      "serviceClass": "Classe de service",
+      "notes": "Notes",
+      "noNotes": "Les notes du trajet apparaîtront ici lorsqu'elles seront disponibles."
+    },
+    "status": {
+      "loading": "Chargement des détails du transport...",
+      "error": "Impossible de charger ce transport pour le moment. Veuillez réessayer.",
+      "notFoundBadge": "Transport introuvable",
+      "notFoundTitle": "Cette option de transport n'est pas disponible pour le moment.",
+      "notFoundDescription": "L'itinéraire a peut-être été retiré ou n'est plus actif. Revenez à la liste des transports pour explorer d'autres options."
+    }
+  },
   "profile": {
     "badge": "Espace membre",
     "title": "Bienvenue, {{name}}",

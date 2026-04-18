@@ -1,10 +1,12 @@
 import { Route, Routes } from 'react-router-dom'
 import Home from '../pages/Home'
 import Hotels from '../pages/Hotels'
+import HotelDetail from '../pages/HotelDetail'
 import Login from '../pages/Login'
 import NotFound from '../pages/NotFound'
 import Profile from '../pages/Profile'
 import Register from '../pages/Register'
+import TransportDetail from '../pages/TransportDetail'
 import Transports from '../pages/Transports'
 import VerifyEmail from '../pages/VerifyEmail'
 import PrivateRoute from './PrivateRoute'
@@ -17,7 +19,9 @@ function AppRoutes() {
       <Route path="/register" element={<Register />} />
       <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/hotels" element={<Hotels />} />
+      <Route path="/hotels/:id" element={<HotelDetail />} />
       <Route path="/transports" element={<Transports />} />
+      <Route path="/transports/:id" element={<TransportDetail />} />
       <Route element={<PrivateRoute />}>
         <Route path="/profile" element={<Profile />} />
       </Route>
