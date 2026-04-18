@@ -3,7 +3,7 @@ import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../hooks/useAuth'
 import { buildLoginPayload, validateLoginForm } from '../utils/authForms'
-import { mapAuthErrors } from '../utils/authErrors'
+import { getAuthErrorCode, mapAuthErrors } from '../utils/authErrors'
 
 function Login() {
   const { t } = useTranslation()
@@ -11,11 +11,12 @@ function Login() {
   const location = useLocation()
   const { login, isAuthenticated } = useAuth()
   const [formValues, setFormValues] = useState({
-    email: '',
+    email: location.state?.email ?? '',
     password: '',
   })
   const [errors, setErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [statusMessage, setStatusMessage] = useState(location.state?.message ?? '')
   const redirectPath =
     location.state?.from?.pathname && location.state.from.pathname !== '/login'
       ? location.state.from.pathname
@@ -38,6 +39,8 @@ function Login() {
       [name]: '',
       form: '',
     }))
+
+    setStatusMessage('')
   }
 
   async function handleSubmit(event) {
@@ -60,6 +63,17 @@ function Login() {
       setErrors({})
       navigate(redirectPath, { replace: true })
     } catch (error) {
+      if (getAuthErrorCode(error) === 'email_verification_required') {
+        navigate('/verify-email', {
+          replace: true,
+          state: {
+            email: payload.email,
+            message: t('verifyEmail.status.loginRedirect'),
+          },
+        })
+        return
+      }
+
       setErrors(mapAuthErrors(error, t, 'login'))
     } finally {
       setIsSubmitting(false)
@@ -91,6 +105,12 @@ function Login() {
                 <h2 className="h3 fw-semibold mb-2">{t('login.card.title')}</h2>
                 <p className="mb-0">{t('login.card.description')}</p>
               </div>
+
+              {statusMessage ? (
+                <div className="alert alert-info auth-alert" role="status">
+                  {statusMessage}
+                </div>
+              ) : null}
 
               {errors.form ? (
                 <div className="alert alert-danger auth-alert" role="alert">
@@ -143,6 +163,10 @@ function Login() {
                   <Link className="small text-decoration-none text-primary" to="/register">
                     {t('login.form.supportLink')}
                   </Link>
+                </div>
+
+                <div className="auth-helper-text mb-4">
+                  {t('login.form.verificationNotice')}
                 </div>
 
                 <button className="btn btn-brand w-100 py-3" disabled={isSubmitting} type="submit">

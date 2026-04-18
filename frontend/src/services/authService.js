@@ -10,6 +10,16 @@ export async function login(payload) {
   return response.data
 }
 
+export async function verifyEmail(payload) {
+  const response = await api.post('auth/verify-email/', payload)
+  return response.data
+}
+
+export async function resendVerificationCode(payload) {
+  const response = await api.post('auth/resend-verification-code/', payload)
+  return response.data
+}
+
 export async function getCurrentUser() {
   const response = await api.get('auth/me/')
   return response.data
@@ -18,6 +28,8 @@ export async function getCurrentUser() {
 const authService = {
   register,
   login,
+  verifyEmail,
+  resendVerificationCode,
   getCurrentUser,
 }
 

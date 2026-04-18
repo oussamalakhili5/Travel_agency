@@ -165,6 +165,7 @@
       "passwordPlaceholder": "Enter your password",
       "remember": "Remember me",
       "supportLink": "Need access?",
+      "verificationNotice": "If your account is new, verify your email before trying to access protected areas.",
       "submit": "Sign In",
       "submitting": "Signing In...",
       "newHere": "New here?",
@@ -178,11 +179,13 @@
     "errors": {
       "invalidCredentials": "Invalid email or password.",
       "inactiveAccount": "This account is inactive.",
+      "emailVerificationRequired": "Please verify your email before logging in.",
       "network": "The server could not be reached. Please check that the Django API is running.",
       "generic": "We could not sign you in right now. Please try again."
     },
     "success": {
-      "message": "Login successful."
+      "message": "Login successful.",
+      "emailVerified": "Your email has been verified. You can sign in now."
     }
   },
   "register": {
@@ -214,6 +217,7 @@
       "confirmPasswordLabel": "Confirm password",
       "confirmPasswordPlaceholder": "Confirm your password",
       "passwordHint": "Use at least {{count}} characters for a secure password.",
+      "verificationNotice": "We will send a verification code to your email before your first login.",
       "submit": "Register",
       "submitting": "Creating Account...",
       "alreadyRegistered": "Already registered?",
@@ -235,7 +239,52 @@
       "generic": "We could not create your account right now. Please try again."
     },
     "success": {
-      "message": "Your account has been created successfully. You can sign in now."
+      "message": "Your account has been created successfully. Please verify your email next."
+    }
+  },
+  "verifyEmail": {
+    "aside": {
+      "kicker": "Verify access",
+      "title": "Confirm your email before entering the platform.",
+      "description": "We sent a short verification code to your inbox so we can protect your workspace and keep the login flow secure.",
+      "checklist": {
+        "stepOne": "Enter the same email address you used during registration.",
+        "stepTwo": "Paste the verification code from the email message.",
+        "stepThree": "Request a new code anytime if the first one expires."
+      }
+    },
+    "card": {
+      "title": "Verify your email",
+      "description": "Complete this step to activate your account and continue to sign in."
+    },
+    "form": {
+      "emailLabel": "Email address",
+      "emailPlaceholder": "contact@atlastravel.com",
+      "codeLabel": "Verification code",
+      "codePlaceholder": "Enter the 6-digit code",
+      "helper": "Verification codes expire after a short time for better account security.",
+      "submit": "Verify Email",
+      "submitting": "Verifying...",
+      "resendPrompt": "Did not receive the message or need a fresh code?",
+      "resend": "Resend Code",
+      "resending": "Sending new code...",
+      "backToLogin": "Already verified?",
+      "loginLink": "Return to login"
+    },
+    "validation": {
+      "requiredEmail": "Email address is required.",
+      "requiredCode": "Verification code is required."
+    },
+    "status": {
+      "loginRedirect": "Please verify your email to complete sign-in."
+    },
+    "success": {
+      "verified": "Email verified successfully. Redirecting you to sign in...",
+      "resent": "If your account still needs verification, a new code has been sent."
+    },
+    "errors": {
+      "network": "The server could not be reached. Please check that the Django API is running.",
+      "generic": "We could not verify your email right now. Please try again."
     }
   },
   "profile": {

@@ -4,6 +4,7 @@ const FIELD_NAME_MAP = {
   first_name: 'firstName',
   last_name: 'lastName',
   confirm_password: 'confirmPassword',
+  verification_code: 'verificationCode',
   non_field_errors: 'form',
   detail: 'form',
 }
@@ -39,7 +40,25 @@ function mapKnownMessage(mode, message, t) {
     return t('login.errors.inactiveAccount')
   }
 
+  if (mode === 'login' && normalizedMessage.includes('email verification is required')) {
+    return t('login.errors.emailVerificationRequired')
+  }
+
   return message
+}
+
+export function getAuthErrorCode(error) {
+  if (!axios.isAxiosError(error)) {
+    return null
+  }
+
+  const code = error.response?.data?.code
+
+  if (Array.isArray(code)) {
+    return code[0] ?? null
+  }
+
+  return typeof code === 'string' ? code : null
 }
 
 export function mapAuthErrors(error, t, mode) {

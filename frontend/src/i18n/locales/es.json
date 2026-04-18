@@ -165,6 +165,7 @@
       "passwordPlaceholder": "Introduce tu contraseña",
       "remember": "Recordarme",
       "supportLink": "¿Necesitas acceso?",
+      "verificationNotice": "Si tu cuenta es nueva, verifica tu correo antes de intentar acceder a las áreas protegidas.",
       "submit": "Iniciar sesión",
       "submitting": "Iniciando sesión...",
       "newHere": "¿Eres nuevo?",
@@ -178,11 +179,13 @@
     "errors": {
       "invalidCredentials": "Correo o contraseña no válidos.",
       "inactiveAccount": "Esta cuenta está inactiva.",
+      "emailVerificationRequired": "Verifica tu correo electrónico antes de iniciar sesión.",
       "network": "No se pudo conectar con el servidor. Verifica que la API de Django esté en ejecución.",
       "generic": "No pudimos iniciar sesión ahora mismo. Inténtalo de nuevo."
     },
     "success": {
-      "message": "Inicio de sesión correcto."
+      "message": "Inicio de sesión correcto.",
+      "emailVerified": "Tu correo se verificó correctamente. Ya puedes iniciar sesión."
     }
   },
   "register": {
@@ -214,6 +217,7 @@
       "confirmPasswordLabel": "Confirmar contraseña",
       "confirmPasswordPlaceholder": "Confirma tu contraseña",
       "passwordHint": "Usa al menos {{count}} caracteres para una contraseña segura.",
+      "verificationNotice": "Te enviaremos un código de verificación al correo antes de tu primer inicio de sesión.",
       "submit": "Registrarse",
       "submitting": "Creando cuenta...",
       "alreadyRegistered": "¿Ya estás registrado?",
@@ -235,7 +239,52 @@
       "generic": "No pudimos crear tu cuenta ahora mismo. Inténtalo de nuevo."
     },
     "success": {
-      "message": "Tu cuenta se creó correctamente. Ya puedes iniciar sesión."
+      "message": "Tu cuenta se creó correctamente. Verifica tu correo a continuación."
+    }
+  },
+  "verifyEmail": {
+    "aside": {
+      "kicker": "Verificar acceso",
+      "title": "Confirma tu correo antes de entrar en la plataforma.",
+      "description": "Enviamos un código corto a tu bandeja de entrada para proteger tu espacio de trabajo y mantener seguro el acceso.",
+      "checklist": {
+        "stepOne": "Introduce el mismo correo que usaste al registrarte.",
+        "stepTwo": "Pega el código de verificación recibido por correo.",
+        "stepThree": "Solicita un código nuevo cuando lo necesites si el anterior caduca."
+      }
+    },
+    "card": {
+      "title": "Verifica tu correo",
+      "description": "Completa este paso para activar tu cuenta y continuar con el inicio de sesión."
+    },
+    "form": {
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "contact@atlastravel.com",
+      "codeLabel": "Código de verificación",
+      "codePlaceholder": "Introduce el código de 6 dígitos",
+      "helper": "Los códigos caducan pronto para ofrecer una mejor protección de la cuenta.",
+      "submit": "Verificar correo",
+      "submitting": "Verificando...",
+      "resendPrompt": "¿No recibiste el mensaje o necesitas un código nuevo?",
+      "resend": "Reenviar código",
+      "resending": "Enviando nuevo código...",
+      "backToLogin": "¿Ya está verificado?",
+      "loginLink": "Volver al inicio de sesión"
+    },
+    "validation": {
+      "requiredEmail": "El correo electrónico es obligatorio.",
+      "requiredCode": "El código de verificación es obligatorio."
+    },
+    "status": {
+      "loginRedirect": "Verifica tu correo para completar el inicio de sesión."
+    },
+    "success": {
+      "verified": "Correo verificado correctamente. Redirigiendo al inicio de sesión...",
+      "resent": "Si tu cuenta todavía necesita verificación, se ha enviado un nuevo código."
+    },
+    "errors": {
+      "network": "No se pudo conectar con el servidor. Verifica que la API de Django esté en ejecución.",
+      "generic": "No pudimos verificar tu correo ahora mismo. Inténtalo de nuevo."
     }
   },
   "profile": {

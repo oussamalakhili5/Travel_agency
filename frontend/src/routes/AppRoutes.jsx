@@ -6,6 +6,7 @@ import NotFound from '../pages/NotFound'
 import Profile from '../pages/Profile'
 import Register from '../pages/Register'
 import Transports from '../pages/Transports'
+import VerifyEmail from '../pages/VerifyEmail'
 import PrivateRoute from './PrivateRoute'
 
 function AppRoutes() {
@@ -14,6 +15,7 @@ function AppRoutes() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/hotels" element={<Hotels />} />
       <Route path="/transports" element={<Transports />} />
       <Route element={<PrivateRoute />}>

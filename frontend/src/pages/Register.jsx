@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../hooks/useAuth'
 import { buildRegisterPayload, validateRegisterForm } from '../utils/authForms'
@@ -7,6 +7,7 @@ import { mapAuthErrors } from '../utils/authErrors'
 
 function Register() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const { isAuthenticated, register: registerUser } = useAuth()
   const [formValues, setFormValues] = useState({
     firstName: '',
@@ -59,16 +60,14 @@ function Register() {
 
     try {
       const response = await registerUser(payload)
-      setStatusMessage(response.message || t('register.success.message'))
-      setFormValues({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        password: '',
-        confirmPassword: '',
-      })
       setErrors({})
+      navigate('/verify-email', {
+        replace: true,
+        state: {
+          email: payload.email,
+          message: response.message || t('register.success.message'),
+        },
+      })
     } catch (error) {
       setErrors(mapAuthErrors(error, t, 'register'))
     } finally {
@@ -227,6 +226,10 @@ function Register() {
 
                 <div className="auth-helper-text mt-4">
                   {t('register.form.passwordHint', { count: 8 })}
+                </div>
+
+                <div className="auth-helper-text mt-2">
+                  {t('register.form.verificationNotice')}
                 </div>
 
                 <button className="btn btn-brand w-100 py-3 mt-4" disabled={isSubmitting} type="submit">

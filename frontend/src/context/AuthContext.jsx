@@ -76,6 +76,14 @@ export function AuthProvider({ children }) {
     return authService.register(payload)
   }
 
+  async function verifyEmail(payload) {
+    return authService.verifyEmail(payload)
+  }
+
+  async function resendVerificationCode(payload) {
+    return authService.resendVerificationCode(payload)
+  }
+
   async function refreshUser() {
     const currentUser = await authService.getCurrentUser()
 
@@ -98,6 +106,8 @@ export function AuthProvider({ children }) {
         isInitializing,
         login,
         register,
+        verifyEmail,
+        resendVerificationCode,
         refreshUser,
         logout,
       }}

@@ -165,6 +165,7 @@
       "passwordPlaceholder": "Entrez votre mot de passe",
       "remember": "Se souvenir de moi",
       "supportLink": "Besoin d'un accès ?",
+      "verificationNotice": "Si votre compte est nouveau, vérifiez votre e-mail avant d'accéder aux espaces protégés.",
       "submit": "Se connecter",
       "submitting": "Connexion en cours...",
       "newHere": "Nouveau ici ?",
@@ -178,11 +179,13 @@
     "errors": {
       "invalidCredentials": "E-mail ou mot de passe invalide.",
       "inactiveAccount": "Ce compte est inactif.",
+      "emailVerificationRequired": "Veuillez vérifier votre e-mail avant de vous connecter.",
       "network": "Le serveur est inaccessible. Vérifiez que l'API Django est lancée.",
       "generic": "Connexion impossible pour le moment. Veuillez réessayer."
     },
     "success": {
-      "message": "Connexion réussie."
+      "message": "Connexion réussie.",
+      "emailVerified": "Votre e-mail a bien été vérifié. Vous pouvez maintenant vous connecter."
     }
   },
   "register": {
@@ -214,6 +217,7 @@
       "confirmPasswordLabel": "Confirmer le mot de passe",
       "confirmPasswordPlaceholder": "Confirmez votre mot de passe",
       "passwordHint": "Utilisez au moins {{count}} caractères pour un mot de passe sécurisé.",
+      "verificationNotice": "Nous enverrons un code de vérification à votre e-mail avant votre première connexion.",
       "submit": "S'inscrire",
       "submitting": "Création du compte...",
       "alreadyRegistered": "Déjà inscrit ?",
@@ -235,7 +239,52 @@
       "generic": "Création du compte impossible pour le moment. Veuillez réessayer."
     },
     "success": {
-      "message": "Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter."
+      "message": "Votre compte a été créé avec succès. Vérifiez maintenant votre e-mail."
+    }
+  },
+  "verifyEmail": {
+    "aside": {
+      "kicker": "Vérifier l'accès",
+      "title": "Confirmez votre e-mail avant d'entrer sur la plateforme.",
+      "description": "Nous avons envoyé un court code de vérification à votre boîte de réception pour protéger votre espace et sécuriser la connexion.",
+      "checklist": {
+        "stepOne": "Saisissez la même adresse e-mail que lors de l'inscription.",
+        "stepTwo": "Collez le code reçu dans le message e-mail.",
+        "stepThree": "Demandez un nouveau code à tout moment si le premier expire."
+      }
+    },
+    "card": {
+      "title": "Vérifiez votre e-mail",
+      "description": "Terminez cette étape pour activer votre compte et pouvoir vous connecter."
+    },
+    "form": {
+      "emailLabel": "Adresse e-mail",
+      "emailPlaceholder": "contact@atlastravel.com",
+      "codeLabel": "Code de vérification",
+      "codePlaceholder": "Entrez le code à 6 chiffres",
+      "helper": "Les codes expirent rapidement afin de mieux protéger votre compte.",
+      "submit": "Vérifier l'e-mail",
+      "submitting": "Vérification...",
+      "resendPrompt": "Vous n'avez pas reçu le message ou vous avez besoin d'un nouveau code ?",
+      "resend": "Renvoyer le code",
+      "resending": "Envoi d'un nouveau code...",
+      "backToLogin": "Déjà vérifié ?",
+      "loginLink": "Retour à la connexion"
+    },
+    "validation": {
+      "requiredEmail": "L'adresse e-mail est requise.",
+      "requiredCode": "Le code de vérification est requis."
+    },
+    "status": {
+      "loginRedirect": "Veuillez vérifier votre e-mail pour terminer la connexion."
+    },
+    "success": {
+      "verified": "E-mail vérifié avec succès. Redirection vers la connexion...",
+      "resent": "Si votre compte doit encore être vérifié, un nouveau code a été envoyé."
+    },
+    "errors": {
+      "network": "Le serveur est inaccessible. Vérifiez que l'API Django est lancée.",
+      "generic": "Nous n'avons pas pu vérifier votre e-mail pour le moment. Veuillez réessayer."
     }
   },
   "profile": {
