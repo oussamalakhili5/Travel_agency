@@ -6,6 +6,7 @@
     "login": "Connexion",
     "register": "Inscription",
     "profile": "Profil",
+    "myReservations": "Mes réservations",
     "logout": "Déconnexion",
     "greeting": "Bonjour, {{name}}",
     "brandSubtitle": "Réservation premium pour agence",
@@ -340,6 +341,68 @@
       "notFoundBadge": "Transport introuvable",
       "notFoundTitle": "Cette option de transport n'est pas disponible pour le moment.",
       "notFoundDescription": "L'itinéraire a peut-être été retiré ou n'est plus actif. Revenez à la liste des transports pour explorer d'autres options."
+    }
+  },
+  "reservations": {
+    "auth": {
+      "loginRequired": "Veuillez vous connecter avant de créer une réservation."
+    },
+    "actions": {
+      "submit": "Confirmer la réservation",
+      "submitting": "Enregistrement de la réservation...",
+      "viewMine": "Voir mes réservations"
+    },
+    "success": {
+      "created": "Votre réservation a été créée avec succès."
+    },
+    "errors": {
+      "generic": "Nous ne pouvons pas enregistrer votre réservation pour le moment. Veuillez réessayer.",
+      "network": "Le serveur est inaccessible. Vérifiez que l'API Django est lancée.",
+      "loadList": "Nous ne pouvons pas charger vos réservations pour le moment. Veuillez réessayer."
+    },
+    "types": {
+      "hotel": "Réservation d'hôtel",
+      "transport": "Réservation de transport"
+    },
+    "statuses": {
+      "pending": "En attente",
+      "confirmed": "Confirmée",
+      "cancelled": "Annulée"
+    },
+    "fields": {
+      "stay": "Séjour",
+      "guests": "{{count}} voyageurs",
+      "rooms": "{{count}} chambres",
+      "passengers": "{{count}} passagers",
+      "price": "Prix :",
+      "reservedAt": "Réservé le"
+    },
+    "routeSeparator": "vers",
+    "hotelForm": {
+      "title": "Réserver cet hôtel",
+      "description": "Choisissez vos dates de séjour et les détails de la chambre pour envoyer votre demande de réservation.",
+      "checkIn": "Date d'arrivée",
+      "checkOut": "Date de départ",
+      "guests": "Nombre de voyageurs",
+      "rooms": "Chambres réservées"
+    },
+    "transportForm": {
+      "title": "Réserver ce transport",
+      "description": "Ajoutez les informations du voyageur et envoyez votre demande de réservation de transport.",
+      "passengers": "Nombre de passagers",
+      "specialRequest": "Demande spéciale",
+      "specialRequestPlaceholder": "Ajoutez toute précision sur les places, bagages ou préférences de confort."
+    },
+    "page": {
+      "eyebrow": "Mes réservations",
+      "title": "Suivez les trajets et séjours que vous avez déjà réservés.",
+      "description": "Cette page protégée charge vos vraies réservations depuis l'API Django afin que le voyageur puisse consulter ses prochaines réservations au même endroit.",
+      "loading": "Chargement de vos réservations...",
+      "emptyBadge": "Aucune réservation",
+      "emptyTitle": "Votre liste de réservations est encore vide.",
+      "emptyDescription": "Dès que vous réservez un hôtel ou un transport, il apparaîtra ici avec son statut et ses détails de réservation.",
+      "exploreHotels": "Voir les hôtels",
+      "exploreTransports": "Voir les transports"
     }
   },
   "profile": {

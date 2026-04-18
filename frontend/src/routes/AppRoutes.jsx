@@ -3,6 +3,7 @@ import Home from '../pages/Home'
 import Hotels from '../pages/Hotels'
 import HotelDetail from '../pages/HotelDetail'
 import Login from '../pages/Login'
+import MyReservations from '../pages/MyReservations'
 import NotFound from '../pages/NotFound'
 import Profile from '../pages/Profile'
 import Register from '../pages/Register'
@@ -24,6 +25,7 @@ function AppRoutes() {
       <Route path="/transports/:id" element={<TransportDetail />} />
       <Route element={<PrivateRoute />}>
         <Route path="/profile" element={<Profile />} />
+        <Route path="/my-reservations" element={<MyReservations />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

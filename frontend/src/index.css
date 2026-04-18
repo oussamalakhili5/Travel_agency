@@ -553,7 +553,8 @@ img {
 }
 
 .filter-panel .form-label,
-.auth-card .form-label {
+.auth-card .form-label,
+.reservation-panel .form-label {
   font-weight: 600;
   color: var(--brand-navy);
 }
@@ -561,17 +562,26 @@ img {
 .filter-panel .form-control,
 .filter-panel .form-select,
 .auth-card .form-control,
-.auth-card .form-select {
+.auth-card .form-select,
+.reservation-panel .form-control,
+.reservation-panel .form-select {
   min-height: 3.35rem;
   border-radius: 1rem;
   border-color: rgba(15, 39, 64, 0.12);
   background: rgba(255, 255, 255, 0.9);
 }
 
+.reservation-panel textarea.form-control {
+  min-height: auto;
+  resize: vertical;
+}
+
 .filter-panel .form-control:focus,
 .filter-panel .form-select:focus,
 .auth-card .form-control:focus,
-.auth-card .form-select:focus {
+.auth-card .form-select:focus,
+.reservation-panel .form-control:focus,
+.reservation-panel .form-select:focus {
   border-color: rgba(30, 95, 143, 0.45);
   box-shadow: 0 0 0 0.25rem rgba(30, 95, 143, 0.12);
 }
@@ -801,6 +811,53 @@ img {
   min-height: 100%;
 }
 
+.reservation-panel,
+.reservation-card {
+  padding: 1.45rem;
+}
+
+.reservation-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.reservation-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  color: var(--text-soft);
+  font-size: 0.95rem;
+}
+
+.reservation-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.48rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.reservation-status--pending {
+  background: rgba(224, 177, 95, 0.16);
+  color: #926619;
+}
+
+.reservation-status--confirmed {
+  background: rgba(25, 135, 84, 0.12);
+  color: #146c43;
+}
+
+.reservation-status--cancelled {
+  background: rgba(220, 53, 69, 0.12);
+  color: #b02a37;
+}
+
 .auth-shell,
 .not-found-shell {
   padding-block: 1rem;
@@ -921,6 +978,8 @@ img {
 [dir='rtl'] .detail-hero,
 [dir='rtl'] .detail-hero__content,
 [dir='rtl'] .detail-item,
+[dir='rtl'] .reservation-card,
+[dir='rtl'] .reservation-panel,
 [dir='rtl'] .auth-card,
 [dir='rtl'] .auth-aside,
 [dir='rtl'] .footer-panel {
@@ -1008,6 +1067,7 @@ img {
   }
 
   .transport-card__top,
+  .reservation-card__top,
   .listing-summary,
   .footer-bottom {
     flex-direction: column;

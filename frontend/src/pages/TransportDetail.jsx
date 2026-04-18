@@ -1,8 +1,11 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { getTransportById } from '../services/catalogService'
+import reservationService from '../services/reservationService'
+import { useAuth } from '../hooks/useAuth'
+import { mapReservationErrors } from '../utils/reservationErrors'
 
 function formatDateTime(value, locale) {
   if (!value) {
@@ -33,11 +36,22 @@ function formatDuration(value, t) {
 
 function TransportDetail() {
   const { i18n, t } = useTranslation()
+  const location = useLocation()
+  const navigate = useNavigate()
   const { id } = useParams()
+  const { isAuthenticated } = useAuth()
   const [transport, setTransport] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [notFound, setNotFound] = useState(false)
+  const [showReservationForm, setShowReservationForm] = useState(false)
+  const [reservationValues, setReservationValues] = useState({
+    passengers_count: 1,
+    special_request: '',
+  })
+  const [reservationErrors, setReservationErrors] = useState({})
+  const [reservationSuccess, setReservationSuccess] = useState('')
+  const [isSubmittingReservation, setIsSubmittingReservation] = useState(false)
   const price = transport
     ? new Intl.NumberFormat(i18n.language, {
         style: 'currency',
@@ -85,6 +99,64 @@ function TransportDetail() {
       isCancelled = true
     }
   }, [id, t])
+
+  function handleReservationChange(event) {
+    const { name, value } = event.target
+
+    setReservationValues((currentValues) => ({
+      ...currentValues,
+      [name]: value,
+    }))
+    setReservationErrors((currentErrors) => ({
+      ...currentErrors,
+      [name]: '',
+      form: '',
+    }))
+    setReservationSuccess('')
+  }
+
+  function handleReserveClick() {
+    if (!isAuthenticated) {
+      navigate('/login', {
+        replace: true,
+        state: {
+          from: location,
+          message: t('reservations.auth.loginRequired'),
+        },
+      })
+      return
+    }
+
+    setShowReservationForm((currentValue) => !currentValue)
+    setReservationSuccess('')
+  }
+
+  async function handleReservationSubmit(event) {
+    event.preventDefault()
+
+    setIsSubmittingReservation(true)
+    setReservationErrors({})
+    setReservationSuccess('')
+
+    try {
+      await reservationService.createReservation({
+        reservation_type: 'transport',
+        transport: transport.id,
+        passengers_count: Number(reservationValues.passengers_count),
+        special_request: reservationValues.special_request.trim(),
+      })
+
+      setReservationSuccess(t('reservations.success.created'))
+      setReservationValues({
+        passengers_count: 1,
+        special_request: '',
+      })
+    } catch (submitError) {
+      setReservationErrors(mapReservationErrors(submitError, t))
+    } finally {
+      setIsSubmittingReservation(false)
+    }
+  }
 
   if (loading) {
     return (
@@ -223,13 +295,86 @@ function TransportDetail() {
                 </div>
 
                 <div className="d-flex flex-column flex-sm-row gap-3 mt-4">
-                  <button className="btn btn-brand" type="button">
+                  <button className="btn btn-brand" onClick={handleReserveClick} type="button">
                     {t('transportDetail.actions.reserve')}
                   </button>
                   <Link className="btn btn-outline-secondary" to="/transports">
                     {t('transportDetail.actions.back')}
                   </Link>
                 </div>
+
+                {showReservationForm ? (
+                  <div className="surface-panel reservation-panel mt-4">
+                    <div className="mb-4">
+                      <h2 className="h4 fw-semibold mb-2">{t('reservations.transportForm.title')}</h2>
+                      <p className="mb-0">{t('reservations.transportForm.description')}</p>
+                    </div>
+
+                    {reservationSuccess ? (
+                      <div className="alert alert-success auth-alert" role="status">
+                        {reservationSuccess}{' '}
+                        <Link className="fw-semibold" to="/my-reservations">
+                          {t('reservations.actions.viewMine')}
+                        </Link>
+                      </div>
+                    ) : null}
+
+                    {reservationErrors.form ? (
+                      <div className="alert alert-danger" role="alert">
+                        {reservationErrors.form}
+                      </div>
+                    ) : null}
+
+                    <form noValidate onSubmit={handleReservationSubmit}>
+                      <div className="row g-3">
+                        <div className="col-md-6">
+                          <label className="form-label" htmlFor="passengers-count">
+                            {t('reservations.transportForm.passengers')}
+                          </label>
+                          <input
+                            className={`form-control ${reservationErrors.passengers_count ? 'is-invalid' : ''}`}
+                            id="passengers-count"
+                            min="1"
+                            name="passengers_count"
+                            onChange={handleReservationChange}
+                            type="number"
+                            value={reservationValues.passengers_count}
+                          />
+                          {reservationErrors.passengers_count ? (
+                            <div className="invalid-feedback d-block">{reservationErrors.passengers_count}</div>
+                          ) : null}
+                        </div>
+
+                        <div className="col-12">
+                          <label className="form-label" htmlFor="special-request">
+                            {t('reservations.transportForm.specialRequest')}
+                          </label>
+                          <textarea
+                            className={`form-control ${reservationErrors.special_request ? 'is-invalid' : ''}`}
+                            id="special-request"
+                            name="special_request"
+                            onChange={handleReservationChange}
+                            placeholder={t('reservations.transportForm.specialRequestPlaceholder')}
+                            rows="4"
+                            value={reservationValues.special_request}
+                          />
+                          {reservationErrors.special_request ? (
+                            <div className="invalid-feedback d-block">{reservationErrors.special_request}</div>
+                          ) : null}
+                        </div>
+                      </div>
+
+                      <div className="d-flex flex-column flex-sm-row gap-3 mt-4">
+                        <button className="btn btn-brand" disabled={isSubmittingReservation} type="submit">
+                          {isSubmittingReservation ? t('reservations.actions.submitting') : t('reservations.actions.submit')}
+                        </button>
+                        <Link className="btn btn-outline-secondary" to="/my-reservations">
+                          {t('reservations.actions.viewMine')}
+                        </Link>
+                      </div>
+                    </form>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>

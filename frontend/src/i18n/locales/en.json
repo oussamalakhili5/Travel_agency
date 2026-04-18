@@ -6,6 +6,7 @@
     "login": "Login",
     "register": "Register",
     "profile": "Profile",
+    "myReservations": "My Reservations",
     "logout": "Logout",
     "greeting": "Hi, {{name}}",
     "brandSubtitle": "Premium agency booking",
@@ -340,6 +341,68 @@
       "notFoundBadge": "Transport not found",
       "notFoundTitle": "This transport option is not available right now.",
       "notFoundDescription": "The route may have been removed or is no longer active. Return to the transport listing to explore other options."
+    }
+  },
+  "reservations": {
+    "auth": {
+      "loginRequired": "Please sign in before creating a reservation."
+    },
+    "actions": {
+      "submit": "Confirm Reservation",
+      "submitting": "Saving Reservation...",
+      "viewMine": "View My Reservations"
+    },
+    "success": {
+      "created": "Your reservation has been created successfully."
+    },
+    "errors": {
+      "generic": "We could not save your reservation right now. Please try again.",
+      "network": "The server could not be reached. Please check that the Django API is running.",
+      "loadList": "We could not load your reservations right now. Please try again."
+    },
+    "types": {
+      "hotel": "Hotel reservation",
+      "transport": "Transport reservation"
+    },
+    "statuses": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled"
+    },
+    "fields": {
+      "stay": "Stay",
+      "guests": "{{count}} guests",
+      "rooms": "{{count}} rooms",
+      "passengers": "{{count}} passengers",
+      "price": "Price:",
+      "reservedAt": "Reserved on"
+    },
+    "routeSeparator": "to",
+    "hotelForm": {
+      "title": "Reserve this hotel",
+      "description": "Choose your stay dates and room details to send your reservation request.",
+      "checkIn": "Check-in date",
+      "checkOut": "Check-out date",
+      "guests": "Guests count",
+      "rooms": "Rooms reserved"
+    },
+    "transportForm": {
+      "title": "Reserve this transport",
+      "description": "Add your traveler details and submit your transport reservation request.",
+      "passengers": "Passengers count",
+      "specialRequest": "Special request",
+      "specialRequestPlaceholder": "Add any seating, luggage, or comfort notes for this reservation."
+    },
+    "page": {
+      "eyebrow": "My reservations",
+      "title": "Track the trips and stays you have already reserved.",
+      "description": "This protected page loads your real reservations from the Django API so travelers can review upcoming bookings in one place.",
+      "loading": "Loading your reservations...",
+      "emptyBadge": "No reservations yet",
+      "emptyTitle": "Your reservation list is still empty.",
+      "emptyDescription": "Once you reserve a hotel or transport option, it will appear here with its current status and booking details.",
+      "exploreHotels": "Explore Hotels",
+      "exploreTransports": "Explore Transports"
     }
   },
   "profile": {

@@ -73,6 +73,14 @@ function Navbar() {
                 >
                   {t('navbar.profile')}
                 </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    `nav-link nav-link-soft px-3 ${isActive ? 'active' : ''}`
+                  }
+                  to="/my-reservations"
+                >
+                  {t('navbar.myReservations')}
+                </NavLink>
                 <button className="btn btn-outline-light nav-cta" onClick={handleLogout} type="button">
                   {t('navbar.logout')}
                 </button>
