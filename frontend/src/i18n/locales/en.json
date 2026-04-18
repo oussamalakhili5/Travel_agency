@@ -337,7 +337,13 @@
     "card": {
       "from": "From",
       "perNight": "per night",
+      "availableRooms": "{{count}} rooms left",
       "viewDetails": "View Details"
+    },
+    "status": {
+      "loading": "Loading hotels from the live catalog...",
+      "error": "We could not load hotel listings right now. Please try again.",
+      "empty": "No hotels matched your current filters."
     },
     "data": {
       "tags": {
@@ -381,12 +387,26 @@
       "train": "Train",
       "bus": "Bus"
     },
+    "serviceClasses": {
+      "economy": "Economy",
+      "premium_economy": "Premium Economy",
+      "business": "Business",
+      "first": "First",
+      "vip": "VIP"
+    },
     "card": {
       "price": "Price",
       "departure": "Departure",
       "arrival": "Arrival",
       "date": "Date",
+      "durationValue": "{{hours}}h {{minutes}}m",
+      "noNotes": "Travel details will appear here once provided.",
       "bookNow": "Book Now"
+    },
+    "status": {
+      "loading": "Loading transport options from the live schedule...",
+      "error": "We could not load transport options right now. Please try again.",
+      "empty": "No transport options matched your current filters."
     },
     "data": {
       "dateLabels": {

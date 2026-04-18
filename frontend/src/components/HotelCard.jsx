@@ -1,7 +1,12 @@
 import { useTranslation } from 'react-i18next'
 
 function HotelCard({ hotel }) {
-  const { t } = useTranslation()
+  const { i18n, t } = useTranslation()
+  const price = new Intl.NumberFormat(i18n.language, {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+  }).format(Number(hotel.price_per_night || 0))
 
   return (
     <article className="hotel-card h-100">
@@ -10,10 +15,10 @@ function HotelCard({ hotel }) {
           alt={hotel.name}
           className="hotel-card__image"
           loading="lazy"
-          src={hotel.image}
+          src={hotel.image || '/favicon.svg'}
         />
         <span className="badge hotel-card__badge rounded-pill">
-          {t(`hotels.data.tags.${hotel.tagKey}`)}
+          {t('hotels.card.availableRooms', { count: hotel.available_rooms ?? 0 })}
         </span>
       </div>
 
@@ -26,7 +31,7 @@ function HotelCard({ hotel }) {
           <span className="hotel-card__rating">{hotel.rating} / 5</span>
         </div>
 
-        <p className="mb-4">{t(`hotels.data.descriptions.${hotel.descriptionKey}`)}</p>
+        <p className="mb-4">{hotel.description}</p>
 
         <div className="d-flex justify-content-between align-items-end gap-3 mt-auto">
           <div>
@@ -34,7 +39,7 @@ function HotelCard({ hotel }) {
               {t('hotels.card.from')}
             </small>
             <div className="hotel-card__price">
-              {hotel.pricePerNight}
+              {price}
               <span> {t('hotels.card.perNight')}</span>
             </div>
           </div>

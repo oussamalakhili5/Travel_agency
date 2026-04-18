@@ -1,11 +1,74 @@
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import FilterPanel from '../components/FilterPanel'
 import SectionHeader from '../components/SectionHeader'
 import TransportCard from '../components/TransportCard'
-import transports from '../data/transports'
+import { getTransports } from '../services/catalogService'
+
+const INITIAL_TRANSPORT_FILTERS = {
+  departure_city: '',
+  arrival_city: '',
+  type: '',
+}
 
 function Transports() {
   const { t } = useTranslation()
+  const [transports, setTransports] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [draftFilters, setDraftFilters] = useState(INITIAL_TRANSPORT_FILTERS)
+  const [filters, setFilters] = useState(INITIAL_TRANSPORT_FILTERS)
+
+  useEffect(() => {
+    let isCancelled = false
+
+    async function loadTransports() {
+      setLoading(true)
+      setError('')
+
+      try {
+        const data = await getTransports(filters)
+
+        if (!isCancelled) {
+          setTransports(data)
+        }
+      } catch {
+        if (!isCancelled) {
+          setError(t('transports.status.error'))
+          setTransports([])
+        }
+      } finally {
+        if (!isCancelled) {
+          setLoading(false)
+        }
+      }
+    }
+
+    loadTransports()
+
+    return () => {
+      isCancelled = true
+    }
+  }, [filters, t])
+
+  function handleFilterChange(event) {
+    const { name, value } = event.target
+
+    setDraftFilters((currentFilters) => ({
+      ...currentFilters,
+      [name]: value,
+    }))
+  }
+
+  function handleFilterSubmit(event) {
+    event.preventDefault()
+
+    setFilters({
+      departure_city: draftFilters.departure_city.trim(),
+      arrival_city: draftFilters.arrival_city.trim(),
+      type: draftFilters.type,
+    })
+  }
 
   return (
     <div className="container">
@@ -17,74 +80,102 @@ function Transports() {
         />
       </section>
 
-      <FilterPanel
-        description={t('transports.filters.description')}
-        title={t('transports.filters.title')}
-      >
-        <div className="col-md-6 col-xl-3">
-          <label className="form-label" htmlFor="departure-city">
-            {t('transports.filters.departure')}
-          </label>
-          <input
-            className="form-control"
-            id="departure-city"
-            placeholder={t('transports.filters.departurePlaceholder')}
-            type="text"
-          />
-        </div>
+      <form onSubmit={handleFilterSubmit}>
+        <FilterPanel
+          description={t('transports.filters.description')}
+          title={t('transports.filters.title')}
+        >
+          <div className="col-md-6 col-xl-3">
+            <label className="form-label" htmlFor="departure-city">
+              {t('transports.filters.departure')}
+            </label>
+            <input
+              className="form-control"
+              id="departure-city"
+              name="departure_city"
+              onChange={handleFilterChange}
+              placeholder={t('transports.filters.departurePlaceholder')}
+              type="text"
+              value={draftFilters.departure_city}
+            />
+          </div>
 
-        <div className="col-md-6 col-xl-3">
-          <label className="form-label" htmlFor="arrival-city">
-            {t('transports.filters.destination')}
-          </label>
-          <input
-            className="form-control"
-            id="arrival-city"
-            placeholder={t('transports.filters.destinationPlaceholder')}
-            type="text"
-          />
-        </div>
+          <div className="col-md-6 col-xl-3">
+            <label className="form-label" htmlFor="arrival-city">
+              {t('transports.filters.destination')}
+            </label>
+            <input
+              className="form-control"
+              id="arrival-city"
+              name="arrival_city"
+              onChange={handleFilterChange}
+              placeholder={t('transports.filters.destinationPlaceholder')}
+              type="text"
+              value={draftFilters.arrival_city}
+            />
+          </div>
 
-        <div className="col-md-6 col-xl-2">
-          <label className="form-label" htmlFor="travel-date">
-            {t('transports.filters.date')}
-          </label>
-          <input className="form-control" id="travel-date" type="date" />
-        </div>
+          <div className="col-md-6 col-xl-2">
+            <label className="form-label" htmlFor="travel-type">
+              {t('transports.filters.type')}
+            </label>
+            <select
+              className="form-select"
+              id="travel-type"
+              name="type"
+              onChange={handleFilterChange}
+              value={draftFilters.type}
+            >
+              <option value="">{t('transports.filters.allTypes')}</option>
+              <option value="flight">{t('transports.types.flight')}</option>
+              <option value="train">{t('transports.types.train')}</option>
+              <option value="bus">{t('transports.types.bus')}</option>
+            </select>
+          </div>
 
-        <div className="col-md-6 col-xl-2">
-          <label className="form-label" htmlFor="travel-type">
-            {t('transports.filters.type')}
-          </label>
-          <select className="form-select" id="travel-type">
-            <option>{t('transports.filters.allTypes')}</option>
-            <option>{t('transports.types.flight')}</option>
-            <option>{t('transports.types.train')}</option>
-            <option>{t('transports.types.bus')}</option>
-          </select>
-        </div>
-
-        <div className="col-xl-2 d-grid">
-          <button className="btn btn-dark btn-lg mt-xl-4" type="button">
-            {t('transports.filters.search')}
-          </button>
-        </div>
-      </FilterPanel>
+          <div className="col-xl-2 d-grid">
+            <button className="btn btn-dark btn-lg mt-xl-4" disabled={loading} type="submit">
+              {t('transports.filters.search')}
+            </button>
+          </div>
+        </FilterPanel>
+      </form>
 
       <div className="listing-summary">
         <p>{t('transports.summary', { count: transports.length })}</p>
         <span className="results-pill">{t('transports.summaryBadge')}</span>
       </div>
 
-      <section>
-        <div className="row g-4">
-          {transports.map((transport) => (
-            <div className="col-lg-6" key={transport.id}>
-              <TransportCard transport={transport} />
-            </div>
-          ))}
+      {loading ? (
+        <div className="alert alert-light border text-center" role="status">
+          <span className="spinner-border spinner-border-sm me-2" aria-hidden="true" />
+          {t('transports.status.loading')}
         </div>
-      </section>
+      ) : null}
+
+      {error ? (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      ) : null}
+
+      {!loading && !error && transports.length === 0 ? (
+        <div className="alert alert-secondary" role="status">
+          {t('transports.status.empty')}
+        </div>
+      ) : null}
+
+      {!loading && !error && transports.length > 0 ? (
+        <section>
+          <div className="row g-4">
+            {transports.map((transport) => (
+              <div className="col-lg-6" key={transport.id}>
+                <TransportCard transport={transport} />
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : null}
     </div>
   )
 }

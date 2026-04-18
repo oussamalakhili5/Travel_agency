@@ -337,7 +337,13 @@
     "card": {
       "from": "Desde",
       "perNight": "por noche",
+      "availableRooms": "{{count}} habitaciones disponibles",
       "viewDetails": "Ver detalles"
+    },
+    "status": {
+      "loading": "Cargando hoteles desde el catálogo en vivo...",
+      "error": "No pudimos cargar los hoteles ahora mismo. Inténtalo de nuevo.",
+      "empty": "No se encontraron hoteles con los filtros actuales."
     },
     "data": {
       "tags": {
@@ -381,12 +387,26 @@
       "train": "Tren",
       "bus": "Autobús"
     },
+    "serviceClasses": {
+      "economy": "Económica",
+      "premium_economy": "Económica premium",
+      "business": "Business",
+      "first": "Primera",
+      "vip": "VIP"
+    },
     "card": {
       "price": "Precio",
       "departure": "Salida",
       "arrival": "Llegada",
       "date": "Fecha",
+      "durationValue": "{{hours}} h {{minutes}} min",
+      "noNotes": "Los detalles del viaje aparecerán aquí cuando estén disponibles.",
       "bookNow": "Reservar ahora"
+    },
+    "status": {
+      "loading": "Cargando opciones de transporte desde el horario en vivo...",
+      "error": "No pudimos cargar las opciones de transporte ahora mismo. Inténtalo de nuevo.",
+      "empty": "No se encontraron opciones de transporte con los filtros actuales."
     },
     "data": {
       "dateLabels": {

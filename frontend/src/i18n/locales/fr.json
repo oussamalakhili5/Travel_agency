@@ -337,7 +337,13 @@
     "card": {
       "from": "À partir de",
       "perNight": "par nuit",
+      "availableRooms": "{{count}} chambres restantes",
       "viewDetails": "Voir les détails"
+    },
+    "status": {
+      "loading": "Chargement des hôtels depuis le catalogue en direct...",
+      "error": "Impossible de charger les hôtels pour le moment. Veuillez réessayer.",
+      "empty": "Aucun hôtel ne correspond à vos filtres actuels."
     },
     "data": {
       "tags": {
@@ -381,12 +387,26 @@
       "train": "Train",
       "bus": "Bus"
     },
+    "serviceClasses": {
+      "economy": "Économie",
+      "premium_economy": "Économie premium",
+      "business": "Affaires",
+      "first": "Première",
+      "vip": "VIP"
+    },
     "card": {
       "price": "Prix",
       "departure": "Départ",
       "arrival": "Arrivée",
       "date": "Date",
+      "durationValue": "{{hours}} h {{minutes}}",
+      "noNotes": "Les détails du trajet apparaîtront ici lorsqu'ils seront renseignés.",
       "bookNow": "Réserver"
+    },
+    "status": {
+      "loading": "Chargement des options de transport depuis l'horaire en direct...",
+      "error": "Impossible de charger les options de transport pour le moment. Veuillez réessayer.",
+      "empty": "Aucune option de transport ne correspond à vos filtres actuels."
     },
     "data": {
       "dateLabels": {
