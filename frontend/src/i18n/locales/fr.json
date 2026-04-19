@@ -7,6 +7,7 @@
     "register": "Inscription",
     "profile": "Profil",
     "myReservations": "Mes réservations",
+    "admin": "Admin",
     "logout": "Déconnexion",
     "greeting": "Bonjour, {{name}}",
     "brandSubtitle": "Réservation premium pour agence",
@@ -410,6 +411,103 @@
       "emptyDescription": "Dès que vous réservez un hôtel ou un transport, il apparaîtra ici avec son statut et ses détails de réservation.",
       "exploreHotels": "Voir les hôtels",
       "exploreTransports": "Voir les transports"
+    }
+  },
+  "admin": {
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "hotels": "Hôtels",
+      "transports": "Transports",
+      "reservations": "Réservations"
+    },
+    "routeSeparator": "vers",
+    "activityKinds": {
+      "hotel": "Catalogue",
+      "transport": "Planning",
+      "reservation": "Réservation"
+    },
+    "loading": {
+      "dashboard": "Chargement du tableau de bord admin...",
+      "hotels": "Chargement de la gestion des hôtels...",
+      "transports": "Chargement de la gestion des transports...",
+      "reservations": "Chargement de la gestion des réservations..."
+    },
+    "errors": {
+      "network": "Le serveur est inaccessible. Vérifiez que l'API Django est lancée.",
+      "dashboard": "Impossible de charger le tableau de bord admin pour le moment. Veuillez réessayer.",
+      "hotels": "Impossible de charger les données hôtels de l'admin pour le moment. Veuillez réessayer.",
+      "transports": "Impossible de charger les données transports de l'admin pour le moment. Veuillez réessayer.",
+      "reservations": "Impossible de charger les données réservations de l'admin pour le moment. Veuillez réessayer."
+    },
+    "dashboard": {
+      "eyebrow": "Vue admin",
+      "title": "Tableau de bord opérationnel pour l'espace agence.",
+      "description": "Cette zone admin offre aux administrateurs authentifiés une base en lecture seule pour suivre l'inventaire et les réservations avant l'ajout des outils CRUD complets.",
+      "cards": {
+        "hotels": {
+          "label": "Hôtels actifs",
+          "note": "Comptés à partir du catalogue public actuel."
+        },
+        "transports": {
+          "label": "Transports actifs",
+          "note": "Comptés à partir du catalogue transport actuel."
+        },
+        "reservations": {
+          "label": "Total des réservations",
+          "note": "Les totaux admin nécessitent une API dédiée. Visibles avec l'API actuelle : {{count}}."
+        }
+      },
+      "activity": {
+        "badge": "Activité récente",
+        "title": "Signaux visibles du catalogue",
+        "description": "En attendant un flux d'activité admin dédié, le tableau de bord affiche un petit échantillon du catalogue et des réservations actuellement accessibles.",
+        "empty": "L'activité admin récente apparaîtra ici lorsque davantage d'endpoints de gestion seront connectés."
+      }
+    },
+    "hotels": {
+      "eyebrow": "Admin hôtels",
+      "title": "Consultez le catalogue hôtelier actif dans une vue de gestion.",
+      "description": "Cette page en lecture seule réutilise l'endpoint hôtels existant afin que les administrateurs puissent inspecter l'inventaire avant l'ajout des flux de création et modification.",
+      "emptyBadge": "Aucun hôtel",
+      "emptyTitle": "Aucun hôtel n'est disponible à consulter.",
+      "emptyDescription": "Dès que des hôtels actifs seront disponibles via le catalogue, ils apparaîtront ici pour la revue admin.",
+      "columns": {
+        "name": "Hôtel",
+        "city": "Ville",
+        "price": "Prix",
+        "rating": "Note",
+        "rooms": "Chambres disponibles"
+      }
+    },
+    "transports": {
+      "eyebrow": "Admin transports",
+      "title": "Surveillez les options de transport et la couverture des routes.",
+      "description": "Cette page de gestion réutilise l'endpoint transport actuel pour offrir aux admins une vue claire des routes actives et des tarifs.",
+      "emptyBadge": "Aucun transport",
+      "emptyTitle": "Aucune option de transport n'est disponible à consulter.",
+      "emptyDescription": "Dès que des transports actifs seront disponibles via le catalogue, ils apparaîtront ici pour la revue admin.",
+      "columns": {
+        "company": "Compagnie",
+        "route": "Itinéraire",
+        "type": "Type",
+        "departure": "Départ",
+        "price": "Prix"
+      }
+    },
+    "reservations": {
+      "eyebrow": "Admin réservations",
+      "title": "Préparez l'espace de gestion des réservations.",
+      "description": "Cette section est prête pour une supervision plus large des réservations. Pour le moment, elle affiche les données visibles via l'endpoint authentifié actuel.",
+      "scopeNotice": "L'accès backend actuel reste limité à l'utilisateur connecté. Cette page est prête à basculer vers une vraie API admin des réservations dès qu'elle sera disponible.",
+      "emptyBadge": "Aucune réservation visible",
+      "emptyTitle": "Aucune réservation n'est disponible dans la vue admin actuelle.",
+      "emptyDescription": "Lorsqu'un endpoint admin des réservations sera ajouté, l'activité de réservation plus large apparaîtra ici pour la supervision opérationnelle.",
+      "fallbackItem": "Élément réservé",
+      "columns": {
+        "item": "Élément",
+        "routeOrStay": "Séjour / Route",
+        "party": "Taille du groupe"
+      }
     }
   },
   "profile": {

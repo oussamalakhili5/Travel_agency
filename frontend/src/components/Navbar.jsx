@@ -15,6 +15,7 @@ function Navbar() {
   const { isAuthenticated, logout, user } = useAuth()
   const fullName = [user?.first_name, user?.last_name].filter(Boolean).join(' ').trim()
   const displayName = fullName || user?.email
+  const isAdmin = user?.role === 'admin'
 
   function handleLogout() {
     logout()
@@ -81,6 +82,16 @@ function Navbar() {
                 >
                   {t('navbar.myReservations')}
                 </NavLink>
+                {isAdmin ? (
+                  <NavLink
+                    className={({ isActive }) =>
+                      `nav-link nav-link-soft px-3 ${isActive ? 'active' : ''}`
+                    }
+                    to="/admin"
+                  >
+                    {t('navbar.admin')}
+                  </NavLink>
+                ) : null}
                 <button className="btn btn-outline-light nav-cta" onClick={handleLogout} type="button">
                   {t('navbar.logout')}
                 </button>

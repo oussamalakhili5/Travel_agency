@@ -737,6 +737,132 @@ img {
   padding-block: 1rem;
 }
 
+.admin-shell {
+  padding-block: 1rem;
+}
+
+.admin-nav,
+.admin-panel,
+.admin-stat-card,
+.admin-activity-card {
+  padding: 1.35rem;
+}
+
+.admin-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.admin-nav__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.9rem;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  background: rgba(30, 95, 143, 0.06);
+  color: var(--brand-navy);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.admin-nav__link:hover,
+.admin-nav__link.active {
+  background: var(--brand-navy);
+  color: #ffffff;
+}
+
+.admin-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.admin-stat-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-stat-card::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  border-radius: 999px;
+}
+
+.admin-stat-card--blue::after {
+  background: var(--brand-blue);
+}
+
+.admin-stat-card--cyan::after {
+  background: var(--brand-cyan);
+}
+
+.admin-stat-card--gold::after {
+  background: var(--brand-gold);
+}
+
+.admin-stat-card__label {
+  display: block;
+  color: var(--text-soft);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.admin-stat-card__value {
+  display: block;
+  margin-top: 0.8rem;
+  color: var(--brand-navy);
+  font-size: clamp(2rem, 3vw, 2.6rem);
+  line-height: 1;
+}
+
+.admin-stat-card__note,
+.admin-activity-card p,
+.admin-table__subtext {
+  color: var(--text-soft);
+}
+
+.admin-stat-card__note {
+  margin-top: 0.9rem;
+}
+
+.admin-activity-card {
+  height: 100%;
+  border: 1px solid rgba(15, 39, 64, 0.08);
+  border-radius: 1.2rem;
+  background: rgba(30, 95, 143, 0.04);
+}
+
+.admin-table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--text-main);
+  --bs-table-border-color: rgba(15, 39, 64, 0.08);
+}
+
+.admin-table thead th {
+  color: var(--text-soft);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.admin-table td,
+.admin-table th {
+  padding-block: 1rem;
+}
+
+.admin-reservation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
 .detail-toolbar {
   margin-bottom: 1.25rem;
 }
@@ -978,6 +1104,11 @@ img {
 [dir='rtl'] .detail-hero,
 [dir='rtl'] .detail-hero__content,
 [dir='rtl'] .detail-item,
+[dir='rtl'] .admin-shell,
+[dir='rtl'] .admin-panel,
+[dir='rtl'] .admin-nav,
+[dir='rtl'] .admin-stat-card,
+[dir='rtl'] .admin-activity-card,
 [dir='rtl'] .reservation-card,
 [dir='rtl'] .reservation-panel,
 [dir='rtl'] .auth-card,
@@ -1019,6 +1150,10 @@ img {
 
   .section-title {
     font-size: 2rem;
+  }
+
+  .admin-stat-grid {
+    grid-template-columns: 1fr;
   }
 
   .site-navbar .nav-link {
@@ -1063,6 +1198,10 @@ img {
   }
 
   .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-reservation-grid {
     grid-template-columns: 1fr;
   }
 

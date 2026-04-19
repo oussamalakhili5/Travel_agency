@@ -7,6 +7,7 @@
     "register": "Register",
     "profile": "Profile",
     "myReservations": "My Reservations",
+    "admin": "Admin",
     "logout": "Logout",
     "greeting": "Hi, {{name}}",
     "brandSubtitle": "Premium agency booking",
@@ -410,6 +411,103 @@
       "emptyDescription": "Once you reserve a hotel or transport option, it will appear here with its current status and booking details.",
       "exploreHotels": "Explore Hotels",
       "exploreTransports": "Explore Transports"
+    }
+  },
+  "admin": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "hotels": "Hotels",
+      "transports": "Transports",
+      "reservations": "Reservations"
+    },
+    "routeSeparator": "to",
+    "activityKinds": {
+      "hotel": "Catalog",
+      "transport": "Schedule",
+      "reservation": "Reservation"
+    },
+    "loading": {
+      "dashboard": "Loading admin dashboard...",
+      "hotels": "Loading hotel management view...",
+      "transports": "Loading transport management view...",
+      "reservations": "Loading reservation management view..."
+    },
+    "errors": {
+      "network": "The server could not be reached. Please check that the Django API is running.",
+      "dashboard": "We could not load the admin dashboard right now. Please try again.",
+      "hotels": "We could not load admin hotel data right now. Please try again.",
+      "transports": "We could not load admin transport data right now. Please try again.",
+      "reservations": "We could not load admin reservation data right now. Please try again."
+    },
+    "dashboard": {
+      "eyebrow": "Admin overview",
+      "title": "Operations dashboard for the agency workspace.",
+      "description": "This admin area gives authenticated administrators a read-only foundation for inventory and reservation monitoring before full CRUD tools are added.",
+      "cards": {
+        "hotels": {
+          "label": "Active hotels",
+          "note": "Counted from the current public hotel catalog."
+        },
+        "transports": {
+          "label": "Active transports",
+          "note": "Counted from the current public transport catalog."
+        },
+        "reservations": {
+          "label": "Total reservations",
+          "note": "Admin-wide totals need a dedicated endpoint. Visible with current API: {{count}}."
+        }
+      },
+      "activity": {
+        "badge": "Recent activity",
+        "title": "Visible catalog signals",
+        "description": "Until dedicated admin activity feeds exist, the dashboard surfaces a small sample from the catalog and currently accessible reservation data.",
+        "empty": "Recent admin activity will appear here once more management endpoints are connected."
+      }
+    },
+    "hotels": {
+      "eyebrow": "Admin hotels",
+      "title": "Review the active hotel catalog in one management view.",
+      "description": "This read-only page reuses the existing hotel endpoint so administrators can inspect inventory shape before add/edit flows are introduced.",
+      "emptyBadge": "No hotels",
+      "emptyTitle": "There are no hotels available to review.",
+      "emptyDescription": "Once active hotels are available through the catalog endpoint, they will appear here for admin review.",
+      "columns": {
+        "name": "Hotel",
+        "city": "City",
+        "price": "Price",
+        "rating": "Rating",
+        "rooms": "Available rooms"
+      }
+    },
+    "transports": {
+      "eyebrow": "Admin transports",
+      "title": "Monitor transport options and route coverage.",
+      "description": "This management page reuses the current transport endpoint to give admins a clean operational view of active routes and pricing.",
+      "emptyBadge": "No transports",
+      "emptyTitle": "There are no transport options available to review.",
+      "emptyDescription": "Once active transport items are available through the catalog endpoint, they will appear here for admin review.",
+      "columns": {
+        "company": "Company",
+        "route": "Route",
+        "type": "Type",
+        "departure": "Departure",
+        "price": "Price"
+      }
+    },
+    "reservations": {
+      "eyebrow": "Admin reservations",
+      "title": "Prepare the reservation management space.",
+      "description": "This section is ready for broader reservation oversight. For now it displays reservation data available through the current authenticated endpoint.",
+      "scopeNotice": "Current backend access is still user-scoped. This page is ready to switch to a true admin reservation API when that endpoint is added.",
+      "emptyBadge": "No visible reservations",
+      "emptyTitle": "There are no reservations available in the current admin view.",
+      "emptyDescription": "Once an admin reservation endpoint is added, broader booking activity will appear here for operational review.",
+      "fallbackItem": "Reserved item",
+      "columns": {
+        "item": "Item",
+        "routeOrStay": "Stay / Route",
+        "party": "Party size"
+      }
     }
   },
   "profile": {

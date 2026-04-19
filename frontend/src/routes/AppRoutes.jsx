@@ -1,3 +1,7 @@
+import AdminDashboard from '../pages/AdminDashboard'
+import AdminHotels from '../pages/AdminHotels'
+import AdminReservations from '../pages/AdminReservations'
+import AdminTransports from '../pages/AdminTransports'
 import { Route, Routes } from 'react-router-dom'
 import Home from '../pages/Home'
 import Hotels from '../pages/Hotels'
@@ -10,6 +14,7 @@ import Register from '../pages/Register'
 import TransportDetail from '../pages/TransportDetail'
 import Transports from '../pages/Transports'
 import VerifyEmail from '../pages/VerifyEmail'
+import AdminRoute from './AdminRoute'
 import PrivateRoute from './PrivateRoute'
 
 function AppRoutes() {
@@ -26,6 +31,12 @@ function AppRoutes() {
       <Route element={<PrivateRoute />}>
         <Route path="/profile" element={<Profile />} />
         <Route path="/my-reservations" element={<MyReservations />} />
+      </Route>
+      <Route element={<AdminRoute />}>
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/hotels" element={<AdminHotels />} />
+        <Route path="/admin/transports" element={<AdminTransports />} />
+        <Route path="/admin/reservations" element={<AdminReservations />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

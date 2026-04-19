@@ -1,0 +1,68 @@
+import { getHotels, getTransports } from './catalogService'
+import reservationService from './reservationService'
+
+function buildRecentActivity({ hotels, transports, reservations }) {
+  const items = []
+
+  if (hotels.length > 0) {
+    items.push({
+      kind: 'hotel',
+      title: hotels[0].name,
+      description: hotels[0].city,
+    })
+  }
+
+  if (transports.length > 0) {
+    items.push({
+      kind: 'transport',
+      title: transports[0].company,
+      description: `${transports[0].departure_city} -> ${transports[0].arrival_city}`,
+    })
+  }
+
+  if (reservations.length > 0) {
+    items.push({
+      kind: 'reservation',
+      title: reservations[0].status,
+      description: reservations[0].hotel?.name || reservations[0].transport?.company || '',
+    })
+  }
+
+  return items
+}
+
+export async function getAdminDashboardData() {
+  const [hotels, transports, reservations] = await Promise.all([
+    getHotels(),
+    getTransports(),
+    reservationService.getMyReservations(),
+  ])
+
+  return {
+    hotelsCount: hotels.length,
+    transportsCount: transports.length,
+    accessibleReservationsCount: reservations.length,
+    recentActivity: buildRecentActivity({ hotels, transports, reservations }),
+  }
+}
+
+export async function getAdminHotels() {
+  return getHotels()
+}
+
+export async function getAdminTransports() {
+  return getTransports()
+}
+
+export async function getAdminReservations() {
+  return reservationService.getMyReservations()
+}
+
+const adminService = {
+  getAdminDashboardData,
+  getAdminHotels,
+  getAdminTransports,
+  getAdminReservations,
+}
+
+export default adminService
