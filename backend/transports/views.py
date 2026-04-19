@@ -1,8 +1,10 @@
 from rest_framework import generics, permissions
 from rest_framework.exceptions import ValidationError
 
+from config.permissions import IsAdminUserRole
+
 from .models import Transport
-from .serializers import TransportSerializer
+from .serializers import AdminTransportSerializer, TransportSerializer
 
 
 class TransportListAPIView(generics.ListAPIView):
@@ -46,3 +48,9 @@ class TransportDetailAPIView(generics.RetrieveAPIView):
     serializer_class = TransportSerializer
     permission_classes = [permissions.AllowAny]
     queryset = Transport.objects.filter(is_active=True)
+
+
+class AdminTransportListAPIView(generics.ListAPIView):
+    serializer_class = AdminTransportSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdminUserRole]
+    queryset = Transport.objects.all().order_by("-updated_at", "departure_time", "company")

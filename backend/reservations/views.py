@@ -4,8 +4,14 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from config.permissions import IsAdminUserRole
+
 from .models import Reservation
-from .serializers import ReservationCreateSerializer, ReservationOutputSerializer
+from .serializers import (
+    AdminReservationSerializer,
+    ReservationCreateSerializer,
+    ReservationOutputSerializer,
+)
 
 
 class ReservationListCreateAPIView(generics.ListCreateAPIView):
@@ -61,3 +67,11 @@ class ReservationCancelAPIView(APIView):
 
         serializer = ReservationOutputSerializer(reservation, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class AdminReservationListAPIView(generics.ListAPIView):
+    serializer_class = AdminReservationSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdminUserRole]
+    queryset = Reservation.objects.select_related("user", "hotel", "transport").order_by(
+        "-reserved_at"
+    )

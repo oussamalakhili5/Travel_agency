@@ -21,3 +21,24 @@ class TransportSerializer(serializers.ModelSerializer):
             "notes",
         )
         read_only_fields = fields
+
+
+class AdminTransportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transport
+        fields = (
+            "id",
+            "type",
+            "company",
+            "departure_city",
+            "arrival_city",
+            "departure_time",
+            "arrival_time",
+            "price",
+            "available_seats",
+            "total_seats",
+            "service_class",
+            "is_active",
+            "updated_at",
+        )
+        read_only_fields = fields

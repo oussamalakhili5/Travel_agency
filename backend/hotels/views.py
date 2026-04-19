@@ -3,8 +3,10 @@ from decimal import Decimal, InvalidOperation
 from rest_framework import generics, permissions
 from rest_framework.exceptions import ValidationError
 
+from config.permissions import IsAdminUserRole
+
 from .models import Hotel
-from .serializers import HotelSerializer
+from .serializers import AdminHotelSerializer, HotelSerializer
 
 
 class HotelListAPIView(generics.ListAPIView):
@@ -34,3 +36,9 @@ class HotelDetailAPIView(generics.RetrieveAPIView):
     serializer_class = HotelSerializer
     permission_classes = [permissions.AllowAny]
     queryset = Hotel.objects.filter(is_active=True)
+
+
+class AdminHotelListAPIView(generics.ListAPIView):
+    serializer_class = AdminHotelSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdminUserRole]
+    queryset = Hotel.objects.all().order_by("-updated_at", "name")

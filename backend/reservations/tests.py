@@ -327,3 +327,120 @@ class ReservationApiTests(APITestCase):
 
         with self.assertRaises(ValidationError):
             reservation.full_clean()
+
+
+class AdminReservationApiTests(APITestCase):
+    def setUp(self):
+        self.url = reverse("admin-reservation-list")
+        self.admin_user = User.objects.create_user(
+            email="admin-reservations@example.com",
+            password="TravelPass123!",
+            first_name="Admin",
+            last_name="Reservations",
+            phone="+212600000500",
+            role=User.Role.ADMIN,
+            is_email_verified=True,
+        )
+        self.regular_user = User.objects.create_user(
+            email="user-reservations@example.com",
+            password="TravelPass123!",
+            first_name="Regular",
+            last_name="Reservations",
+            phone="+212600000501",
+            is_email_verified=True,
+        )
+        self.other_user = User.objects.create_user(
+            email="traveler@example.com",
+            password="TravelPass123!",
+            first_name="Atlas",
+            last_name="Traveler",
+            phone="+212600000502",
+            is_email_verified=True,
+        )
+        self.hotel = Hotel.objects.create(
+            name="Ocean View Suites",
+            city="Agadir",
+            address="Beachfront Avenue",
+            description="Family beach stay",
+            price_per_night=210,
+            rating=4.7,
+            number_of_rooms=36,
+            available_rooms=10,
+            image="https://example.com/ocean-view.jpg",
+        )
+        self.transport = Transport.objects.create(
+            type=Transport.TransportType.FLIGHT,
+            company="North Star Airlines",
+            departure_city="Marrakech",
+            arrival_city="Madrid",
+            departure_time=timezone.now() + timedelta(days=5),
+            arrival_time=timezone.now() + timedelta(days=5, hours=2),
+            price=260,
+            available_seats=40,
+            total_seats=140,
+            service_class=Transport.ServiceClass.ECONOMY,
+            notes="Morning departure",
+        )
+        self.older_reservation = Reservation.objects.create(
+            user=self.regular_user,
+            hotel=self.hotel,
+            reservation_type=Reservation.ReservationType.HOTEL,
+            status=Reservation.Status.CONFIRMED,
+            check_in_date=date(2026, 8, 2),
+            check_out_date=date(2026, 8, 6),
+            guests_count=2,
+            rooms_reserved=1,
+        )
+        Reservation.objects.filter(pk=self.older_reservation.pk).update(
+            reserved_at=timezone.now() - timedelta(days=1),
+            updated_at=timezone.now() - timedelta(days=1),
+        )
+        self.older_reservation.refresh_from_db()
+        self.newer_reservation = Reservation.objects.create(
+            user=self.other_user,
+            transport=self.transport,
+            reservation_type=Reservation.ReservationType.TRANSPORT,
+            status=Reservation.Status.PENDING,
+            passengers_count=3,
+            special_request="Seats together",
+        )
+
+    def test_admin_can_list_all_reservations_with_management_fields(self):
+        self.client.force_authenticate(self.admin_user)
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            [reservation["id"] for reservation in response.data],
+            [self.newer_reservation.id, self.older_reservation.id],
+        )
+        self.assertEqual(response.data[0]["user"]["email"], self.other_user.email)
+        self.assertEqual(response.data[0]["user"]["name"], self.other_user.full_name)
+        self.assertEqual(response.data[0]["type"], Reservation.ReservationType.TRANSPORT)
+        self.assertEqual(
+            response.data[0]["reserved_item_summary"],
+            {
+                "id": self.transport.id,
+                "kind": Reservation.ReservationType.TRANSPORT,
+                "title": self.transport.company,
+                "subtitle": (
+                    f"{self.transport.departure_city} -> {self.transport.arrival_city}"
+                ),
+            },
+        )
+        self.assertEqual(response.data[1]["hotel"]["name"], self.hotel.name)
+        self.assertEqual(response.data[1]["check_in_date"], "2026-08-02")
+        self.assertEqual(response.data[1]["rooms_reserved"], 1)
+
+    def test_regular_user_is_denied(self):
+        self.client.force_authenticate(self.regular_user)
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_unauthenticated_user_is_denied(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

@@ -1,5 +1,4 @@
-import { getHotels, getTransports } from './catalogService'
-import reservationService from './reservationService'
+import api from './api'
 
 function buildRecentActivity({ hotels, transports, reservations }) {
   const items = []
@@ -24,7 +23,11 @@ function buildRecentActivity({ hotels, transports, reservations }) {
     items.push({
       kind: 'reservation',
       title: reservations[0].status,
-      description: reservations[0].hotel?.name || reservations[0].transport?.company || '',
+      description:
+        reservations[0].hotel?.name ||
+        reservations[0].transport?.company ||
+        reservations[0].reserved_item_summary?.title ||
+        '',
     })
   }
 
@@ -33,9 +36,9 @@ function buildRecentActivity({ hotels, transports, reservations }) {
 
 export async function getAdminDashboardData() {
   const [hotels, transports, reservations] = await Promise.all([
-    getHotels(),
-    getTransports(),
-    reservationService.getMyReservations(),
+    getAdminHotels(),
+    getAdminTransports(),
+    getAdminReservations(),
   ])
 
   return {
@@ -47,15 +50,18 @@ export async function getAdminDashboardData() {
 }
 
 export async function getAdminHotels() {
-  return getHotels()
+  const response = await api.get('admin/hotels/')
+  return response.data
 }
 
 export async function getAdminTransports() {
-  return getTransports()
+  const response = await api.get('admin/transports/')
+  return response.data
 }
 
 export async function getAdminReservations() {
-  return reservationService.getMyReservations()
+  const response = await api.get('admin/reservations/')
+  return response.data
 }
 
 const adminService = {

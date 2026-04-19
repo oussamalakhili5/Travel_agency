@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework import serializers
 
@@ -5,6 +6,9 @@ from hotels.models import Hotel
 from transports.models import Transport
 
 from .models import Reservation
+
+
+User = get_user_model()
 
 
 class ReservationHotelSummarySerializer(serializers.ModelSerializer):
@@ -53,6 +57,63 @@ class ReservationOutputSerializer(serializers.ModelSerializer):
             "special_request",
         )
         read_only_fields = fields
+
+
+class AdminReservationUserSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source="full_name", read_only=True)
+
+    class Meta:
+        model = User
+        fields = ("id", "email", "name")
+        read_only_fields = fields
+
+
+class AdminReservationSerializer(ReservationOutputSerializer):
+    user = AdminReservationUserSerializer(read_only=True)
+    type = serializers.CharField(source="reservation_type", read_only=True)
+    reserved_item_summary = serializers.SerializerMethodField()
+
+    class Meta(ReservationOutputSerializer.Meta):
+        fields = (
+            "id",
+            "user",
+            "type",
+            "reservation_type",
+            "status",
+            "reserved_item_summary",
+            "reserved_at",
+            "updated_at",
+            "hotel",
+            "transport",
+            "check_in_date",
+            "check_out_date",
+            "guests_count",
+            "rooms_reserved",
+            "passengers_count",
+            "special_request",
+        )
+        read_only_fields = fields
+
+    def get_reserved_item_summary(self, obj):
+        if obj.hotel:
+            return {
+                "id": obj.hotel_id,
+                "kind": obj.reservation_type,
+                "title": obj.hotel.name,
+                "subtitle": obj.hotel.city,
+            }
+
+        if obj.transport:
+            return {
+                "id": obj.transport_id,
+                "kind": obj.reservation_type,
+                "title": obj.transport.company,
+                "subtitle": (
+                    f"{obj.transport.departure_city} -> {obj.transport.arrival_city}"
+                ),
+            }
+
+        return None
 
 
 class ReservationCreateSerializer(serializers.ModelSerializer):
