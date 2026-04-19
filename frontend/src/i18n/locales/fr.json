@@ -450,6 +450,17 @@
       "transports": "Transports",
       "reservations": "Réservations"
     },
+    "common": {
+      "create": "Créer",
+      "update": "Mettre à jour",
+      "cancel": "Annuler",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "saving": "Enregistrement...",
+      "deleting": "Suppression...",
+      "active": "Actif",
+      "inactive": "Inactif"
+    },
     "routeSeparator": "vers",
     "activityKinds": {
       "hotel": "Catalogue",
@@ -466,72 +477,142 @@
       "network": "Le serveur est inaccessible. Vérifiez que l'API Django est lancée.",
       "dashboard": "Impossible de charger le tableau de bord admin pour le moment. Veuillez réessayer.",
       "hotels": "Impossible de charger les données hôtels de l'admin pour le moment. Veuillez réessayer.",
+      "hotelSave": "Impossible d'enregistrer les modifications de l'hôtel pour le moment. Vérifiez le formulaire puis réessayez.",
+      "hotelDelete": "Impossible de supprimer cet hôtel pour le moment. Veuillez réessayer.",
       "transports": "Impossible de charger les données transports de l'admin pour le moment. Veuillez réessayer.",
+      "transportSave": "Impossible d'enregistrer les modifications du transport pour le moment. Vérifiez le formulaire puis réessayez.",
+      "transportDelete": "Impossible de supprimer ce transport pour le moment. Veuillez réessayer.",
       "reservations": "Impossible de charger les données réservations de l'admin pour le moment. Veuillez réessayer."
     },
     "dashboard": {
       "eyebrow": "Vue admin",
       "title": "Tableau de bord opérationnel pour l'espace agence.",
-      "description": "Cette zone admin offre aux administrateurs authentifiés une base en lecture seule pour suivre l'inventaire et les réservations avant l'ajout des outils CRUD complets.",
+      "description": "Cette zone admin offre aux administrateurs authentifiés un espace de gestion pour superviser l'inventaire, suivre les réservations et gérer les hôtels et transports.",
       "cards": {
         "hotels": {
           "label": "Hôtels actifs",
-          "note": "Comptés à partir du catalogue public actuel."
+          "note": "Comptés à partir de l'inventaire hôtelier admin."
         },
         "transports": {
           "label": "Transports actifs",
-          "note": "Comptés à partir du catalogue transport actuel."
+          "note": "Comptés à partir de l'inventaire transport admin."
         },
         "reservations": {
           "label": "Total des réservations",
-          "note": "Les totaux admin nécessitent une API dédiée. Visibles avec l'API actuelle : {{count}}."
+          "note": "Chargé depuis l'endpoint admin des réservations : {{count}}."
         }
       },
       "activity": {
         "badge": "Activité récente",
         "title": "Signaux visibles du catalogue",
-        "description": "En attendant un flux d'activité admin dédié, le tableau de bord affiche un petit échantillon du catalogue et des réservations actuellement accessibles.",
+        "description": "En attendant un flux d'activité dédié, le tableau de bord affiche un petit échantillon de l'inventaire admin et des réservations actuelles.",
         "empty": "L'activité admin récente apparaîtra ici lorsque davantage d'endpoints de gestion seront connectés."
       }
     },
     "hotels": {
       "eyebrow": "Admin hôtels",
-      "title": "Consultez le catalogue hôtelier actif dans une vue de gestion.",
-      "description": "Cette page en lecture seule réutilise l'endpoint hôtels existant afin que les administrateurs puissent inspecter l'inventaire avant l'ajout des flux de création et modification.",
+      "title": "Gérez le catalogue hôtelier depuis un seul espace admin.",
+      "description": "Créez, modifiez et supprimez les hôtels tout en gardant les prix, l'inventaire et le statut actifs cohérents avec le catalogue public.",
+      "managementBadge": "Gestion des hôtels",
+      "managementTitle": "Créer et maintenir les fiches hôtels",
+      "managementDescription": "Utilisez ce panneau pour ajouter de nouveaux hôtels, mettre à jour l'inventaire existant et retirer les fiches qui ne doivent plus apparaître.",
       "emptyBadge": "Aucun hôtel",
       "emptyTitle": "Aucun hôtel n'est disponible à consulter.",
-      "emptyDescription": "Dès que des hôtels actifs seront disponibles via le catalogue, ils apparaîtront ici pour la revue admin.",
+      "emptyDescription": "Créez votre premier hôtel pour commencer à construire le catalogue d'hébergement.",
+      "actions": {
+        "add": "Ajouter un hôtel"
+      },
+      "messages": {
+        "created": "Hôtel créé avec succès.",
+        "updated": "Hôtel mis à jour avec succès.",
+        "deleted": "Hôtel supprimé avec succès.",
+        "deleteConfirm": "Voulez-vous supprimer l'hôtel {{name}} ?"
+      },
       "columns": {
         "name": "Hôtel",
         "city": "Ville",
         "price": "Prix",
         "rating": "Note",
-        "rooms": "Chambres disponibles"
+        "rooms": "Chambres",
+        "status": "Statut",
+        "actions": "Actions"
+      },
+      "form": {
+        "badge": "Formulaire hôtel",
+        "createTitle": "Créer un hôtel",
+        "editTitle": "Modifier l'hôtel",
+        "description": "Renseignez les champs ci-dessous pour garder le catalogue hôtelier précis et bien présenté.",
+        "fields": {
+          "name": "Nom de l'hôtel",
+          "city": "Ville",
+          "address": "Adresse",
+          "description": "Description",
+          "price": "Prix par nuit",
+          "rating": "Note",
+          "totalRooms": "Nombre total de chambres",
+          "availableRooms": "Chambres disponibles",
+          "image": "URL de l'image",
+          "isActive": "Visible dans le catalogue"
+        }
       }
     },
     "transports": {
       "eyebrow": "Admin transports",
-      "title": "Surveillez les options de transport et la couverture des routes.",
-      "description": "Cette page de gestion réutilise l'endpoint transport actuel pour offrir aux admins une vue claire des routes actives et des tarifs.",
+      "title": "Gérez les trajets, horaires et disponibilités de transport.",
+      "description": "Créez, modifiez et supprimez les transports tout en gardant les horaires, sièges, prix et niveaux de service cohérents.",
+      "managementBadge": "Gestion des transports",
+      "managementTitle": "Créer et maintenir les options de transport",
+      "managementDescription": "Utilisez ce panneau pour gérer les vols, trains et bus affichés dans le catalogue transport et la vue admin.",
       "emptyBadge": "Aucun transport",
       "emptyTitle": "Aucune option de transport n'est disponible à consulter.",
-      "emptyDescription": "Dès que des transports actifs seront disponibles via le catalogue, ils apparaîtront ici pour la revue admin.",
+      "emptyDescription": "Créez votre première option de transport pour commencer à couvrir les trajets disponibles.",
+      "actions": {
+        "add": "Ajouter un transport"
+      },
+      "messages": {
+        "created": "Transport créé avec succès.",
+        "updated": "Transport mis à jour avec succès.",
+        "deleted": "Transport supprimé avec succès.",
+        "deleteConfirm": "Voulez-vous supprimer l'entrée de transport pour {{company}} ?"
+      },
       "columns": {
         "company": "Compagnie",
         "route": "Itinéraire",
         "type": "Type",
         "departure": "Départ",
-        "price": "Prix"
+        "price": "Prix",
+        "status": "Statut",
+        "actions": "Actions"
+      },
+      "form": {
+        "badge": "Formulaire transport",
+        "createTitle": "Créer un transport",
+        "editTitle": "Modifier le transport",
+        "description": "Renseignez le trajet, les horaires, les sièges et le niveau de service pour garder les opérations transport à jour.",
+        "fields": {
+          "type": "Type de transport",
+          "company": "Compagnie",
+          "departureCity": "Ville de départ",
+          "arrivalCity": "Ville d'arrivée",
+          "departureTime": "Heure de départ",
+          "arrivalTime": "Heure d'arrivée",
+          "price": "Prix",
+          "totalSeats": "Nombre total de places",
+          "availableSeats": "Places disponibles",
+          "serviceClass": "Classe de service",
+          "notes": "Notes",
+          "isActive": "Visible dans le catalogue"
+        }
       }
     },
     "reservations": {
       "eyebrow": "Admin réservations",
-      "title": "Préparez l'espace de gestion des réservations.",
-      "description": "Cette section est prête pour une supervision plus large des réservations. Pour le moment, elle affiche les données visibles via l'endpoint authentifié actuel.",
-      "scopeNotice": "L'accès backend actuel reste limité à l'utilisateur connecté. Cette page est prête à basculer vers une vraie API admin des réservations dès qu'elle sera disponible.",
+      "title": "Surveillez les réservations sur l'ensemble de la plateforme.",
+      "description": "Cette section donne aux administrateurs une vue transversale de l'activité de réservation via l'endpoint admin des réservations.",
+      "scopeNotice": "Cette page utilise l'API admin des réservations et est protégée par des contrôles backend basés sur le rôle admin.",
       "emptyBadge": "Aucune réservation visible",
       "emptyTitle": "Aucune réservation n'est disponible dans la vue admin actuelle.",
-      "emptyDescription": "Lorsqu'un endpoint admin des réservations sera ajouté, l'activité de réservation plus large apparaîtra ici pour la supervision opérationnelle.",
+      "emptyDescription": "Dès que des réservations seront créées dans le système, elles apparaîtront ici pour la supervision opérationnelle.",
       "fallbackItem": "Élément réservé",
       "columns": {
         "item": "Élément",

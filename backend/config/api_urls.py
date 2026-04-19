@@ -1,19 +1,29 @@
 from django.urls import include, path
 
-from hotels.views import AdminHotelListAPIView
+from hotels.views import AdminHotelDetailAPIView, AdminHotelListCreateAPIView
 from reservations.views import AdminReservationListAPIView
-from transports.views import AdminTransportListAPIView
+from transports.views import AdminTransportDetailAPIView, AdminTransportListCreateAPIView
 
 from .api_views import health_check
 
 
 urlpatterns = [
     path("health/", health_check, name="health-check"),
-    path("admin/hotels/", AdminHotelListAPIView.as_view(), name="admin-hotel-list"),
+    path("admin/hotels/", AdminHotelListCreateAPIView.as_view(), name="admin-hotel-list"),
+    path(
+        "admin/hotels/<int:pk>/",
+        AdminHotelDetailAPIView.as_view(),
+        name="admin-hotel-detail",
+    ),
     path(
         "admin/transports/",
-        AdminTransportListAPIView.as_view(),
+        AdminTransportListCreateAPIView.as_view(),
         name="admin-transport-list",
+    ),
+    path(
+        "admin/transports/<int:pk>/",
+        AdminTransportDetailAPIView.as_view(),
+        name="admin-transport-detail",
     ),
     path(
         "admin/reservations/",

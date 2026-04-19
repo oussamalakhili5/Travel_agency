@@ -754,6 +754,13 @@ img {
   gap: 0.75rem;
 }
 
+.admin-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
 .admin-nav__link {
   display: inline-flex;
   align-items: center;
@@ -855,6 +862,73 @@ img {
 .admin-table td,
 .admin-table th {
   padding-block: 1rem;
+}
+
+.admin-table__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.admin-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 6rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.admin-status--active {
+  background: rgba(25, 135, 84, 0.12);
+  color: #146c43;
+}
+
+.admin-status--inactive {
+  background: rgba(108, 117, 125, 0.12);
+  color: #495057;
+}
+
+.admin-form {
+  color: var(--text-main);
+}
+
+.admin-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.admin-form-grid__full {
+  grid-column: 1 / -1;
+}
+
+.admin-form .form-label {
+  font-weight: 600;
+  color: var(--brand-navy);
+}
+
+.admin-form .form-control,
+.admin-form .form-select {
+  min-height: 3.2rem;
+  border-radius: 1rem;
+  border-color: rgba(15, 39, 64, 0.12);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.admin-form textarea.form-control {
+  min-height: auto;
+  resize: vertical;
+}
+
+.admin-form .form-control:focus,
+.admin-form .form-select:focus {
+  border-color: rgba(30, 95, 143, 0.45);
+  box-shadow: 0 0 0 0.25rem rgba(30, 95, 143, 0.12);
 }
 
 .admin-reservation-grid {
@@ -1428,6 +1502,11 @@ img {
     grid-template-columns: 1fr;
   }
 
+  .admin-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .site-navbar .nav-link {
     border-radius: 1rem;
   }
@@ -1470,6 +1549,10 @@ img {
   }
 
   .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-form-grid {
     grid-template-columns: 1fr;
   }
 

@@ -54,8 +54,38 @@ export async function getAdminHotels() {
   return response.data
 }
 
+export async function createAdminHotel(payload) {
+  const response = await api.post('admin/hotels/', payload)
+  return response.data
+}
+
+export async function updateAdminHotel(id, payload) {
+  const response = await api.put(`admin/hotels/${id}/`, payload)
+  return response.data
+}
+
+export async function deleteAdminHotel(id) {
+  const response = await api.delete(`admin/hotels/${id}/`)
+  return response.data
+}
+
 export async function getAdminTransports() {
   const response = await api.get('admin/transports/')
+  return response.data
+}
+
+export async function createAdminTransport(payload) {
+  const response = await api.post('admin/transports/', payload)
+  return response.data
+}
+
+export async function updateAdminTransport(id, payload) {
+  const response = await api.put(`admin/transports/${id}/`, payload)
+  return response.data
+}
+
+export async function deleteAdminTransport(id) {
+  const response = await api.delete(`admin/transports/${id}/`)
   return response.data
 }
 
@@ -67,7 +97,13 @@ export async function getAdminReservations() {
 const adminService = {
   getAdminDashboardData,
   getAdminHotels,
+  createAdminHotel,
+  updateAdminHotel,
+  deleteAdminHotel,
   getAdminTransports,
+  createAdminTransport,
+  updateAdminTransport,
+  deleteAdminTransport,
   getAdminReservations,
 }
 

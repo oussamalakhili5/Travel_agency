@@ -6,7 +6,7 @@ from rest_framework.exceptions import ValidationError
 from config.permissions import IsAdminUserRole
 
 from .models import Hotel
-from .serializers import AdminHotelSerializer, HotelSerializer
+from .serializers import AdminHotelListSerializer, AdminHotelSerializer, HotelSerializer
 
 
 class HotelListAPIView(generics.ListAPIView):
@@ -38,7 +38,18 @@ class HotelDetailAPIView(generics.RetrieveAPIView):
     queryset = Hotel.objects.filter(is_active=True)
 
 
-class AdminHotelListAPIView(generics.ListAPIView):
-    serializer_class = AdminHotelSerializer
+class AdminHotelListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated, IsAdminUserRole]
     queryset = Hotel.objects.all().order_by("-updated_at", "name")
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return AdminHotelListSerializer
+
+        return AdminHotelSerializer
+
+
+class AdminHotelDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = AdminHotelSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdminUserRole]
+    queryset = Hotel.objects.all()

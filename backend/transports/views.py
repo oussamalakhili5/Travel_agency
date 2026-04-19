@@ -4,7 +4,11 @@ from rest_framework.exceptions import ValidationError
 from config.permissions import IsAdminUserRole
 
 from .models import Transport
-from .serializers import AdminTransportSerializer, TransportSerializer
+from .serializers import (
+    AdminTransportListSerializer,
+    AdminTransportSerializer,
+    TransportSerializer,
+)
 
 
 class TransportListAPIView(generics.ListAPIView):
@@ -50,7 +54,18 @@ class TransportDetailAPIView(generics.RetrieveAPIView):
     queryset = Transport.objects.filter(is_active=True)
 
 
-class AdminTransportListAPIView(generics.ListAPIView):
-    serializer_class = AdminTransportSerializer
+class AdminTransportListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated, IsAdminUserRole]
     queryset = Transport.objects.all().order_by("-updated_at", "departure_time", "company")
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return AdminTransportListSerializer
+
+        return AdminTransportSerializer
+
+
+class AdminTransportDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = AdminTransportSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdminUserRole]
+    queryset = Transport.objects.all()
