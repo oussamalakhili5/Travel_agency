@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import ChatWidget from './components/chatbot/ChatWidget'
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 import { DEFAULT_LANGUAGE, getLanguageDirection } from './data/languages'
@@ -25,6 +26,7 @@ function App() {
       </main>
 
       <Footer />
+      <ChatWidget />
     </div>
   )
 }

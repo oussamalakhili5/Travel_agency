@@ -17,6 +17,25 @@
   "auth": {
     "loading": "Checking your session..."
   },
+  "chatbot": {
+    "badge": "Travel assistant",
+    "title": "Atlas Travel Assistant",
+    "welcomeMessage": "Hello. I can help you find hotels, browse transports, manage reservations, and guide you to the right page.",
+    "inputPlaceholder": "Ask for help with hotels, transports, reservations, login, or admin access...",
+    "sendButton": "Send",
+    "loadingText": "Thinking...",
+    "errorMessage": "We could not reach the travel assistant right now. Please try again.",
+    "networkError": "The assistant service is unavailable. Please check that the Django API is running.",
+    "helpPrompt": "Try messages like “I want a hotel in Paris” or “How do I cancel my reservation?”.",
+    "openButton": "Need help?",
+    "openLabel": "Open travel assistant",
+    "closeLabel": "Close travel assistant",
+    "minimizeLabel": "Minimize",
+    "assistantLabel": "Assistant",
+    "userLabel": "You",
+    "requiresAuth": "Login required",
+    "redirectFallback": "Open page"
+  },
   "footer": {
     "brandTitle": "Atlas Travel Agency",
     "brandSubtitle": "Professional journeys for business and leisure.",

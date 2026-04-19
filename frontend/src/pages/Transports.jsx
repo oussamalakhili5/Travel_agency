@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLocation, useNavigate } from 'react-router-dom'
 import FilterPanel from '../components/FilterPanel'
 import SectionHeader from '../components/SectionHeader'
 import TransportCard from '../components/TransportCard'
@@ -11,13 +12,32 @@ const INITIAL_TRANSPORT_FILTERS = {
   type: '',
 }
 
+function getTransportFiltersFromSearch(search) {
+  const params = new URLSearchParams(search)
+
+  return {
+    departure_city: params.get('departure_city')?.trim() ?? '',
+    arrival_city: params.get('arrival_city')?.trim() ?? '',
+    type: params.get('type')?.trim() ?? '',
+  }
+}
+
 function Transports() {
   const { t } = useTranslation()
+  const location = useLocation()
+  const navigate = useNavigate()
   const [transports, setTransports] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [draftFilters, setDraftFilters] = useState(INITIAL_TRANSPORT_FILTERS)
-  const [filters, setFilters] = useState(INITIAL_TRANSPORT_FILTERS)
+  const filters = useMemo(
+    () => getTransportFiltersFromSearch(location.search),
+    [location.search],
+  )
+
+  useEffect(() => {
+    setDraftFilters(filters)
+  }, [filters])
 
   useEffect(() => {
     let isCancelled = false
@@ -63,10 +83,24 @@ function Transports() {
   function handleFilterSubmit(event) {
     event.preventDefault()
 
-    setFilters({
+    const nextFilters = {
       departure_city: draftFilters.departure_city.trim(),
       arrival_city: draftFilters.arrival_city.trim(),
       type: draftFilters.type,
+    }
+    const searchParams = new URLSearchParams()
+
+    Object.entries(nextFilters).forEach(([key, value]) => {
+      if (!value) {
+        return
+      }
+
+      searchParams.set(key, value)
+    })
+
+    navigate({
+      pathname: '/transports',
+      search: searchParams.toString() ? `?${searchParams.toString()}` : '',
     })
   }
 

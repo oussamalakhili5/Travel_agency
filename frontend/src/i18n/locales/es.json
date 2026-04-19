@@ -17,6 +17,25 @@
   "auth": {
     "loading": "Comprobando tu sesión..."
   },
+  "chatbot": {
+    "badge": "Asistente de viaje",
+    "title": "Asistente Atlas Travel",
+    "welcomeMessage": "Hola. Puedo ayudarte a encontrar hoteles, explorar transportes, gestionar reservas y llevarte a la página correcta.",
+    "inputPlaceholder": "Pide ayuda sobre hoteles, transportes, reservas, inicio de sesión o acceso admin...",
+    "sendButton": "Enviar",
+    "loadingText": "Pensando...",
+    "errorMessage": "No pudimos contactar con el asistente de viaje ahora mismo. Inténtalo de nuevo.",
+    "networkError": "El servicio del asistente no está disponible. Verifica que la API de Django esté en ejecución.",
+    "helpPrompt": "Prueba mensajes como “Quiero un hotel en París” o “¿Cómo cancelo mi reserva?”.",
+    "openButton": "¿Necesitas ayuda?",
+    "openLabel": "Abrir asistente de viaje",
+    "closeLabel": "Cerrar asistente de viaje",
+    "minimizeLabel": "Minimizar",
+    "assistantLabel": "Asistente",
+    "userLabel": "Tú",
+    "requiresAuth": "Requiere inicio de sesión",
+    "redirectFallback": "Abrir página"
+  },
   "footer": {
     "brandTitle": "Atlas Travel Agency",
     "brandSubtitle": "Viajes profesionales para negocios y ocio.",

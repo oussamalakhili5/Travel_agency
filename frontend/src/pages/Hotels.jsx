@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLocation, useNavigate } from 'react-router-dom'
 import FilterPanel from '../components/FilterPanel'
 import HotelCard from '../components/HotelCard'
 import SectionHeader from '../components/SectionHeader'
@@ -10,13 +11,31 @@ const INITIAL_HOTEL_FILTERS = {
   max_price: '',
 }
 
+function getHotelFiltersFromSearch(search) {
+  const params = new URLSearchParams(search)
+
+  return {
+    city: params.get('city')?.trim() ?? '',
+    max_price: params.get('max_price')?.trim() ?? '',
+  }
+}
+
 function Hotels() {
   const { t } = useTranslation()
+  const location = useLocation()
+  const navigate = useNavigate()
   const [hotels, setHotels] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [draftFilters, setDraftFilters] = useState(INITIAL_HOTEL_FILTERS)
-  const [filters, setFilters] = useState(INITIAL_HOTEL_FILTERS)
+  const filters = useMemo(
+    () => getHotelFiltersFromSearch(location.search),
+    [location.search],
+  )
+
+  useEffect(() => {
+    setDraftFilters(filters)
+  }, [filters])
 
   useEffect(() => {
     let isCancelled = false
@@ -62,9 +81,23 @@ function Hotels() {
   function handleFilterSubmit(event) {
     event.preventDefault()
 
-    setFilters({
+    const nextFilters = {
       city: draftFilters.city.trim(),
       max_price: draftFilters.max_price,
+    }
+    const searchParams = new URLSearchParams()
+
+    Object.entries(nextFilters).forEach(([key, value]) => {
+      if (!value) {
+        return
+      }
+
+      searchParams.set(key, value)
+    })
+
+    navigate({
+      pathname: '/hotels',
+      search: searchParams.toString() ? `?${searchParams.toString()}` : '',
     })
   }
 
