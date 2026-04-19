@@ -21,6 +21,7 @@ urlpatterns = [
         name="admin-reservation-list",
     ),
     path("auth/", include("users.urls")),
+    path("chatbot/", include("chatbot.urls")),
     path("hotels/", include("hotels.urls")),
     path("reservations/", include("reservations.urls")),
     path("transports/", include("transports.urls")),

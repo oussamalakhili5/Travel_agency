@@ -39,6 +39,7 @@ LOCAL_APPS = [
     "transports",
     "hotels",
     "reservations",
+    "chatbot",
     "payments",
     "notifications",
     "packages",
