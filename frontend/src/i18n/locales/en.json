@@ -21,6 +21,17 @@
     "badge": "Travel assistant",
     "title": "Atlas Travel Assistant",
     "welcomeMessage": "Hello. I can help you find hotels, browse transports, manage reservations, and guide you to the right page.",
+    "welcomeKicker": "Guided help",
+    "welcomeTitle": "Start with a quick travel task",
+    "welcomeDescription": "Ask a question or choose one of the suggestions below to jump into hotels, transports, reservations, login help, or email verification guidance.",
+    "quickActionsTitle": "Popular actions",
+    "quickActions": {
+      "findHotels": "Find hotels",
+      "browseTransports": "Browse transports",
+      "myReservations": "My reservations",
+      "loginHelp": "Login help",
+      "verifyEmailHelp": "Verify email help"
+    },
     "inputPlaceholder": "Ask for help with hotels, transports, reservations, login, or admin access...",
     "sendButton": "Send",
     "loadingText": "Thinking...",

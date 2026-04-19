@@ -21,6 +21,17 @@
     "badge": "Asistente de viaje",
     "title": "Asistente Atlas Travel",
     "welcomeMessage": "Hola. Puedo ayudarte a encontrar hoteles, explorar transportes, gestionar reservas y llevarte a la página correcta.",
+    "welcomeKicker": "Ayuda guiada",
+    "welcomeTitle": "Empieza con una acción rápida",
+    "welcomeDescription": "Haz una pregunta o elige una de las sugerencias de abajo para ir directamente a hoteles, transportes, reservas, ayuda de acceso o verificación de correo.",
+    "quickActionsTitle": "Acciones frecuentes",
+    "quickActions": {
+      "findHotels": "Buscar hoteles",
+      "browseTransports": "Explorar transportes",
+      "myReservations": "Mis reservas",
+      "loginHelp": "Ayuda de acceso",
+      "verifyEmailHelp": "Ayuda de verificación"
+    },
     "inputPlaceholder": "Pide ayuda sobre hoteles, transportes, reservas, inicio de sesión o acceso admin...",
     "sendButton": "Enviar",
     "loadingText": "Pensando...",

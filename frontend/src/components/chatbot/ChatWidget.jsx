@@ -45,11 +45,36 @@ function ChatWidget() {
   const [messages, setMessages] = useState(() => [
     createMessage('bot', { translationKey: 'chatbot.welcomeMessage' }),
   ])
+  const quickActions = [
+    {
+      id: 'hotels',
+      labelKey: 'chatbot.quickActions.findHotels',
+      message: 'I want to find hotels',
+    },
+    {
+      id: 'transports',
+      labelKey: 'chatbot.quickActions.browseTransports',
+      message: 'Show me transport options',
+    },
+    {
+      id: 'reservations',
+      labelKey: 'chatbot.quickActions.myReservations',
+      message: 'Show me my reservations',
+    },
+    {
+      id: 'login',
+      labelKey: 'chatbot.quickActions.loginHelp',
+      message: 'How do I log in?',
+    },
+    {
+      id: 'verify-email',
+      labelKey: 'chatbot.quickActions.verifyEmailHelp',
+      message: 'I need help verifying my email',
+    },
+  ]
 
-  async function handleSubmit(event) {
-    event.preventDefault()
-
-    const trimmedMessage = inputValue.trim()
+  async function sendMessage(messageText) {
+    const trimmedMessage = messageText.trim()
 
     if (!trimmedMessage || loading) {
       return
@@ -87,6 +112,15 @@ function ChatWidget() {
     }
   }
 
+  function handleSubmit(event) {
+    event.preventDefault()
+    sendMessage(inputValue)
+  }
+
+  function handleQuickAction(message) {
+    sendMessage(message)
+  }
+
   function handleRedirect(redirect) {
     const search = buildSearchString(redirect.params)
 
@@ -106,8 +140,10 @@ function ChatWidget() {
           messages={messages}
           onClose={() => setIsOpen(false)}
           onInputChange={(event) => setInputValue(event.target.value)}
+          onQuickAction={handleQuickAction}
           onRedirect={handleRedirect}
           onSubmit={handleSubmit}
+          quickActions={quickActions}
         />
       ) : null}
 

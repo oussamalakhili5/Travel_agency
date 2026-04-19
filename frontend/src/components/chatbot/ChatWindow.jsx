@@ -9,12 +9,15 @@ function ChatWindow({
   messages,
   onClose,
   onInputChange,
+  onQuickAction,
   onRedirect,
   onSubmit,
+  quickActions,
 }) {
   const { t } = useTranslation()
   const messagesRef = useRef(null)
   const inputRef = useRef(null)
+  const showWelcomeState = messages.length === 1 && messages[0]?.translationKey === 'chatbot.welcomeMessage'
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -55,6 +58,34 @@ function ChatWindow({
         {messages.map((message) => (
           <ChatMessage key={message.id} message={message} onRedirect={onRedirect} />
         ))}
+
+        {showWelcomeState ? (
+          <section className="chat-widget__welcome">
+            <span className="chat-widget__welcome-kicker">{t('chatbot.welcomeKicker')}</span>
+            <h3 className="chat-widget__welcome-title">{t('chatbot.welcomeTitle')}</h3>
+            <p className="chat-widget__welcome-copy mb-0">{t('chatbot.welcomeDescription')}</p>
+
+            <div className="chat-widget__quick-actions">
+              <span className="chat-widget__quick-actions-label">
+                {t('chatbot.quickActionsTitle')}
+              </span>
+
+              <div className="chat-widget__quick-actions-grid">
+                {quickActions.map((action) => (
+                  <button
+                    className="chat-widget__quick-action"
+                    disabled={loading}
+                    key={action.id}
+                    onClick={() => onQuickAction(action.message)}
+                    type="button"
+                  >
+                    {t(action.labelKey)}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
 
         {loading ? (
           <article className="chat-message chat-message--bot">
