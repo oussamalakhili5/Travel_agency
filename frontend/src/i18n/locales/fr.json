@@ -352,13 +352,20 @@
       "submitting": "Enregistrement de la réservation...",
       "viewMine": "Voir mes réservations"
     },
+    "cancel": {
+      "button": "Annuler la réservation",
+      "cancelling": "Annulation en cours...",
+      "confirmation": "Voulez-vous annuler cette réservation pour {{item}} ?"
+    },
     "success": {
-      "created": "Votre réservation a été créée avec succès."
+      "created": "Votre réservation a été créée avec succès.",
+      "cancelled": "Votre réservation a été annulée avec succès."
     },
     "errors": {
       "generic": "Nous ne pouvons pas enregistrer votre réservation pour le moment. Veuillez réessayer.",
       "network": "Le serveur est inaccessible. Vérifiez que l'API Django est lancée.",
-      "loadList": "Nous ne pouvons pas charger vos réservations pour le moment. Veuillez réessayer."
+      "loadList": "Nous ne pouvons pas charger vos réservations pour le moment. Veuillez réessayer.",
+      "alreadyCancelled": "Cette réservation a déjà été annulée."
     },
     "types": {
       "hotel": "Réservation d'hôtel",

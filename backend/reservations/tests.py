@@ -257,6 +257,63 @@ class ReservationApiTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn("check_out_date", response.data)
 
+    def test_user_can_cancel_own_reservation(self):
+        reservation = Reservation.objects.create(
+            user=self.user,
+            hotel=self.hotel,
+            reservation_type=Reservation.ReservationType.HOTEL,
+            check_in_date=date(2026, 7, 10),
+            check_out_date=date(2026, 7, 14),
+            guests_count=2,
+            rooms_reserved=1,
+        )
+
+        self.client.force_authenticate(self.user)
+        response = self.client.post(
+            reverse("reservation-cancel", kwargs={"pk": reservation.pk}),
+            format="json",
+        )
+
+        reservation.refresh_from_db()
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["status"], Reservation.Status.CANCELLED)
+        self.assertEqual(reservation.status, Reservation.Status.CANCELLED)
+
+    def test_cannot_cancel_other_users_reservation(self):
+        reservation = Reservation.objects.create(
+            user=self.other_user,
+            transport=self.transport,
+            reservation_type=Reservation.ReservationType.TRANSPORT,
+            passengers_count=1,
+        )
+
+        self.client.force_authenticate(self.user)
+        response = self.client.post(
+            reverse("reservation-cancel", kwargs={"pk": reservation.pk}),
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_cannot_cancel_already_cancelled_reservation(self):
+        reservation = Reservation.objects.create(
+            user=self.user,
+            transport=self.transport,
+            reservation_type=Reservation.ReservationType.TRANSPORT,
+            passengers_count=2,
+            status=Reservation.Status.CANCELLED,
+        )
+
+        self.client.force_authenticate(self.user)
+        response = self.client.post(
+            reverse("reservation-cancel", kwargs={"pk": reservation.pk}),
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("status", response.data)
+
     def test_hotel_checkout_must_be_after_checkin(self):
         reservation = Reservation(
             user=self.user,

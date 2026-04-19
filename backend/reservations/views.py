@@ -1,4 +1,7 @@
+from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework import generics, permissions, status
+from rest_framework.exceptions import ValidationError
+from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .models import Reservation
@@ -40,3 +43,21 @@ class ReservationDetailAPIView(generics.RetrieveAPIView):
         return Reservation.objects.filter(user=self.request.user).select_related(
             "hotel", "transport"
         )
+
+
+class ReservationCancelAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        reservation = generics.get_object_or_404(
+            Reservation.objects.filter(user=request.user).select_related("hotel", "transport"),
+            pk=pk,
+        )
+
+        try:
+            reservation.cancel()
+        except DjangoValidationError as exc:
+            raise ValidationError(exc.message_dict) from exc
+
+        serializer = ReservationOutputSerializer(reservation, context={"request": request})
+        return Response(serializer.data, status=status.HTTP_200_OK)

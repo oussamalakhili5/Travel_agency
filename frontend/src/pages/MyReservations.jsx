@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import reservationService from '../services/reservationService'
 import SectionHeader from '../components/SectionHeader'
+import { getReservationErrorMessage } from '../utils/reservationErrors'
 
 function formatCurrency(value, locale) {
   return new Intl.NumberFormat(locale, {
@@ -89,6 +90,9 @@ function MyReservations() {
   const [reservations, setReservations] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [statusMessage, setStatusMessage] = useState('')
+  const [cancelError, setCancelError] = useState('')
+  const [cancelingReservationId, setCancelingReservationId] = useState(null)
   const hasReservations = reservations.length > 0
 
   useEffect(() => {
@@ -97,6 +101,8 @@ function MyReservations() {
     async function loadReservations() {
       setLoading(true)
       setError('')
+      setStatusMessage('')
+      setCancelError('')
 
       try {
         const data = await reservationService.getMyReservations()
@@ -128,6 +134,37 @@ function MyReservations() {
     }
   }, [t])
 
+  async function handleCancelReservation(reservation) {
+    const shouldCancel = window.confirm(
+      t('reservations.cancel.confirmation', {
+        item: reservation.hotel?.name || reservation.transport?.company || t('reservations.types.transport'),
+      }),
+    )
+
+    if (!shouldCancel) {
+      return
+    }
+
+    setStatusMessage('')
+    setCancelError('')
+    setCancelingReservationId(reservation.id)
+
+    try {
+      const updatedReservation = await reservationService.cancelReservation(reservation.id)
+
+      setReservations((currentReservations) =>
+        currentReservations.map((currentReservation) =>
+          currentReservation.id === reservation.id ? updatedReservation : currentReservation,
+        ),
+      )
+      setStatusMessage(t('reservations.success.cancelled'))
+    } catch (cancelRequestError) {
+      setCancelError(getReservationErrorMessage(cancelRequestError, t))
+    } finally {
+      setCancelingReservationId(null)
+    }
+  }
+
   return (
     <div className="container">
       <section className="detail-shell">
@@ -147,6 +184,18 @@ function MyReservations() {
         {error ? (
           <div className="alert alert-danger mt-4" role="alert">
             {error}
+          </div>
+        ) : null}
+
+        {!error && statusMessage ? (
+          <div className="alert alert-success mt-4" role="status">
+            {statusMessage}
+          </div>
+        ) : null}
+
+        {!error && cancelError ? (
+          <div className="alert alert-danger mt-4" role="alert">
+            {cancelError}
           </div>
         ) : null}
 
@@ -186,6 +235,21 @@ function MyReservations() {
                   <div className="mt-4">
                     <ReservationSummary reservation={reservation} locale={i18n.language} t={t} />
                   </div>
+
+                  {reservation.status !== 'cancelled' ? (
+                    <div className="d-flex justify-content-end mt-4">
+                      <button
+                        className="btn btn-outline-danger"
+                        disabled={cancelingReservationId === reservation.id}
+                        onClick={() => handleCancelReservation(reservation)}
+                        type="button"
+                      >
+                        {cancelingReservationId === reservation.id
+                          ? t('reservations.cancel.cancelling')
+                          : t('reservations.cancel.button')}
+                      </button>
+                    </div>
+                  ) : null}
                 </article>
               </div>
             ))}

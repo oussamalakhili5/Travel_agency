@@ -352,13 +352,20 @@
       "submitting": "Guardando reserva...",
       "viewMine": "Ver mis reservas"
     },
+    "cancel": {
+      "button": "Cancelar reserva",
+      "cancelling": "Cancelando...",
+      "confirmation": "¿Quieres cancelar esta reserva de {{item}}?"
+    },
     "success": {
-      "created": "Tu reserva se creó correctamente."
+      "created": "Tu reserva se creó correctamente.",
+      "cancelled": "Tu reserva se canceló correctamente."
     },
     "errors": {
       "generic": "No pudimos guardar tu reserva ahora mismo. Inténtalo de nuevo.",
       "network": "No se pudo conectar con el servidor. Verifica que la API de Django esté en ejecución.",
-      "loadList": "No pudimos cargar tus reservas ahora mismo. Inténtalo de nuevo."
+      "loadList": "No pudimos cargar tus reservas ahora mismo. Inténtalo de nuevo.",
+      "alreadyCancelled": "Esta reserva ya fue cancelada."
     },
     "types": {
       "hotel": "Reserva de hotel",

@@ -49,3 +49,8 @@ export function mapReservationErrors(error, t) {
 
   return { form: t('reservations.errors.generic') }
 }
+
+export function getReservationErrorMessage(error, t) {
+  const errors = mapReservationErrors(error, t)
+  return errors.form || Object.values(errors)[0] || t('reservations.errors.generic')
+}

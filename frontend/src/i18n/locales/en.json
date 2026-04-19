@@ -352,13 +352,20 @@
       "submitting": "Saving Reservation...",
       "viewMine": "View My Reservations"
     },
+    "cancel": {
+      "button": "Cancel Reservation",
+      "cancelling": "Cancelling...",
+      "confirmation": "Do you want to cancel this reservation for {{item}}?"
+    },
     "success": {
-      "created": "Your reservation has been created successfully."
+      "created": "Your reservation has been created successfully.",
+      "cancelled": "Your reservation has been cancelled successfully."
     },
     "errors": {
       "generic": "We could not save your reservation right now. Please try again.",
       "network": "The server could not be reached. Please check that the Django API is running.",
-      "loadList": "We could not load your reservations right now. Please try again."
+      "loadList": "We could not load your reservations right now. Please try again.",
+      "alreadyCancelled": "This reservation has already been cancelled."
     },
     "types": {
       "hotel": "Hotel reservation",

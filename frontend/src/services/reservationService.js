@@ -15,10 +15,16 @@ export async function getReservationById(id) {
   return response.data
 }
 
+export async function cancelReservation(id) {
+  const response = await api.post(`reservations/${id}/cancel/`)
+  return response.data
+}
+
 const reservationService = {
   createReservation,
   getMyReservations,
   getReservationById,
+  cancelReservation,
 }
 
 export default reservationService

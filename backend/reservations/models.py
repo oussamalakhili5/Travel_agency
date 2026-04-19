@@ -98,6 +98,15 @@ class Reservation(models.Model):
     def __str__(self):
         return f"{self.user.email} - {self.get_reservation_type_display()} ({self.get_status_display()})"
 
+    def cancel(self):
+        if self.status == self.Status.CANCELLED:
+            raise ValidationError(
+                {"status": "This reservation has already been cancelled."}
+            )
+
+        self.status = self.Status.CANCELLED
+        self.save(update_fields=["status", "updated_at"])
+
     @property
     def related_item(self):
         if self.reservation_type == self.ReservationType.HOTEL:
