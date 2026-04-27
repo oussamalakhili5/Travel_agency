@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.password_validation import validate_password
 from django.utils import timezone
@@ -8,6 +10,7 @@ from .exceptions import EmailVerificationRequired
 from .services import issue_email_verification
 
 User = get_user_model()
+logger = logging.getLogger(__name__)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -79,6 +82,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             is_superuser=False,
             is_email_verified=False,
         )
+        logger.info("User created: %s", user.email)
+        logger.info("User email verified flag: %s", user.is_email_verified)
         issue_email_verification(user)
         return user
 

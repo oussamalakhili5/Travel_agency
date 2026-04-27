@@ -5,6 +5,25 @@ from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+def env_bool(name, default=False):
+    value = os.getenv(name)
+
+    if value is None:
+        return default
+
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def env_str(name, default=""):
+    value = os.getenv(name)
+
+    if value is None:
+        return default
+
+    value = value.strip()
+    return value if value else default
+
 SECRET_KEY = os.getenv(
     "DJANGO_SECRET_KEY",
     "django-insecure-dev-only-travel-agency-secret-key",
@@ -137,14 +156,59 @@ SIMPLE_JWT = {
 
 AUTH_USER_MODEL = "users.User"
 
-EMAIL_BACKEND = os.getenv(
-    "DJANGO_EMAIL_BACKEND",
-    "django.core.mail.backends.console.EmailBackend",
-)
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "noreply@atlastravel.local")
+EMAIL_HOST = env_str("EMAIL_HOST", "smtp.gmail.com")
+EMAIL_PORT = int(env_str("EMAIL_PORT", "587"))
+EMAIL_USE_TLS = env_bool("EMAIL_USE_TLS", True)
+EMAIL_USE_SSL = env_bool("EMAIL_USE_SSL", False)
+EMAIL_TIMEOUT = int(env_str("EMAIL_TIMEOUT", "15"))
+EMAIL_HOST_USER = env_str("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = env_str("EMAIL_HOST_PASSWORD", "")
+
+if EMAIL_USE_SSL:
+    EMAIL_USE_TLS = False
+
+EMAIL_BACKEND = env_str("EMAIL_BACKEND", "") or env_str("DJANGO_EMAIL_BACKEND", "")
+
+if not EMAIL_BACKEND:
+    if EMAIL_HOST_USER and EMAIL_HOST_PASSWORD:
+        EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    else:
+        EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+if EMAIL_BACKEND == "django.core.mail.backends.smtp.EmailBackend":
+    DEFAULT_FROM_EMAIL = env_str(
+        "DEFAULT_FROM_EMAIL",
+        EMAIL_HOST_USER,
+    )
+else:
+    DEFAULT_FROM_EMAIL = env_str(
+        "DEFAULT_FROM_EMAIL",
+        "noreply@atlastravel.local",
+    )
+
 EMAIL_VERIFICATION_CODE_TTL_MINUTES = int(
     os.getenv("EMAIL_VERIFICATION_CODE_TTL_MINUTES", "15")
 )
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {
+            "format": "[%(levelname)s] %(name)s: %(message)s",
+        }
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        }
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO" if DEBUG else "WARNING",
+    },
+}
 
 STATIC_URL = "static/"
 
