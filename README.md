@@ -155,8 +155,9 @@ python manage.py migrate
 ```
 
 Email verification can run in either local console mode or Gmail SMTP mode.
-Set these variables in the same Windows PowerShell terminal before starting
-`runserver`.
+You can either set these variables in the same Windows PowerShell terminal before
+starting `runserver`, or copy `.env.example` to `.env` and edit the values.
+PowerShell variables override `.env` values when both are present.
 
 Mode A: Local console email backend:
 
@@ -178,6 +179,7 @@ $env:DEFAULT_FROM_EMAIL="your_email@gmail.com"
 ```
 
 Gmail SMTP requires a Google App Password, not your normal Gmail password.
+After changing email variables, stop and restart `python manage.py runserver`.
 The project includes `.env.example` with the supported email variables:
 
 ```text

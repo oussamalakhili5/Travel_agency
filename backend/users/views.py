@@ -30,6 +30,13 @@ def build_verification_message(default_message, delivery_result):
     if (
         settings.DEBUG
         and delivery_result is not None
+        and delivery_result.debug_message
+    ):
+        return delivery_result.debug_message
+
+    if (
+        settings.DEBUG
+        and delivery_result is not None
         and not delivery_result.delivered
     ):
         return EMAIL_DELIVERY_FAILED_DEBUG_MESSAGE

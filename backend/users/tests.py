@@ -61,6 +61,11 @@ class EmailVerificationFlowTests(APITestCase):
         log_output = "\n".join(logs.output)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(
+            response.data["message"],
+            "Verification code generated. Console email backend is active, "
+            "so the code was printed in the backend terminal.",
+        )
         self.assertFalse(user.is_email_verified)
         self.assertIsNotNone(user.email_verification_code)
         self.assertIn(

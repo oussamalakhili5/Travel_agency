@@ -6,6 +6,28 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+def load_local_env_file(path):
+    if not path.exists():
+        return
+
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+
+        name, value = line.split("=", 1)
+        name = name.strip()
+        value = value.strip().strip('"').strip("'")
+
+        if name and name not in os.environ:
+            os.environ[name] = value
+
+
+load_local_env_file(BASE_DIR.parent / ".env")
+load_local_env_file(BASE_DIR / ".env")
+
+
 def env_bool(name, default=False):
     value = os.getenv(name)
 

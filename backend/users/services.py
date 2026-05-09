@@ -10,12 +10,14 @@ from django.utils import timezone
 
 
 logger = logging.getLogger(__name__)
+CONSOLE_EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
 @dataclass(frozen=True)
 class EmailDeliveryResult:
     delivered: bool
     reason: str = ""
+    debug_message: str = ""
 
 
 def generate_email_verification_code():
@@ -109,6 +111,24 @@ def send_email_verification_message(user):
 
     if sent_count:
         logger.info("Verification email sent successfully to: %s", recipient_email)
+        if settings.EMAIL_BACKEND == CONSOLE_EMAIL_BACKEND:
+            reason = (
+                "Console email backend is active; the verification email was "
+                "printed to the backend terminal instead of being sent."
+            )
+            logger.info(
+                "Verification email delivery note for %s: %s",
+                recipient_email,
+                reason,
+            )
+            return EmailDeliveryResult(
+                delivered=True,
+                reason=reason,
+                debug_message=(
+                    "Verification code generated. Console email backend is active, "
+                    "so the code was printed in the backend terminal."
+                ),
+            )
         return EmailDeliveryResult(delivered=True)
 
     reason = "Email backend reported 0 messages sent."
