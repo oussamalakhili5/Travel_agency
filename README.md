@@ -154,6 +154,44 @@ Apply migrations:
 python manage.py migrate
 ```
 
+Email verification can run in either local console mode or Gmail SMTP mode.
+Set these variables in the same Windows PowerShell terminal before starting
+`runserver`.
+
+Mode A: Local console email backend:
+
+```powershell
+$env:EMAIL_BACKEND="django.core.mail.backends.console.EmailBackend"
+```
+
+Mode B: Gmail SMTP:
+
+```powershell
+$env:EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
+$env:EMAIL_HOST="smtp.gmail.com"
+$env:EMAIL_PORT="587"
+$env:EMAIL_USE_TLS="True"
+$env:EMAIL_USE_SSL="False"
+$env:EMAIL_HOST_USER="your_email@gmail.com"
+$env:EMAIL_HOST_PASSWORD="your_16_character_google_app_password"
+$env:DEFAULT_FROM_EMAIL="your_email@gmail.com"
+```
+
+Gmail SMTP requires a Google App Password, not your normal Gmail password.
+The project includes `.env.example` with the supported email variables:
+
+```text
+EMAIL_BACKEND
+EMAIL_HOST
+EMAIL_PORT
+EMAIL_USE_TLS
+EMAIL_USE_SSL
+EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD
+DEFAULT_FROM_EMAIL
+EMAIL_VERIFICATION_CODE_TTL_MINUTES
+```
+
 Start the backend:
 
 ```bash
@@ -232,7 +270,8 @@ For a full local demo, keep these available:
 - Django is configured for PostgreSQL only in the current project setup
 - migrations are included in the repository for the implemented apps
 - the email backend defaults to Django's console email backend in local development
-- verification codes are printed to the backend console unless you configure a real mail backend
+- with `DEBUG=True`, verification codes are logged in the backend terminal so local testing can continue even if email delivery fails
+- SMTP is used only when `EMAIL_BACKEND` is explicitly set to `django.core.mail.backends.smtp.EmailBackend`
 
 ## Key API Highlights
 

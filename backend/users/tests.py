@@ -1,4 +1,6 @@
 from datetime import timedelta
+from smtplib import SMTPAuthenticationError
+from unittest.mock import patch
 
 from django.core import mail
 from django.test import override_settings
@@ -37,6 +39,117 @@ class EmailVerificationFlowTests(APITestCase):
         self.assertIsNotNone(user.email_verification_expires_at)
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn(user.email_verification_code, mail.outbox[0].body)
+
+    @override_settings(
+        DEBUG=True,
+        EMAIL_BACKEND="django.core.mail.backends.console.EmailBackend",
+    )
+    def test_registration_succeeds_with_console_email_backend(self):
+        payload = {
+            "email": "console@example.com",
+            "first_name": "Console",
+            "last_name": "Traveler",
+            "phone": "+212600000010",
+            "password": "TravelPass123!",
+            "confirm_password": "TravelPass123!",
+        }
+
+        with self.assertLogs("users.services", level="INFO") as logs:
+            response = self.client.post(self.register_url, payload, format="json")
+
+        user = User.objects.get(email="console@example.com")
+        log_output = "\n".join(logs.output)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertFalse(user.is_email_verified)
+        self.assertIsNotNone(user.email_verification_code)
+        self.assertIn(
+            "Selected email backend: django.core.mail.backends.console.EmailBackend",
+            log_output,
+        )
+        self.assertIn(
+            f"DEV EMAIL VERIFICATION CODE for {user.email}: "
+            f"{user.email_verification_code}",
+            log_output,
+        )
+
+    @override_settings(
+        DEBUG=True,
+        EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend",
+    )
+    @patch("users.services.send_mail")
+    def test_registration_does_not_crash_when_smtp_authentication_fails(
+        self,
+        send_mail_mock,
+    ):
+        send_mail_mock.side_effect = SMTPAuthenticationError(
+            535,
+            b"5.7.8 Username and Password not accepted",
+        )
+        payload = {
+            "email": "smtp-failure@example.com",
+            "first_name": "Smtp",
+            "last_name": "Failure",
+            "phone": "+212600000011",
+            "password": "TravelPass123!",
+            "confirm_password": "TravelPass123!",
+        }
+
+        response = self.client.post(self.register_url, payload, format="json")
+
+        user = User.objects.get(email="smtp-failure@example.com")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(
+            response.data["message"],
+            "Verification code generated. Email delivery failed. "
+            "Check backend logs in development.",
+        )
+        self.assertFalse(user.is_email_verified)
+        self.assertIsNotNone(user.email_verification_code)
+        self.assertIsNotNone(user.email_verification_expires_at)
+        self.assertNotIn("verification_code", response.data)
+
+    @override_settings(
+        DEBUG=True,
+        EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend",
+    )
+    @patch("users.services.send_mail")
+    def test_resend_verification_code_does_not_crash_when_smtp_authentication_fails(
+        self,
+        send_mail_mock,
+    ):
+        send_mail_mock.side_effect = SMTPAuthenticationError(
+            535,
+            b"5.7.8 Username and Password not accepted",
+        )
+        user = User.objects.create_user(
+            email="resend-smtp-failure@example.com",
+            password="TravelPass123!",
+            first_name="Resend",
+            last_name="Failure",
+            phone="+212600000012",
+        )
+        user.set_email_verification(
+            code="111111",
+            expires_at=timezone.now() + timedelta(minutes=5),
+        )
+
+        response = self.client.post(
+            self.resend_url,
+            {"email": user.email},
+            format="json",
+        )
+
+        user.refresh_from_db()
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.data["message"],
+            "Verification code generated. Email delivery failed. "
+            "Check backend logs in development.",
+        )
+        self.assertNotEqual(user.email_verification_code, "111111")
+        self.assertIsNotNone(user.email_verification_expires_at)
+        self.assertNotIn("verification_code", response.data)
 
     def test_verify_email_marks_user_as_verified_and_clears_code(self):
         user = User.objects.create_user(

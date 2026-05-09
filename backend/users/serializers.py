@@ -84,7 +84,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         logger.info("User created: %s", user.email)
         logger.info("User email verified flag: %s", user.is_email_verified)
-        issue_email_verification(user)
+        self.email_delivery_result = issue_email_verification(user)
         return user
 
 
@@ -152,7 +152,9 @@ class ResendVerificationCodeSerializer(serializers.Serializer):
         user = User.objects.filter(email__iexact=email).first()
 
         if user and not user.is_email_verified:
-            issue_email_verification(user)
+            self.email_delivery_result = issue_email_verification(user)
+        else:
+            self.email_delivery_result = None
 
         return user
 

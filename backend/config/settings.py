@@ -167,13 +167,13 @@ EMAIL_HOST_PASSWORD = env_str("EMAIL_HOST_PASSWORD", "")
 if EMAIL_USE_SSL:
     EMAIL_USE_TLS = False
 
-EMAIL_BACKEND = env_str("EMAIL_BACKEND", "") or env_str("DJANGO_EMAIL_BACKEND", "")
-
-if not EMAIL_BACKEND:
-    if EMAIL_HOST_USER and EMAIL_HOST_PASSWORD:
-        EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    else:
-        EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = env_str(
+    "EMAIL_BACKEND",
+    env_str(
+        "DJANGO_EMAIL_BACKEND",
+        "django.core.mail.backends.console.EmailBackend",
+    ),
+)
 
 if EMAIL_BACKEND == "django.core.mail.backends.smtp.EmailBackend":
     DEFAULT_FROM_EMAIL = env_str(
