@@ -37,11 +37,26 @@ export async function getTransportById(id) {
   return response.data
 }
 
+export async function getPackages(filters = {}) {
+  const response = await api.get('packages/', {
+    params: buildParams(filters),
+  })
+
+  return response.data
+}
+
+export async function getPackageById(id) {
+  const response = await api.get(`packages/${id}/`)
+  return response.data
+}
+
 const catalogService = {
   getHotels,
   getHotelById,
   getTransports,
   getTransportById,
+  getPackages,
+  getPackageById,
 }
 
 export default catalogService

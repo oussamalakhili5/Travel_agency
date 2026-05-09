@@ -1053,9 +1053,24 @@ img {
   color: #146c43;
 }
 
+.reservation-status--paid {
+  background: rgba(25, 135, 84, 0.12);
+  color: #146c43;
+}
+
+.reservation-status--failed {
+  background: rgba(220, 53, 69, 0.12);
+  color: #b02a37;
+}
+
 .reservation-status--cancelled {
   background: rgba(220, 53, 69, 0.12);
   color: #b02a37;
+}
+
+.reservation-status--refunded {
+  background: rgba(13, 110, 253, 0.12);
+  color: #0a58ca;
 }
 
 .auth-shell,

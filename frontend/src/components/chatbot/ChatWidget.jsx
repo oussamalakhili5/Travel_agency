@@ -57,9 +57,19 @@ function ChatWidget() {
       message: 'Show me transport options',
     },
     {
+      id: 'packages',
+      labelKey: 'chatbot.quickActions.browsePackages',
+      message: 'Show me travel packages',
+    },
+    {
       id: 'reservations',
       labelKey: 'chatbot.quickActions.myReservations',
       message: 'Show me my reservations',
+    },
+    {
+      id: 'payments',
+      labelKey: 'chatbot.quickActions.paymentHelp',
+      message: 'I need payment help',
     },
     {
       id: 'login',

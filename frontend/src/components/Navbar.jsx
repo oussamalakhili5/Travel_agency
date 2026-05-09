@@ -7,6 +7,7 @@ const mainLinks = [
   { key: 'home', path: '/' },
   { key: 'hotels', path: '/hotels' },
   { key: 'transports', path: '/transports' },
+  { key: 'packages', path: '/packages' },
 ]
 
 function Navbar() {
@@ -81,6 +82,14 @@ function Navbar() {
                   to="/my-reservations"
                 >
                   {t('navbar.myReservations')}
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    `nav-link nav-link-soft px-3 ${isActive ? 'active' : ''}`
+                  }
+                  to="/payments"
+                >
+                  {t('navbar.payments')}
                 </NavLink>
                 {isAdmin ? (
                   <NavLink

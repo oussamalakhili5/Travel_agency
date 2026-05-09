@@ -5,6 +5,7 @@ const quickLinks = [
   { key: 'home', path: '/' },
   { key: 'hotels', path: '/hotels' },
   { key: 'transports', path: '/transports' },
+  { key: 'packages', path: '/packages' },
 ]
 
 const accountLinks = [

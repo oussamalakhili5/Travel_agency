@@ -9,11 +9,19 @@ class Reservation(models.Model):
     class ReservationType(models.TextChoices):
         HOTEL = "hotel", "Hotel"
         TRANSPORT = "transport", "Transport"
+        PACKAGE = "package", "Package"
 
     class Status(models.TextChoices):
         PENDING = "pending", "Pending"
         CONFIRMED = "confirmed", "Confirmed"
         CANCELLED = "cancelled", "Cancelled"
+
+    class PaymentStatus(models.TextChoices):
+        PENDING = "pending", "Pending"
+        PAID = "paid", "Paid"
+        FAILED = "failed", "Failed"
+        CANCELLED = "cancelled", "Cancelled"
+        REFUNDED = "refunded", "Refunded"
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -34,6 +42,13 @@ class Reservation(models.Model):
         null=True,
         blank=True,
     )
+    package = models.ForeignKey(
+        "packages.Package",
+        on_delete=models.PROTECT,
+        related_name="reservations",
+        null=True,
+        blank=True,
+    )
     reservation_type = models.CharField(
         max_length=20,
         choices=ReservationType.choices,
@@ -42,6 +57,11 @@ class Reservation(models.Model):
         max_length=20,
         choices=Status.choices,
         default=Status.PENDING,
+    )
+    payment_status = models.CharField(
+        max_length=20,
+        choices=PaymentStatus.choices,
+        default=PaymentStatus.PENDING,
     )
     check_in_date = models.DateField(null=True, blank=True)
     check_out_date = models.DateField(null=True, blank=True)
@@ -71,11 +91,23 @@ class Reservation(models.Model):
         constraints = [
             models.CheckConstraint(
                 check=(
-                    (Q(reservation_type="hotel") & Q(hotel__isnull=False) & Q(transport__isnull=True))
+                    (
+                        Q(reservation_type="hotel")
+                        & Q(hotel__isnull=False)
+                        & Q(transport__isnull=True)
+                        & Q(package__isnull=True)
+                    )
                     | (
                         Q(reservation_type="transport")
                         & Q(hotel__isnull=True)
                         & Q(transport__isnull=False)
+                        & Q(package__isnull=True)
+                    )
+                    | (
+                        Q(reservation_type="package")
+                        & Q(hotel__isnull=True)
+                        & Q(transport__isnull=True)
+                        & Q(package__isnull=False)
                     )
                 ),
                 name="reservation_type_matches_related_object",
@@ -92,6 +124,7 @@ class Reservation(models.Model):
         indexes = [
             models.Index(fields=["user", "status"]),
             models.Index(fields=["reservation_type", "status"]),
+            models.Index(fields=["payment_status"]),
             models.Index(fields=["reserved_at"]),
         ]
 
@@ -115,6 +148,9 @@ class Reservation(models.Model):
         if self.reservation_type == self.ReservationType.TRANSPORT:
             return self.transport
 
+        if self.reservation_type == self.ReservationType.PACKAGE:
+            return self.package
+
         return None
 
     def clean(self):
@@ -123,7 +159,7 @@ class Reservation(models.Model):
         errors = {}
 
         if self.reservation_type == self.ReservationType.HOTEL:
-            if not self.hotel or self.transport:
+            if not self.hotel or self.transport or self.package:
                 errors["hotel"] = "Hotel reservations must be linked to a hotel only."
 
             if not self.check_in_date:
@@ -145,7 +181,7 @@ class Reservation(models.Model):
                 errors["passengers_count"] = "Passengers count cannot be set for hotel reservations."
 
         elif self.reservation_type == self.ReservationType.TRANSPORT:
-            if not self.transport or self.hotel:
+            if not self.transport or self.hotel or self.package:
                 errors["transport"] = "Transport reservations must be linked to a transport only."
 
             if not self.passengers_count:
@@ -162,6 +198,25 @@ class Reservation(models.Model):
 
             if self.rooms_reserved:
                 errors["rooms_reserved"] = "Rooms reserved is only valid for hotel reservations."
+
+        elif self.reservation_type == self.ReservationType.PACKAGE:
+            if not self.package or self.hotel or self.transport:
+                errors["package"] = "Package reservations must be linked to a package only."
+
+            if not self.guests_count:
+                errors["guests_count"] = "Guests count is required for package reservations."
+
+            if self.check_in_date:
+                errors["check_in_date"] = "Check-in date is only valid for hotel reservations."
+
+            if self.check_out_date:
+                errors["check_out_date"] = "Check-out date is only valid for hotel reservations."
+
+            if self.rooms_reserved:
+                errors["rooms_reserved"] = "Rooms reserved is only valid for hotel reservations."
+
+            if self.passengers_count:
+                errors["passengers_count"] = "Passengers count is only valid for transport reservations."
 
         else:
             errors["reservation_type"] = "A valid reservation type is required."

@@ -20,7 +20,7 @@ class ReservationListCreateAPIView(generics.ListCreateAPIView):
     def get_queryset(self):
         return (
             Reservation.objects.filter(user=self.request.user)
-            .select_related("hotel", "transport")
+            .select_related("hotel", "transport", "package")
             .order_by("-reserved_at")
         )
 
@@ -47,7 +47,7 @@ class ReservationDetailAPIView(generics.RetrieveAPIView):
 
     def get_queryset(self):
         return Reservation.objects.filter(user=self.request.user).select_related(
-            "hotel", "transport"
+            "hotel", "transport", "package"
         )
 
 
@@ -56,7 +56,11 @@ class ReservationCancelAPIView(APIView):
 
     def post(self, request, pk):
         reservation = generics.get_object_or_404(
-            Reservation.objects.filter(user=request.user).select_related("hotel", "transport"),
+            Reservation.objects.filter(user=request.user).select_related(
+                "hotel",
+                "transport",
+                "package",
+            ),
             pk=pk,
         )
 
@@ -72,6 +76,9 @@ class ReservationCancelAPIView(APIView):
 class AdminReservationListAPIView(generics.ListAPIView):
     serializer_class = AdminReservationSerializer
     permission_classes = [permissions.IsAuthenticated, IsAdminUserRole]
-    queryset = Reservation.objects.select_related("user", "hotel", "transport").order_by(
-        "-reserved_at"
-    )
+    queryset = Reservation.objects.select_related(
+        "user",
+        "hotel",
+        "transport",
+        "package",
+    ).order_by("-reserved_at")

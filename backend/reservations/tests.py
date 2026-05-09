@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from hotels.models import Hotel
+from packages.models import Package
 from transports.models import Transport
 from users.models import User
 
@@ -47,6 +48,14 @@ class ReservationModelTests(TestCase):
             total_seats=120,
             service_class=Transport.ServiceClass.ECONOMY,
             notes="Direct route",
+        )
+        self.package = Package.objects.create(
+            title="Marrakech Culture Escape",
+            description="Guided medina tours and boutique stay.",
+            destination="Marrakech",
+            city="Marrakech",
+            price=420,
+            duration_days=4,
         )
 
     def test_valid_hotel_reservation_saves(self):
@@ -94,6 +103,19 @@ class ReservationModelTests(TestCase):
         with self.assertRaises(ValidationError):
             reservation.full_clean()
 
+    def test_valid_package_reservation_saves(self):
+        reservation = Reservation(
+            user=self.user,
+            package=self.package,
+            reservation_type=Reservation.ReservationType.PACKAGE,
+            guests_count=2,
+        )
+
+        reservation.full_clean()
+        reservation.save()
+
+        self.assertEqual(Reservation.objects.count(), 1)
+
 
 class ReservationApiTests(APITestCase):
     def setUp(self):
@@ -136,6 +158,14 @@ class ReservationApiTests(APITestCase):
             total_seats=120,
             service_class=Transport.ServiceClass.BUSINESS,
             notes="Long-haul business route",
+        )
+        self.package = Package.objects.create(
+            title="Dubai Premium Break",
+            description="Hotel, transport, and city tour.",
+            destination="Dubai",
+            city="Dubai",
+            price=890,
+            duration_days=5,
         )
         self.list_url = reverse("reservation-list-create")
 
@@ -184,6 +214,26 @@ class ReservationApiTests(APITestCase):
         reservation = Reservation.objects.get()
         self.assertEqual(reservation.user, self.user)
         self.assertEqual(response.data["transport"]["id"], self.transport.id)
+
+    def test_create_package_reservation_for_authenticated_user(self):
+        self.client.force_authenticate(self.user)
+
+        response = self.client.post(
+            self.list_url,
+            {
+                "reservation_type": Reservation.ReservationType.PACKAGE,
+                "package": self.package.id,
+                "guests_count": 2,
+                "special_request": "Vegetarian meal options.",
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        reservation = Reservation.objects.get()
+        self.assertEqual(reservation.user, self.user)
+        self.assertEqual(response.data["package"]["id"], self.package.id)
+        self.assertEqual(response.data["payment_status"], Reservation.PaymentStatus.PENDING)
 
     def test_list_returns_only_current_users_reservations(self):
         Reservation.objects.create(

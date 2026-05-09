@@ -8,7 +8,11 @@ import Hotels from '../pages/Hotels'
 import HotelDetail from '../pages/HotelDetail'
 import Login from '../pages/Login'
 import MyReservations from '../pages/MyReservations'
+import MyPayments from '../pages/MyPayments'
 import NotFound from '../pages/NotFound'
+import PackageDetail from '../pages/PackageDetail'
+import Packages from '../pages/Packages'
+import PaymentPage from '../pages/PaymentPage'
 import Profile from '../pages/Profile'
 import Register from '../pages/Register'
 import TransportDetail from '../pages/TransportDetail'
@@ -26,11 +30,15 @@ function AppRoutes() {
       <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/hotels" element={<Hotels />} />
       <Route path="/hotels/:id" element={<HotelDetail />} />
+      <Route path="/packages" element={<Packages />} />
+      <Route path="/packages/:id" element={<PackageDetail />} />
       <Route path="/transports" element={<Transports />} />
       <Route path="/transports/:id" element={<TransportDetail />} />
       <Route element={<PrivateRoute />}>
         <Route path="/profile" element={<Profile />} />
         <Route path="/my-reservations" element={<MyReservations />} />
+        <Route path="/payments" element={<MyPayments />} />
+        <Route path="/payments/reservations/:reservationId" element={<PaymentPage />} />
       </Route>
       <Route element={<AdminRoute />}>
         <Route path="/admin" element={<AdminDashboard />} />

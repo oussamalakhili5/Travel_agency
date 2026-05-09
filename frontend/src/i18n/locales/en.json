@@ -3,10 +3,12 @@
     "home": "Home",
     "hotels": "Hotels",
     "transports": "Transports",
+    "packages": "Packages",
     "login": "Login",
     "register": "Register",
     "profile": "Profile",
     "myReservations": "My Reservations",
+    "payments": "Payments",
     "admin": "Admin",
     "logout": "Logout",
     "greeting": "Hi, {{name}}",
@@ -28,16 +30,18 @@
     "quickActions": {
       "findHotels": "Find hotels",
       "browseTransports": "Browse transports",
+      "browsePackages": "Browse packages",
       "myReservations": "My reservations",
+      "paymentHelp": "Payment help",
       "loginHelp": "Login help",
       "verifyEmailHelp": "Verify email help"
     },
-    "inputPlaceholder": "Ask for help with hotels, transports, reservations, login, or admin access...",
+    "inputPlaceholder": "Ask for help with hotels, transports, packages, reservations, payments, login, or admin access...",
     "sendButton": "Send",
     "loadingText": "Thinking...",
     "errorMessage": "We could not reach the travel assistant right now. Please try again.",
     "networkError": "The assistant service is unavailable. Please check that the Django API is running.",
-    "helpPrompt": "Try messages like “I want a hotel in Paris” or “How do I cancel my reservation?”.",
+    "helpPrompt": "Try messages like “I want a hotel in Paris”, “Show packages to Marrakech”, or “How do I pay?”.",
     "openButton": "Need help?",
     "openLabel": "Open travel assistant",
     "closeLabel": "Close travel assistant",
@@ -60,6 +64,7 @@
       "home": "Home",
       "hotels": "Hotels",
       "transports": "Transports",
+      "packages": "Packages",
       "login": "Login",
       "register": "Register",
       "support": "Traveler Support"
@@ -400,12 +405,20 @@
     },
     "types": {
       "hotel": "Hotel reservation",
-      "transport": "Transport reservation"
+      "transport": "Transport reservation",
+      "package": "Package reservation"
     },
     "statuses": {
       "pending": "Pending",
       "confirmed": "Confirmed",
       "cancelled": "Cancelled"
+    },
+    "paymentStatuses": {
+      "pending": "Payment pending",
+      "paid": "Paid",
+      "failed": "Payment failed",
+      "cancelled": "Payment cancelled",
+      "refunded": "Refunded"
     },
     "fields": {
       "stay": "Stay",
@@ -430,6 +443,13 @@
       "passengers": "Passengers count",
       "specialRequest": "Special request",
       "specialRequestPlaceholder": "Add any seating, luggage, or comfort notes for this reservation."
+    },
+    "packageForm": {
+      "title": "Reserve this package",
+      "description": "Choose how many travelers will join this package and add any planning notes.",
+      "guests": "Travelers count",
+      "specialRequest": "Special request",
+      "specialRequestPlaceholder": "Add dietary, rooming, pickup, or itinerary notes."
     },
     "page": {
       "eyebrow": "My reservations",
@@ -770,6 +790,125 @@
         "euroCity": "Fast intercity rail with priority boarding and quiet carriages.",
         "atlasShuttle": "Reliable arrival transfer option for solo travelers and groups."
       }
+    }
+  },
+  "packages": {
+    "eyebrow": "Travel Packages",
+    "pageTitle": "Curated packages that bundle destination, stay, and travel support.",
+    "intro": "Browse active travel packages with simple filters for destination, city, and budget.",
+    "filters": {
+      "title": "Search packages",
+      "description": "Filter package offers by destination, city, and maximum price.",
+      "destination": "Destination",
+      "destinationPlaceholder": "Country or region",
+      "city": "City",
+      "cityPlaceholder": "Package city",
+      "budget": "Budget",
+      "budgetOptions": {
+        "any": "Any budget",
+        "rangeOne": "Up to $500",
+        "rangeTwo": "Up to $1,000",
+        "rangeThree": "Up to $2,000"
+      },
+      "search": "Search Packages"
+    },
+    "summary": "{{count}} package offers ready for booking.",
+    "summaryBadge": "Curated stays and guided travel",
+    "card": {
+      "from": "From",
+      "perTraveler": "per traveler",
+      "duration": "{{count}} days",
+      "viewDetails": "View Details"
+    },
+    "status": {
+      "loading": "Loading packages from the live catalog...",
+      "error": "We could not load packages right now. Please try again.",
+      "empty": "No packages matched your current filters."
+    }
+  },
+  "packageDetail": {
+    "badge": "Package details",
+    "actions": {
+      "back": "Back to Packages",
+      "reserve": "Reserve Package"
+    },
+    "fields": {
+      "destination": "Destination",
+      "city": "City",
+      "duration": "Duration",
+      "durationValue": "{{count}} days",
+      "dates": "Travel dates",
+      "flexibleDates": "Flexible dates",
+      "priceSuffix": "per traveler"
+    },
+    "status": {
+      "loading": "Loading package details...",
+      "error": "We could not load this package right now. Please try again.",
+      "notFoundBadge": "Package not found",
+      "notFoundTitle": "This package is not available in the catalog.",
+      "notFoundDescription": "The package may have been removed or is no longer active. Return to the package catalog to keep exploring."
+    }
+  },
+  "payments": {
+    "reservationFallback": "Reserved trip",
+    "page": {
+      "eyebrow": "Mock payment",
+      "title": "Complete payment for this reservation.",
+      "description": "Local development uses a safe mock payment flow, so no real provider keys are required.",
+      "loading": "Loading payment details...",
+      "mockNotice": "Use the buttons below to simulate a successful or failed payment."
+    },
+    "list": {
+      "eyebrow": "My payments",
+      "title": "Review your payment history and pending mock checkouts.",
+      "description": "This protected page shows payments connected to your reservations.",
+      "loading": "Loading your payments...",
+      "emptyBadge": "No payments yet",
+      "emptyTitle": "You do not have any payments yet.",
+      "emptyDescription": "Open a pending reservation and start a mock payment to see it here."
+    },
+    "actions": {
+      "payNow": "Pay Now",
+      "startMock": "Start Mock Payment",
+      "simulateSuccess": "Simulate Successful Payment",
+      "simulateFailure": "Simulate Failed Payment",
+      "processing": "Processing...",
+      "backToReservations": "Back to Reservations",
+      "openPayment": "Open Payment"
+    },
+    "messages": {
+      "pending": "Payment pending. Choose a mock outcome to continue.",
+      "success": "Payment successful. Your reservation is now confirmed.",
+      "failed": "Payment failed in the mock flow. You can start another payment attempt."
+    },
+    "errors": {
+      "network": "The server could not be reached. Please check that the Django API is running.",
+      "load": "We could not load this payment flow right now. Please try again.",
+      "loadList": "We could not load your payments right now. Please try again.",
+      "notFound": "This reservation could not be found for your account.",
+      "create": "We could not start the mock payment right now.",
+      "confirm": "We could not confirm this mock payment right now.",
+      "fail": "We could not mark this payment as failed right now."
+    },
+    "fields": {
+      "amount": "Amount",
+      "reservationStatus": "Reservation status",
+      "paymentStatus": "Payment status",
+      "reference": "Reference",
+      "referencePending": "Not started",
+      "createdAt": "Created on"
+    },
+    "statuses": {
+      "notStarted": "Not started",
+      "pending": "Pending",
+      "paid": "Paid",
+      "failed": "Failed",
+      "cancelled": "Cancelled",
+      "refunded": "Refunded"
+    },
+    "methods": {
+      "mock_card": "Mock card",
+      "mock_cash": "Mock cash"
     }
   }
 }

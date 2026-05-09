@@ -14,7 +14,10 @@ class ChatbotAPIView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
 
         message = serializer.validated_data["message"]
-        chatbot_response = build_response(message)
+        chatbot_response = build_response(
+            message,
+            is_authenticated=request.user.is_authenticated,
+        )
 
         return Response(
             {

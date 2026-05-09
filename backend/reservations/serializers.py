@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework import serializers
 
 from hotels.models import Hotel
+from packages.models import Package
 from transports.models import Transport
 
 from .models import Reservation
@@ -35,9 +36,27 @@ class ReservationTransportSummarySerializer(serializers.ModelSerializer):
         read_only_fields = fields
 
 
+class ReservationPackageSummarySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Package
+        fields = (
+            "id",
+            "title",
+            "destination",
+            "city",
+            "price",
+            "duration_days",
+            "start_date",
+            "end_date",
+            "image_url",
+        )
+        read_only_fields = fields
+
+
 class ReservationOutputSerializer(serializers.ModelSerializer):
     hotel = ReservationHotelSummarySerializer(read_only=True)
     transport = ReservationTransportSummarySerializer(read_only=True)
+    package = ReservationPackageSummarySerializer(read_only=True)
 
     class Meta:
         model = Reservation
@@ -45,10 +64,12 @@ class ReservationOutputSerializer(serializers.ModelSerializer):
             "id",
             "reservation_type",
             "status",
+            "payment_status",
             "reserved_at",
             "updated_at",
             "hotel",
             "transport",
+            "package",
             "check_in_date",
             "check_out_date",
             "guests_count",
@@ -80,11 +101,13 @@ class AdminReservationSerializer(ReservationOutputSerializer):
             "type",
             "reservation_type",
             "status",
+            "payment_status",
             "reserved_item_summary",
             "reserved_at",
             "updated_at",
             "hotel",
             "transport",
+            "package",
             "check_in_date",
             "check_out_date",
             "guests_count",
@@ -113,6 +136,14 @@ class AdminReservationSerializer(ReservationOutputSerializer):
                 ),
             }
 
+        if obj.package:
+            return {
+                "id": obj.package_id,
+                "kind": obj.reservation_type,
+                "title": obj.package.title,
+                "subtitle": obj.package.destination,
+            }
+
         return None
 
 
@@ -127,6 +158,11 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
         required=False,
         allow_null=True,
     )
+    package = serializers.PrimaryKeyRelatedField(
+        queryset=Package.objects.filter(is_active=True),
+        required=False,
+        allow_null=True,
+    )
 
     class Meta:
         model = Reservation
@@ -134,6 +170,7 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
             "reservation_type",
             "hotel",
             "transport",
+            "package",
             "check_in_date",
             "check_out_date",
             "guests_count",

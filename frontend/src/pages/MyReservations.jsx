@@ -34,6 +34,14 @@ function ReservationStatusBadge({ status, t }) {
   )
 }
 
+function PaymentStatusBadge({ status, t }) {
+  return (
+    <span className={`reservation-status reservation-status--${status}`}>
+      {t(`reservations.paymentStatuses.${status}`)}
+    </span>
+  )
+}
+
 function ReservationSummary({ reservation, locale, t }) {
   if (reservation.reservation_type === 'hotel' && reservation.hotel) {
     return (
@@ -73,6 +81,29 @@ function ReservationSummary({ reservation, locale, t }) {
           <span>{formatDate(reservation.transport.departure_time, locale)}</span>
           <span>
             {t('reservations.fields.price')} {formatCurrency(reservation.transport.price, locale)}
+          </span>
+        </div>
+        {reservation.special_request ? (
+          <p className="mb-0 mt-3">{reservation.special_request}</p>
+        ) : null}
+      </>
+    )
+  }
+
+  if (reservation.reservation_type === 'package' && reservation.package) {
+    return (
+      <>
+        <h3 className="h5 fw-semibold mb-2">{reservation.package.title}</h3>
+        <p className="mb-2">
+          {reservation.package.destination}
+          {' · '}
+          {reservation.package.city}
+        </p>
+        <div className="reservation-card__meta">
+          <span>{t('reservations.fields.guests', { count: reservation.guests_count ?? 0 })}</span>
+          <span>{t('packages.card.duration', { count: reservation.package.duration_days ?? 0 })}</span>
+          <span>
+            {t('reservations.fields.price')} {formatCurrency(reservation.package.price, locale)}
           </span>
         </div>
         {reservation.special_request ? (
@@ -229,7 +260,10 @@ function MyReservations() {
                         {t('reservations.fields.reservedAt')} {formatDate(reservation.reserved_at, i18n.language)}
                       </p>
                     </div>
-                    <ReservationStatusBadge status={reservation.status} t={t} />
+                    <div className="d-flex flex-column align-items-end gap-2">
+                      <ReservationStatusBadge status={reservation.status} t={t} />
+                      <PaymentStatusBadge status={reservation.payment_status} t={t} />
+                    </div>
                   </div>
 
                   <div className="mt-4">
@@ -237,7 +271,12 @@ function MyReservations() {
                   </div>
 
                   {reservation.status !== 'cancelled' ? (
-                    <div className="d-flex justify-content-end mt-4">
+                    <div className="d-flex flex-column flex-sm-row justify-content-end gap-3 mt-4">
+                      {reservation.payment_status !== 'paid' ? (
+                        <Link className="btn btn-brand" to={`/payments/reservations/${reservation.id}`}>
+                          {t('payments.actions.payNow')}
+                        </Link>
+                      ) : null}
                       <button
                         className="btn btn-outline-danger"
                         disabled={cancelingReservationId === reservation.id}

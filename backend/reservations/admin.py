@@ -11,10 +11,17 @@ class ReservationAdmin(admin.ModelAdmin):
         "reservation_type",
         "related_item_name",
         "status",
+        "payment_status",
         "party_size",
         "reserved_at",
     )
-    list_filter = ("reservation_type", "status", "reserved_at", "updated_at")
+    list_filter = (
+        "reservation_type",
+        "status",
+        "payment_status",
+        "reserved_at",
+        "updated_at",
+    )
     search_fields = (
         "user__email",
         "hotel__name",
@@ -22,9 +29,12 @@ class ReservationAdmin(admin.ModelAdmin):
         "transport__company",
         "transport__departure_city",
         "transport__arrival_city",
+        "package__title",
+        "package__destination",
+        "package__city",
     )
     readonly_fields = ("reserved_at", "updated_at")
-    autocomplete_fields = ("user", "hotel", "transport")
+    autocomplete_fields = ("user", "hotel", "transport", "package")
     ordering = ("-reserved_at",)
     date_hierarchy = "reserved_at"
 
@@ -40,5 +50,8 @@ class ReservationAdmin(admin.ModelAdmin):
 
         if obj.reservation_type == Reservation.ReservationType.TRANSPORT:
             return f"{obj.passengers_count or 0} passenger(s)"
+
+        if obj.reservation_type == Reservation.ReservationType.PACKAGE:
+            return f"{obj.guests_count or 0} traveler(s)"
 
         return "-"
