@@ -38,7 +38,6 @@ const EMPTY_CARD_FORM = {
 }
 
 const RETRYABLE_PAYMENT_STATUSES = ['failed', 'cancelled']
-const MOCK_FAILURE_REASON = 'Mock payment failure selected by the user.'
 
 function formatCardNumberInput(value) {
   return value
@@ -292,7 +291,7 @@ function PaymentPage() {
       const paymentToFail = await getPaymentReadyForAction()
       const updatedPayment = await paymentService.failPayment(
         paymentToFail.id,
-        MOCK_FAILURE_REASON,
+        t('payments.messages.mockFailureReason'),
       )
       const updatedReservation = await reservationService.getReservationById(reservation.id)
 
@@ -478,7 +477,7 @@ function PaymentPage() {
                 </div>
 
                 <div className="payment-form__demo-note mt-3">
-                  <span>DEMO</span>
+                  <span>{t('payments.form.demoBadge')}</span>
                   <p className="mb-0">{t('payments.form.demoNotice')}</p>
                 </div>
 

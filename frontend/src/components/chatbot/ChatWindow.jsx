@@ -76,7 +76,7 @@ function ChatWindow({
                     className="chat-widget__quick-action"
                     disabled={loading}
                     key={action.id}
-                    onClick={() => onQuickAction(action.message)}
+                    onClick={() => onQuickAction(action)}
                     type="button"
                   >
                     {t(action.labelKey)}

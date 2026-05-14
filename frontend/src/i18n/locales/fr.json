@@ -3,16 +3,19 @@
     "home": "Accueil",
     "hotels": "Hôtels",
     "transports": "Transports",
+    "packages": "Forfaits",
     "login": "Connexion",
     "register": "Inscription",
     "profile": "Profil",
     "myReservations": "Mes réservations",
+    "payments": "Paiements",
     "admin": "Admin",
     "logout": "Déconnexion",
     "greeting": "Bonjour, {{name}}",
     "brandSubtitle": "Réservation premium pour agence",
     "language": "Langue",
-    "languageCurrent": "Actuelle"
+    "languageCurrent": "Actuelle",
+    "toggleNavigation": "Ouvrir ou fermer la navigation"
   },
   "auth": {
     "loading": "Vérification de votre session..."
@@ -28,17 +31,29 @@
     "quickActions": {
       "findHotels": "Trouver des hôtels",
       "browseTransports": "Parcourir les transports",
+      "browsePackages": "Parcourir les forfaits",
       "myReservations": "Mes réservations",
+      "paymentHelp": "Aide au paiement",
       "loginHelp": "Aide à la connexion",
       "verifyEmailHelp": "Aide à la vérification"
     },
-    "inputPlaceholder": "Demandez de l’aide pour les hôtels, transports, réservations, connexion ou accès admin...",
+    "quickActionMessages": {
+      "findHotels": "Je veux trouver des hôtels",
+      "browseTransports": "Montrez-moi les options de transport",
+      "browsePackages": "Montrez-moi les forfaits de voyage",
+      "myReservations": "Afficher mes réservations",
+      "paymentHelp": "J'ai besoin d'aide pour un paiement",
+      "loginHelp": "Comment me connecter ?",
+      "verifyEmailHelp": "J'ai besoin d'aide pour vérifier mon e-mail"
+    },
+    "inputPlaceholder": "Demandez de l’aide pour les hôtels, transports, forfaits, réservations, paiements, connexion ou accès admin...",
     "sendButton": "Envoyer",
     "loadingText": "Réflexion en cours...",
     "errorMessage": "Nous ne pouvons pas joindre l’assistant de voyage pour le moment. Veuillez réessayer.",
     "networkError": "Le service d’assistance est indisponible. Vérifiez que l’API Django est bien lancée.",
     "helpPrompt": "Essayez par exemple « Je veux un hôtel à Paris » ou « Comment annuler ma réservation ? ».",
     "openButton": "Besoin d’aide ?",
+    "toggleIcon": "IA",
     "openLabel": "Ouvrir l’assistant voyage",
     "closeLabel": "Fermer l’assistant voyage",
     "minimizeLabel": "Réduire",
@@ -60,6 +75,7 @@
       "home": "Accueil",
       "hotels": "Hôtels",
       "transports": "Transports",
+      "packages": "Forfaits",
       "login": "Connexion",
       "register": "Inscription",
       "support": "Assistance voyageur"
@@ -187,6 +203,7 @@
       }
     },
     "card": {
+      "badge": "IN",
       "title": "Bon retour",
       "description": "Connectez-vous avec votre e-mail d'agence pour continuer à planifier et gérer les voyages."
     },
@@ -232,6 +249,7 @@
       }
     },
     "card": {
+      "badge": "UP",
       "title": "Créer votre compte",
       "description": "Remplissez les champs ci-dessous pour configurer un espace de travail d'agence."
     },
@@ -286,6 +304,7 @@
       }
     },
     "card": {
+      "badge": "OK",
       "title": "Vérifiez votre e-mail",
       "description": "Terminez cette étape pour activer votre compte et pouvoir vous connecter."
     },
@@ -400,12 +419,24 @@
     },
     "types": {
       "hotel": "Réservation d'hôtel",
-      "transport": "Réservation de transport"
+      "transport": "Réservation de transport",
+      "package": "Réservation de forfait"
     },
     "statuses": {
       "pending": "En attente",
       "confirmed": "Confirmée",
-      "cancelled": "Annulée"
+      "cancelled": "Annulée",
+      "canceled": "Annulée",
+      "completed": "Terminée"
+    },
+    "paymentStatuses": {
+      "pending": "Paiement en attente",
+      "paid": "Payé",
+      "failed": "Paiement échoué",
+      "cancelled": "Paiement annulé",
+      "canceled": "Paiement annulé",
+      "completed": "Paiement terminé",
+      "refunded": "Remboursé"
     },
     "fields": {
       "stay": "Séjour",
@@ -430,6 +461,13 @@
       "passengers": "Nombre de passagers",
       "specialRequest": "Demande spéciale",
       "specialRequestPlaceholder": "Ajoutez toute précision sur les places, bagages ou préférences de confort."
+    },
+    "packageForm": {
+      "title": "Réserver ce forfait",
+      "description": "Choisissez le nombre de voyageurs pour ce forfait et ajoutez vos notes de préparation.",
+      "guests": "Nombre de voyageurs",
+      "specialRequest": "Demande spéciale",
+      "specialRequestPlaceholder": "Ajoutez vos notes concernant les repas, les chambres, la prise en charge ou l'itinéraire."
     },
     "page": {
       "eyebrow": "Mes réservations",
@@ -770,6 +808,159 @@
         "euroCity": "Liaison ferroviaire rapide avec embarquement prioritaire et voitures calmes.",
         "atlasShuttle": "Option fiable de transfert à l'arrivée pour voyageurs seuls ou en groupe."
       }
+    }
+  },
+  "packages": {
+    "eyebrow": "Forfaits voyage",
+    "pageTitle": "Des forfaits sélectionnés qui regroupent destination, séjour et accompagnement.",
+    "intro": "Parcourez les forfaits actifs avec des filtres simples par destination, ville et budget.",
+    "filters": {
+      "title": "Rechercher des forfaits",
+      "description": "Filtrez les offres par destination, ville et prix maximum.",
+      "destination": "Destination",
+      "destinationPlaceholder": "Pays ou région",
+      "city": "Ville",
+      "cityPlaceholder": "Ville du forfait",
+      "budget": "Budget",
+      "budgetOptions": {
+        "any": "Tous les budgets",
+        "rangeOne": "Jusqu'à 500 $",
+        "rangeTwo": "Jusqu'à 1 000 $",
+        "rangeThree": "Jusqu'à 2 000 $"
+      },
+      "search": "Rechercher des forfaits"
+    },
+    "summary": "{{count}} offres de forfait prêtes à réserver.",
+    "summaryBadge": "Séjours sélectionnés et voyages guidés",
+    "card": {
+      "from": "À partir de",
+      "perTraveler": "par voyageur",
+      "duration": "{{count}} jours",
+      "viewDetails": "Voir les détails"
+    },
+    "status": {
+      "loading": "Chargement des forfaits depuis le catalogue en direct...",
+      "error": "Impossible de charger les forfaits pour le moment. Veuillez réessayer.",
+      "empty": "Aucun forfait ne correspond à vos filtres actuels."
+    }
+  },
+  "packageDetail": {
+    "badge": "Détails du forfait",
+    "actions": {
+      "back": "Retour aux forfaits",
+      "reserve": "Réserver le forfait"
+    },
+    "fields": {
+      "destination": "Destination",
+      "city": "Ville",
+      "duration": "Durée",
+      "durationValue": "{{count}} jours",
+      "dates": "Dates de voyage",
+      "flexibleDates": "Dates flexibles",
+      "priceSuffix": "par voyageur"
+    },
+    "status": {
+      "loading": "Chargement des détails du forfait...",
+      "error": "Impossible de charger ce forfait pour le moment. Veuillez réessayer.",
+      "notFoundBadge": "Forfait introuvable",
+      "notFoundTitle": "Ce forfait n'est pas disponible dans le catalogue.",
+      "notFoundDescription": "Le forfait a peut-être été retiré ou n'est plus actif. Revenez au catalogue des forfaits pour continuer votre recherche."
+    }
+  },
+  "payments": {
+    "reservationFallback": "Voyage réservé",
+    "page": {
+      "eyebrow": "Paiement fictif",
+      "title": "Finalisez le paiement de cette réservation.",
+      "description": "Le développement local utilise un flux de paiement fictif sécurisé, sans clés de fournisseur réel.",
+      "loading": "Chargement des détails du paiement...",
+      "mockNotice": "Saisissez les informations de carte de démonstration ci-dessous. Le formulaire valide localement et n'envoie jamais les données de carte à l'API."
+    },
+    "list": {
+      "eyebrow": "Mes paiements",
+      "title": "Consultez l'historique de vos paiements et les paiements fictifs en attente.",
+      "description": "Cette page protégée affiche les paiements liés à vos réservations.",
+      "loading": "Chargement de vos paiements...",
+      "emptyBadge": "Aucun paiement",
+      "emptyTitle": "Vous n'avez encore aucun paiement.",
+      "emptyDescription": "Ouvrez une réservation en attente et démarrez un paiement fictif pour le voir ici."
+    },
+    "actions": {
+      "payNow": "Payer maintenant",
+      "startMock": "Démarrer le paiement fictif",
+      "simulateSuccess": "Simuler un paiement réussi",
+      "simulateFailure": "Simuler un paiement échoué",
+      "simulateFailureSecondary": "Simuler un paiement échoué",
+      "paySecurely": "Payer en toute sécurité",
+      "processing": "Traitement en cours...",
+      "backToReservations": "Retour aux réservations",
+      "openPayment": "Ouvrir le paiement",
+      "myPayments": "Mes paiements"
+    },
+    "messages": {
+      "pending": "Paiement en attente. Choisissez une issue fictive pour continuer.",
+      "success": "Paiement réussi. Votre réservation est maintenant confirmée.",
+      "failed": "Le paiement a échoué dans le flux fictif. Vous pouvez lancer une nouvelle tentative.",
+      "mockFailureReason": "Échec du paiement fictif sélectionné par l'utilisateur."
+    },
+    "errors": {
+      "network": "Le serveur est inaccessible. Vérifiez que l'API Django est lancée.",
+      "load": "Impossible de charger ce flux de paiement pour le moment. Veuillez réessayer.",
+      "loadList": "Impossible de charger vos paiements pour le moment. Veuillez réessayer.",
+      "notFound": "Cette réservation est introuvable pour votre compte.",
+      "create": "Impossible de démarrer le paiement fictif pour le moment.",
+      "confirm": "Impossible de confirmer ce paiement fictif pour le moment.",
+      "fail": "Impossible de marquer ce paiement comme échoué pour le moment.",
+      "process": "Impossible de traiter ce paiement fictif pour le moment."
+    },
+    "form": {
+      "badge": "Paiement de démonstration sécurisé",
+      "title": "Paiement par carte",
+      "description": "Utilisez des informations de carte de démonstration pour finaliser ce paiement fictif.",
+      "acceptedCards": "Styles de carte de démonstration acceptés",
+      "cardholderName": "Nom du titulaire",
+      "cardholderPlaceholder": "Test User",
+      "cardNumber": "Numéro de carte",
+      "cardNumberPlaceholder": "4242 4242 4242 4242",
+      "expiry": "Date d'expiration",
+      "expiryPlaceholder": "MM/AA",
+      "cvc": "CVC",
+      "cvcPlaceholder": "123",
+      "demoBadge": "DÉMO",
+      "demoNotice": "Paiement de démonstration - aucun débit réel. Les informations de carte restent uniquement sur cette page.",
+      "successTitle": "Paiement terminé",
+      "successDescription": "La confirmation fictive a réussi et le statut de paiement de votre réservation est mis à jour."
+    },
+    "validation": {
+      "cardholderRequired": "Le nom du titulaire est requis.",
+      "cardNumberRequired": "Le numéro de carte est requis.",
+      "cardNumberInvalid": "Le numéro de carte doit contenir 16 chiffres.",
+      "expiryRequired": "La date d'expiration est requise.",
+      "expiryInvalid": "Utilisez le format MM/AA avec un mois valide.",
+      "cvcRequired": "Le CVC est requis.",
+      "cvcInvalid": "Le CVC doit contenir 3 ou 4 chiffres."
+    },
+    "fields": {
+      "amount": "Montant",
+      "reservationStatus": "Statut de la réservation",
+      "paymentStatus": "Statut du paiement",
+      "reference": "Référence",
+      "referencePending": "Non démarré",
+      "createdAt": "Créé le"
+    },
+    "statuses": {
+      "notStarted": "Non démarré",
+      "pending": "En attente",
+      "paid": "Payé",
+      "failed": "Échoué",
+      "cancelled": "Annulé",
+      "canceled": "Annulé",
+      "completed": "Terminé",
+      "refunded": "Remboursé"
+    },
+    "methods": {
+      "mock_card": "Carte fictive",
+      "mock_cash": "Espèces fictives"
     }
   }
 }

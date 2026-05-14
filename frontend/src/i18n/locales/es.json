@@ -3,16 +3,19 @@
     "home": "Inicio",
     "hotels": "Hoteles",
     "transports": "Transportes",
+    "packages": "Paquetes",
     "login": "Iniciar sesión",
     "register": "Registrarse",
     "profile": "Perfil",
     "myReservations": "Mis reservas",
+    "payments": "Pagos",
     "admin": "Admin",
     "logout": "Cerrar sesión",
     "greeting": "Hola, {{name}}",
     "brandSubtitle": "Reservas premium para agencias",
     "language": "Idioma",
-    "languageCurrent": "Actual"
+    "languageCurrent": "Actual",
+    "toggleNavigation": "Abrir o cerrar navegación"
   },
   "auth": {
     "loading": "Comprobando tu sesión..."
@@ -28,17 +31,29 @@
     "quickActions": {
       "findHotels": "Buscar hoteles",
       "browseTransports": "Explorar transportes",
+      "browsePackages": "Explorar paquetes",
       "myReservations": "Mis reservas",
+      "paymentHelp": "Ayuda con pagos",
       "loginHelp": "Ayuda de acceso",
       "verifyEmailHelp": "Ayuda de verificación"
     },
-    "inputPlaceholder": "Pide ayuda sobre hoteles, transportes, reservas, inicio de sesión o acceso admin...",
+    "quickActionMessages": {
+      "findHotels": "Quiero buscar hoteles",
+      "browseTransports": "Muéstrame opciones de transporte",
+      "browsePackages": "Muéstrame paquetes de viaje",
+      "myReservations": "Mostrar mis reservas",
+      "paymentHelp": "Necesito ayuda con un pago",
+      "loginHelp": "¿Cómo inicio sesión?",
+      "verifyEmailHelp": "Necesito ayuda para verificar mi correo"
+    },
+    "inputPlaceholder": "Pide ayuda sobre hoteles, transportes, paquetes, reservas, pagos, inicio de sesión o acceso admin...",
     "sendButton": "Enviar",
     "loadingText": "Pensando...",
     "errorMessage": "No pudimos contactar con el asistente de viaje ahora mismo. Inténtalo de nuevo.",
     "networkError": "El servicio del asistente no está disponible. Verifica que la API de Django esté en ejecución.",
     "helpPrompt": "Prueba mensajes como “Quiero un hotel en París” o “¿Cómo cancelo mi reserva?”.",
     "openButton": "¿Necesitas ayuda?",
+    "toggleIcon": "IA",
     "openLabel": "Abrir asistente de viaje",
     "closeLabel": "Cerrar asistente de viaje",
     "minimizeLabel": "Minimizar",
@@ -60,6 +75,7 @@
       "home": "Inicio",
       "hotels": "Hoteles",
       "transports": "Transportes",
+      "packages": "Paquetes",
       "login": "Iniciar sesión",
       "register": "Registrarse",
       "support": "Soporte al viajero"
@@ -187,6 +203,7 @@
       }
     },
     "card": {
+      "badge": "IN",
       "title": "Bienvenido de nuevo",
       "description": "Inicia sesión con el correo de tu agencia para seguir planificando y gestionando viajes."
     },
@@ -232,6 +249,7 @@
       }
     },
     "card": {
+      "badge": "UP",
       "title": "Crea tu cuenta",
       "description": "Completa los campos siguientes para configurar el espacio de trabajo de tu agencia."
     },
@@ -286,6 +304,7 @@
       }
     },
     "card": {
+      "badge": "OK",
       "title": "Verifica tu correo",
       "description": "Completa este paso para activar tu cuenta y continuar con el inicio de sesión."
     },
@@ -400,12 +419,24 @@
     },
     "types": {
       "hotel": "Reserva de hotel",
-      "transport": "Reserva de transporte"
+      "transport": "Reserva de transporte",
+      "package": "Reserva de paquete"
     },
     "statuses": {
       "pending": "Pendiente",
       "confirmed": "Confirmada",
-      "cancelled": "Cancelada"
+      "cancelled": "Cancelada",
+      "canceled": "Cancelada",
+      "completed": "Completada"
+    },
+    "paymentStatuses": {
+      "pending": "Pago pendiente",
+      "paid": "Pagado",
+      "failed": "Pago fallido",
+      "cancelled": "Pago cancelado",
+      "canceled": "Pago cancelado",
+      "completed": "Pago completado",
+      "refunded": "Reembolsado"
     },
     "fields": {
       "stay": "Estancia",
@@ -430,6 +461,13 @@
       "passengers": "Número de pasajeros",
       "specialRequest": "Solicitud especial",
       "specialRequestPlaceholder": "Añade cualquier nota sobre asientos, equipaje o comodidad para esta reserva."
+    },
+    "packageForm": {
+      "title": "Reservar este paquete",
+      "description": "Elige cuántos viajeros se unirán a este paquete y añade cualquier nota de planificación.",
+      "guests": "Número de viajeros",
+      "specialRequest": "Solicitud especial",
+      "specialRequestPlaceholder": "Añade notas sobre comidas, habitaciones, recogida o itinerario."
     },
     "page": {
       "eyebrow": "Mis reservas",
@@ -770,6 +808,159 @@
         "euroCity": "Servicio ferroviario rápido con embarque prioritario y vagones silenciosos.",
         "atlasShuttle": "Opción fiable de traslado a la llegada para viajeros individuales y grupos."
       }
+    }
+  },
+  "packages": {
+    "eyebrow": "Paquetes de viaje",
+    "pageTitle": "Paquetes seleccionados que combinan destino, estancia y soporte de viaje.",
+    "intro": "Explora paquetes activos con filtros simples por destino, ciudad y presupuesto.",
+    "filters": {
+      "title": "Buscar paquetes",
+      "description": "Filtra ofertas de paquetes por destino, ciudad y precio máximo.",
+      "destination": "Destino",
+      "destinationPlaceholder": "País o región",
+      "city": "Ciudad",
+      "cityPlaceholder": "Ciudad del paquete",
+      "budget": "Presupuesto",
+      "budgetOptions": {
+        "any": "Cualquier presupuesto",
+        "rangeOne": "Hasta $500",
+        "rangeTwo": "Hasta $1,000",
+        "rangeThree": "Hasta $2,000"
+      },
+      "search": "Buscar paquetes"
+    },
+    "summary": "{{count}} ofertas de paquete listas para reservar.",
+    "summaryBadge": "Estancias seleccionadas y viajes guiados",
+    "card": {
+      "from": "Desde",
+      "perTraveler": "por viajero",
+      "duration": "{{count}} días",
+      "viewDetails": "Ver detalles"
+    },
+    "status": {
+      "loading": "Cargando paquetes desde el catálogo en vivo...",
+      "error": "No pudimos cargar los paquetes ahora mismo. Inténtalo de nuevo.",
+      "empty": "No se encontraron paquetes con los filtros actuales."
+    }
+  },
+  "packageDetail": {
+    "badge": "Detalles del paquete",
+    "actions": {
+      "back": "Volver a paquetes",
+      "reserve": "Reservar paquete"
+    },
+    "fields": {
+      "destination": "Destino",
+      "city": "Ciudad",
+      "duration": "Duración",
+      "durationValue": "{{count}} días",
+      "dates": "Fechas de viaje",
+      "flexibleDates": "Fechas flexibles",
+      "priceSuffix": "por viajero"
+    },
+    "status": {
+      "loading": "Cargando detalles del paquete...",
+      "error": "No pudimos cargar este paquete ahora mismo. Inténtalo de nuevo.",
+      "notFoundBadge": "Paquete no encontrado",
+      "notFoundTitle": "Este paquete no está disponible en el catálogo.",
+      "notFoundDescription": "El paquete puede haber sido retirado o ya no estar activo. Vuelve al catálogo de paquetes para seguir explorando."
+    }
+  },
+  "payments": {
+    "reservationFallback": "Viaje reservado",
+    "page": {
+      "eyebrow": "Pago simulado",
+      "title": "Completa el pago de esta reserva.",
+      "description": "El desarrollo local usa un flujo seguro de pago simulado, por lo que no requiere claves de proveedor real.",
+      "loading": "Cargando detalles del pago...",
+      "mockNotice": "Introduce los datos de una tarjeta de demostración abajo. El formulario valida localmente y nunca envía datos de tarjeta a la API."
+    },
+    "list": {
+      "eyebrow": "Mis pagos",
+      "title": "Revisa tu historial de pagos y pagos simulados pendientes.",
+      "description": "Esta página protegida muestra los pagos conectados a tus reservas.",
+      "loading": "Cargando tus pagos...",
+      "emptyBadge": "Sin pagos",
+      "emptyTitle": "Todavía no tienes pagos.",
+      "emptyDescription": "Abre una reserva pendiente e inicia un pago simulado para verlo aquí."
+    },
+    "actions": {
+      "payNow": "Pagar ahora",
+      "startMock": "Iniciar pago simulado",
+      "simulateSuccess": "Simular pago correcto",
+      "simulateFailure": "Simular pago fallido",
+      "simulateFailureSecondary": "Simular pago fallido",
+      "paySecurely": "Pagar de forma segura",
+      "processing": "Procesando...",
+      "backToReservations": "Volver a reservas",
+      "openPayment": "Abrir pago",
+      "myPayments": "Mis pagos"
+    },
+    "messages": {
+      "pending": "Pago pendiente. Elige un resultado simulado para continuar.",
+      "success": "Pago realizado correctamente. Tu reserva ya está confirmada.",
+      "failed": "El pago falló en el flujo simulado. Puedes iniciar otro intento.",
+      "mockFailureReason": "Pago simulado fallido seleccionado por el usuario."
+    },
+    "errors": {
+      "network": "No se pudo conectar con el servidor. Verifica que la API de Django esté en ejecución.",
+      "load": "No pudimos cargar este flujo de pago ahora mismo. Inténtalo de nuevo.",
+      "loadList": "No pudimos cargar tus pagos ahora mismo. Inténtalo de nuevo.",
+      "notFound": "No se encontró esta reserva para tu cuenta.",
+      "create": "No pudimos iniciar el pago simulado ahora mismo.",
+      "confirm": "No pudimos confirmar este pago simulado ahora mismo.",
+      "fail": "No pudimos marcar este pago como fallido ahora mismo.",
+      "process": "No pudimos procesar este pago simulado ahora mismo."
+    },
+    "form": {
+      "badge": "Pago de demostración seguro",
+      "title": "Pago con tarjeta",
+      "description": "Usa datos de tarjeta de demostración para completar este pago simulado.",
+      "acceptedCards": "Estilos de tarjeta de demostración aceptados",
+      "cardholderName": "Nombre del titular",
+      "cardholderPlaceholder": "Test User",
+      "cardNumber": "Número de tarjeta",
+      "cardNumberPlaceholder": "4242 4242 4242 4242",
+      "expiry": "Fecha de vencimiento",
+      "expiryPlaceholder": "MM/AA",
+      "cvc": "CVC",
+      "cvcPlaceholder": "123",
+      "demoBadge": "DEMO",
+      "demoNotice": "Pago de demostración - no hay cargo real. Los datos de la tarjeta solo permanecen en esta página.",
+      "successTitle": "Pago completado",
+      "successDescription": "La confirmación simulada se realizó correctamente y el estado de pago de tu reserva se actualizó."
+    },
+    "validation": {
+      "cardholderRequired": "El nombre del titular es obligatorio.",
+      "cardNumberRequired": "El número de tarjeta es obligatorio.",
+      "cardNumberInvalid": "El número de tarjeta debe contener 16 dígitos.",
+      "expiryRequired": "La fecha de vencimiento es obligatoria.",
+      "expiryInvalid": "Usa el formato MM/AA con un mes válido.",
+      "cvcRequired": "El CVC es obligatorio.",
+      "cvcInvalid": "El CVC debe tener 3 o 4 dígitos."
+    },
+    "fields": {
+      "amount": "Importe",
+      "reservationStatus": "Estado de la reserva",
+      "paymentStatus": "Estado del pago",
+      "reference": "Referencia",
+      "referencePending": "No iniciado",
+      "createdAt": "Creado el"
+    },
+    "statuses": {
+      "notStarted": "No iniciado",
+      "pending": "Pendiente",
+      "paid": "Pagado",
+      "failed": "Fallido",
+      "cancelled": "Cancelado",
+      "canceled": "Cancelado",
+      "completed": "Completado",
+      "refunded": "Reembolsado"
+    },
+    "methods": {
+      "mock_card": "Tarjeta simulada",
+      "mock_cash": "Efectivo simulado"
     }
   }
 }

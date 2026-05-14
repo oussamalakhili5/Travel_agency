@@ -59,13 +59,13 @@ function Register() {
     setIsSubmitting(true)
 
     try {
-      const response = await registerUser(payload)
+      await registerUser(payload)
       setErrors({})
       navigate('/verify-email', {
         replace: true,
         state: {
           email: payload.email,
-          message: response.message || t('register.success.message'),
+          message: t('register.success.message'),
         },
       })
     } catch (error) {
@@ -96,7 +96,7 @@ function Register() {
           <div className="col-lg-6">
             <section className="auth-card h-100">
               <div className="mb-4">
-                <span className="auth-badge mb-3">UP</span>
+                <span className="auth-badge mb-3">{t('register.card.badge')}</span>
                 <h2 className="h3 fw-semibold mb-2">{t('register.card.title')}</h2>
                 <p className="mb-0">{t('register.card.description')}</p>
               </div>

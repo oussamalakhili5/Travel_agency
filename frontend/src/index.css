@@ -1602,7 +1602,10 @@ img {
 }
 
 [dir='rtl'] input[type='email'],
-[dir='rtl'] input[type='password'] {
+[dir='rtl'] input[type='password'],
+[dir='rtl'] #cardNumber,
+[dir='rtl'] #expiry,
+[dir='rtl'] #cvc {
   direction: ltr;
   text-align: left;
 }

@@ -49,41 +49,48 @@ function ChatWidget() {
     {
       id: 'hotels',
       labelKey: 'chatbot.quickActions.findHotels',
-      message: 'I want to find hotels',
+      messageKey: 'chatbot.quickActionMessages.findHotels',
+      requestMessage: 'I want to find hotels',
     },
     {
       id: 'transports',
       labelKey: 'chatbot.quickActions.browseTransports',
-      message: 'Show me transport options',
+      messageKey: 'chatbot.quickActionMessages.browseTransports',
+      requestMessage: 'Show me transport options',
     },
     {
       id: 'packages',
       labelKey: 'chatbot.quickActions.browsePackages',
-      message: 'Show me travel packages',
+      messageKey: 'chatbot.quickActionMessages.browsePackages',
+      requestMessage: 'Show me travel packages',
     },
     {
       id: 'reservations',
       labelKey: 'chatbot.quickActions.myReservations',
-      message: 'Show me my reservations',
+      messageKey: 'chatbot.quickActionMessages.myReservations',
+      requestMessage: 'Show me my reservations',
     },
     {
       id: 'payments',
       labelKey: 'chatbot.quickActions.paymentHelp',
-      message: 'I need payment help',
+      messageKey: 'chatbot.quickActionMessages.paymentHelp',
+      requestMessage: 'I need payment help',
     },
     {
       id: 'login',
       labelKey: 'chatbot.quickActions.loginHelp',
-      message: 'How do I log in?',
+      messageKey: 'chatbot.quickActionMessages.loginHelp',
+      requestMessage: 'How do I log in?',
     },
     {
       id: 'verify-email',
       labelKey: 'chatbot.quickActions.verifyEmailHelp',
-      message: 'I need help verifying my email',
+      messageKey: 'chatbot.quickActionMessages.verifyEmailHelp',
+      requestMessage: 'I need help verifying my email',
     },
   ]
 
-  async function sendMessage(messageText) {
+  async function sendMessage(messageText, options = {}) {
     const trimmedMessage = messageText.trim()
 
     if (!trimmedMessage || loading) {
@@ -93,7 +100,12 @@ function ChatWidget() {
     setError('')
     setMessages((currentMessages) => [
       ...currentMessages,
-      createMessage('user', { text: trimmedMessage }),
+      createMessage(
+        'user',
+        options.displayTranslationKey
+          ? { translationKey: options.displayTranslationKey }
+          : { text: trimmedMessage },
+      ),
     ])
     setInputValue('')
     setLoading(true)
@@ -127,8 +139,8 @@ function ChatWidget() {
     sendMessage(inputValue)
   }
 
-  function handleQuickAction(message) {
-    sendMessage(message)
+  function handleQuickAction(action) {
+    sendMessage(action.requestMessage, { displayTranslationKey: action.messageKey })
   }
 
   function handleRedirect(redirect) {
@@ -164,7 +176,7 @@ function ChatWidget() {
         onClick={() => setIsOpen((currentState) => !currentState)}
         type="button"
       >
-        <span className="chat-widget__toggle-icon">AI</span>
+        <span className="chat-widget__toggle-icon">{t('chatbot.toggleIcon')}</span>
         <span className="chat-widget__toggle-copy">
           {isOpen ? t('chatbot.minimizeLabel') : t('chatbot.openButton')}
         </span>

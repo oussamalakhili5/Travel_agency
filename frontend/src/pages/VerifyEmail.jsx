@@ -76,14 +76,14 @@ function VerifyEmail() {
     setIsSubmitting(true)
 
     try {
-      const response = await verifyEmail({
+      await verifyEmail({
         email: formValues.email.trim(),
         verification_code: formValues.verificationCode.trim(),
       })
 
       setErrors({})
       setStatusMessage('')
-      setSuccessMessage(response.message || t('verifyEmail.success.verified'))
+      setSuccessMessage(t('verifyEmail.success.verified'))
 
       window.setTimeout(() => {
         navigate('/login', {
@@ -121,8 +121,8 @@ function VerifyEmail() {
     setSuccessMessage('')
 
     try {
-      const response = await resendVerificationCode({ email: trimmedEmail })
-      setStatusMessage(response.message || t('verifyEmail.success.resent'))
+      await resendVerificationCode({ email: trimmedEmail })
+      setStatusMessage(t('verifyEmail.success.resent'))
     } catch (error) {
       setErrors(mapAuthErrors(error, t, 'verifyEmail'))
     } finally {
@@ -151,7 +151,7 @@ function VerifyEmail() {
           <div className="col-lg-5">
             <section className="auth-card h-100">
               <div className="mb-4">
-                <span className="auth-badge mb-3">OK</span>
+                <span className="auth-badge mb-3">{t('verifyEmail.card.badge')}</span>
                 <h2 className="h3 fw-semibold mb-2">{t('verifyEmail.card.title')}</h2>
                 <p className="mb-0">{t('verifyEmail.card.description')}</p>
               </div>

@@ -39,7 +39,7 @@ function Navbar() {
         <button
           aria-controls="mainNavbar"
           aria-expanded="false"
-          aria-label="Toggle navigation"
+          aria-label={t('navbar.toggleNavigation')}
           className="navbar-toggler border-0 shadow-none"
           data-bs-target="#mainNavbar"
           data-bs-toggle="collapse"

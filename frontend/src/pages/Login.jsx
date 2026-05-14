@@ -101,7 +101,7 @@ function Login() {
           <div className="col-lg-5">
             <section className="auth-card h-100">
               <div className="mb-4">
-                <span className="auth-badge mb-3">IN</span>
+                <span className="auth-badge mb-3">{t('login.card.badge')}</span>
                 <h2 className="h3 fw-semibold mb-2">{t('login.card.title')}</h2>
                 <p className="mb-0">{t('login.card.description')}</p>
               </div>

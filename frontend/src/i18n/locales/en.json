@@ -14,7 +14,8 @@
     "greeting": "Hi, {{name}}",
     "brandSubtitle": "Premium agency booking",
     "language": "Language",
-    "languageCurrent": "Current"
+    "languageCurrent": "Current",
+    "toggleNavigation": "Toggle navigation"
   },
   "auth": {
     "loading": "Checking your session..."
@@ -36,6 +37,15 @@
       "loginHelp": "Login help",
       "verifyEmailHelp": "Verify email help"
     },
+    "quickActionMessages": {
+      "findHotels": "I want to find hotels",
+      "browseTransports": "Show me transport options",
+      "browsePackages": "Show me travel packages",
+      "myReservations": "Show me my reservations",
+      "paymentHelp": "I need payment help",
+      "loginHelp": "How do I log in?",
+      "verifyEmailHelp": "I need help verifying my email"
+    },
     "inputPlaceholder": "Ask for help with hotels, transports, packages, reservations, payments, login, or admin access...",
     "sendButton": "Send",
     "loadingText": "Thinking...",
@@ -43,6 +53,7 @@
     "networkError": "The assistant service is unavailable. Please check that the Django API is running.",
     "helpPrompt": "Try messages like “I want a hotel in Paris”, “Show packages to Marrakech”, or “How do I pay?”.",
     "openButton": "Need help?",
+    "toggleIcon": "AI",
     "openLabel": "Open travel assistant",
     "closeLabel": "Close travel assistant",
     "minimizeLabel": "Minimize",
@@ -192,6 +203,7 @@
       }
     },
     "card": {
+      "badge": "IN",
       "title": "Welcome back",
       "description": "Sign in with your agency email to continue planning and managing trips."
     },
@@ -237,6 +249,7 @@
       }
     },
     "card": {
+      "badge": "UP",
       "title": "Create your account",
       "description": "Fill in the fields below to set up a travel-agency workspace."
     },
@@ -291,6 +304,7 @@
       }
     },
     "card": {
+      "badge": "OK",
       "title": "Verify your email",
       "description": "Complete this step to activate your account and continue to sign in."
     },
@@ -411,13 +425,17 @@
     "statuses": {
       "pending": "Pending",
       "confirmed": "Confirmed",
-      "cancelled": "Cancelled"
+      "cancelled": "Cancelled",
+      "canceled": "Canceled",
+      "completed": "Completed"
     },
     "paymentStatuses": {
       "pending": "Payment pending",
       "paid": "Paid",
       "failed": "Payment failed",
       "cancelled": "Payment cancelled",
+      "canceled": "Payment canceled",
+      "completed": "Payment completed",
       "refunded": "Refunded"
     },
     "fields": {
@@ -882,7 +900,8 @@
     "messages": {
       "pending": "Payment pending. Choose a mock outcome to continue.",
       "success": "Payment successful. Your reservation is now confirmed.",
-      "failed": "Payment failed in the mock flow. You can start another payment attempt."
+      "failed": "Payment failed in the mock flow. You can start another payment attempt.",
+      "mockFailureReason": "Mock payment failure selected by the user."
     },
     "errors": {
       "network": "The server could not be reached. Please check that the Django API is running.",
@@ -907,6 +926,7 @@
       "expiryPlaceholder": "MM/YY",
       "cvc": "CVC",
       "cvcPlaceholder": "123",
+      "demoBadge": "DEMO",
       "demoNotice": "Demo payment - no real charge. Card details stay in this page only.",
       "successTitle": "Payment complete",
       "successDescription": "The mock confirmation succeeded and your reservation payment status is updated."
@@ -934,6 +954,8 @@
       "paid": "Paid",
       "failed": "Failed",
       "cancelled": "Cancelled",
+      "canceled": "Canceled",
+      "completed": "Completed",
       "refunded": "Refunded"
     },
     "methods": {
