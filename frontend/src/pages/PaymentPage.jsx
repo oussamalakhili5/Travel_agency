@@ -30,17 +30,123 @@ function getReservationTitle(reservation, t) {
   return t('payments.reservationFallback')
 }
 
+const EMPTY_CARD_FORM = {
+  cardholderName: '',
+  cardNumber: '',
+  expiry: '',
+  cvc: '',
+}
+
+const RETRYABLE_PAYMENT_STATUSES = ['failed', 'cancelled']
+const MOCK_FAILURE_REASON = 'Mock payment failure selected by the user.'
+
+function formatCardNumberInput(value) {
+  return value
+    .replace(/\D/g, '')
+    .slice(0, 16)
+    .replace(/(\d{4})(?=\d)/g, '$1 ')
+}
+
+function formatExpiryInput(value) {
+  const digits = value.replace(/\D/g, '').slice(0, 4)
+
+  if (digits.length <= 2) {
+    return digits
+  }
+
+  return `${digits.slice(0, 2)}/${digits.slice(2)}`
+}
+
+function getApiErrorMessage(requestError, fallbackMessage) {
+  if (!axios.isAxiosError(requestError)) {
+    return fallbackMessage
+  }
+
+  const responseData = requestError.response?.data
+
+  if (typeof responseData === 'string') {
+    return responseData
+  }
+
+  if (!responseData || typeof responseData !== 'object') {
+    return fallbackMessage
+  }
+
+  if (typeof responseData.detail === 'string') {
+    return responseData.detail
+  }
+
+  if (Array.isArray(responseData.non_field_errors)) {
+    return responseData.non_field_errors.join(' ')
+  }
+
+  for (const value of Object.values(responseData)) {
+    if (typeof value === 'string') {
+      return value
+    }
+
+    if (Array.isArray(value)) {
+      const fieldMessage = value.filter((item) => typeof item === 'string').join(' ')
+
+      if (fieldMessage) {
+        return fieldMessage
+      }
+    }
+  }
+
+  return fallbackMessage
+}
+
+function validateCardForm(cardForm, t) {
+  const validationErrors = {}
+  const cardNumberDigits = cardForm.cardNumber.replace(/\s+/g, '')
+  const expiryValue = cardForm.expiry.trim()
+  const cvcValue = cardForm.cvc.trim()
+
+  if (!cardForm.cardholderName.trim()) {
+    validationErrors.cardholderName = t('payments.validation.cardholderRequired')
+  }
+
+  if (!cardNumberDigits) {
+    validationErrors.cardNumber = t('payments.validation.cardNumberRequired')
+  } else if (!/^\d{16}$/.test(cardNumberDigits)) {
+    validationErrors.cardNumber = t('payments.validation.cardNumberInvalid')
+  }
+
+  if (!expiryValue) {
+    validationErrors.expiry = t('payments.validation.expiryRequired')
+  } else if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryValue)) {
+    validationErrors.expiry = t('payments.validation.expiryInvalid')
+  }
+
+  if (!cvcValue) {
+    validationErrors.cvc = t('payments.validation.cvcRequired')
+  } else if (!/^\d{3,4}$/.test(cvcValue)) {
+    validationErrors.cvc = t('payments.validation.cvcInvalid')
+  }
+
+  return validationErrors
+}
+
 function PaymentPage() {
   const { i18n, t } = useTranslation()
   const { reservationId } = useParams()
   const [reservation, setReservation] = useState(null)
   const [payment, setPayment] = useState(null)
+  const [cardForm, setCardForm] = useState(EMPTY_CARD_FORM)
+  const [cardErrors, setCardErrors] = useState({})
   const [loading, setLoading] = useState(true)
   const [actionLoading, setActionLoading] = useState(false)
   const [error, setError] = useState('')
   const [statusMessage, setStatusMessage] = useState('')
-  const canCreatePayment = !payment || ['failed', 'cancelled'].includes(payment.status)
+  const canCreatePayment = !payment || RETRYABLE_PAYMENT_STATUSES.includes(payment.status)
   const canResolvePayment = payment?.status === 'pending'
+  const paymentIsPaid = payment?.status === 'paid' || reservation?.payment_status === 'paid'
+  const canUseCardForm =
+    reservation &&
+    reservation.status !== 'cancelled' &&
+    reservation.payment_status !== 'paid' &&
+    (canCreatePayment || canResolvePayment)
   const estimatedAmount = useMemo(() => {
     if (!reservation) {
       return 0
@@ -112,40 +218,66 @@ function PaymentPage() {
     }
   }, [reservationId, t])
 
-  async function handleInitiatePayment() {
-    setActionLoading(true)
-    setError('')
-    setStatusMessage('')
+  function clearCardError(fieldName) {
+    setCardErrors((currentErrors) => {
+      if (!currentErrors[fieldName]) {
+        return currentErrors
+      }
 
-    try {
-      const createdPayment = await paymentService.initiatePayment({
-        reservation: reservation.id,
-        method: 'mock_card',
-      })
-
-      setPayment(createdPayment)
-      setStatusMessage(t('payments.messages.pending'))
-    } catch {
-      setError(t('payments.errors.create'))
-    } finally {
-      setActionLoading(false)
-    }
+      const nextErrors = { ...currentErrors }
+      delete nextErrors[fieldName]
+      return nextErrors
+    })
   }
 
-  async function handleConfirmPayment() {
+  function updateCardFormValue(fieldName, value) {
+    setCardForm((currentForm) => ({
+      ...currentForm,
+      [fieldName]: value,
+    }))
+    clearCardError(fieldName)
+  }
+
+  async function getPaymentReadyForAction() {
+    if (payment && !RETRYABLE_PAYMENT_STATUSES.includes(payment.status)) {
+      return payment
+    }
+
+    const createdPayment = await paymentService.initiatePayment({
+      reservation: reservation.id,
+      method: 'mock_card',
+    })
+
+    setPayment(createdPayment)
+    return createdPayment
+  }
+
+  async function handleCardPaymentSubmit(event) {
+    event.preventDefault()
+
+    const validationErrors = validateCardForm(cardForm, t)
+    setCardErrors(validationErrors)
+
+    if (Object.keys(validationErrors).length > 0) {
+      return
+    }
+
     setActionLoading(true)
     setError('')
     setStatusMessage('')
 
     try {
-      const updatedPayment = await paymentService.confirmPayment(payment.id)
+      const paymentToConfirm = await getPaymentReadyForAction()
+      const updatedPayment = await paymentService.confirmPayment(paymentToConfirm.id)
       const updatedReservation = await reservationService.getReservationById(reservation.id)
 
       setPayment(updatedPayment)
       setReservation(updatedReservation)
+      setCardForm(EMPTY_CARD_FORM)
+      setCardErrors({})
       setStatusMessage(t('payments.messages.success'))
-    } catch {
-      setError(t('payments.errors.confirm'))
+    } catch (paymentError) {
+      setError(getApiErrorMessage(paymentError, t('payments.errors.process')))
     } finally {
       setActionLoading(false)
     }
@@ -157,17 +289,18 @@ function PaymentPage() {
     setStatusMessage('')
 
     try {
+      const paymentToFail = await getPaymentReadyForAction()
       const updatedPayment = await paymentService.failPayment(
-        payment.id,
-        'Mock payment failure selected by the user.',
+        paymentToFail.id,
+        MOCK_FAILURE_REASON,
       )
       const updatedReservation = await reservationService.getReservationById(reservation.id)
 
       setPayment(updatedPayment)
       setReservation(updatedReservation)
       setStatusMessage(t('payments.messages.failed'))
-    } catch {
-      setError(t('payments.errors.fail'))
+    } catch (paymentError) {
+      setError(getApiErrorMessage(paymentError, t('payments.errors.fail')))
     } finally {
       setActionLoading(false)
     }
@@ -196,12 +329,15 @@ function PaymentPage() {
         ) : null}
 
         {!error && statusMessage ? (
-          <div className="alert alert-success mt-4" role="status">
+          <div
+            className={`alert ${payment?.status === 'failed' ? 'alert-warning' : 'alert-success'} mt-4`}
+            role="status"
+          >
             {statusMessage}
           </div>
         ) : null}
 
-        {!loading && !error && reservation ? (
+        {!loading && reservation ? (
           <div className="surface-panel reservation-card mt-4">
             <div className="reservation-card__top">
               <div>
@@ -239,41 +375,135 @@ function PaymentPage() {
               </div>
             ) : null}
 
-            <div className="d-flex flex-column flex-sm-row gap-3 mt-4">
-              {canCreatePayment ? (
-                <button
-                  className="btn btn-brand"
-                  disabled={actionLoading || reservation.payment_status === 'paid'}
-                  onClick={handleInitiatePayment}
-                  type="button"
-                >
-                  {actionLoading ? t('payments.actions.processing') : t('payments.actions.startMock')}
-                </button>
-              ) : null}
+            {paymentIsPaid ? (
+              <div className="payment-success mt-4" role="status">
+                <span className="payment-success__mark" aria-hidden="true">
+                  OK
+                </span>
+                <div>
+                  <h3 className="h5 fw-semibold mb-1">{t('payments.form.successTitle')}</h3>
+                  <p className="mb-0">{t('payments.form.successDescription')}</p>
+                </div>
+              </div>
+            ) : null}
 
-              {canResolvePayment ? (
-                <>
-                  <button
-                    className="btn btn-brand"
-                    disabled={actionLoading}
-                    onClick={handleConfirmPayment}
-                    type="button"
-                  >
-                    {actionLoading ? t('payments.actions.processing') : t('payments.actions.simulateSuccess')}
+            {canUseCardForm ? (
+              <form className="payment-form mt-4" noValidate onSubmit={handleCardPaymentSubmit}>
+                <div className="payment-form__header">
+                  <div>
+                    <span className="section-label">{t('payments.form.badge')}</span>
+                    <h3 className="h5 fw-semibold mt-2 mb-1">{t('payments.form.title')}</h3>
+                    <p className="auth-helper-text mb-0">{t('payments.form.description')}</p>
+                  </div>
+                  <div className="payment-brand-strip" aria-label={t('payments.form.acceptedCards')}>
+                    <span>VISA</span>
+                    <span>MC</span>
+                    <span>AMEX</span>
+                  </div>
+                </div>
+
+                <div className="row g-3 mt-1">
+                  <div className="col-12">
+                    <label className="form-label" htmlFor="cardholderName">
+                      {t('payments.form.cardholderName')}
+                    </label>
+                    <input
+                      autoComplete="cc-name"
+                      className={`form-control ${cardErrors.cardholderName ? 'is-invalid' : ''}`}
+                      id="cardholderName"
+                      onChange={(event) => updateCardFormValue('cardholderName', event.target.value)}
+                      placeholder={t('payments.form.cardholderPlaceholder')}
+                      type="text"
+                      value={cardForm.cardholderName}
+                    />
+                    {cardErrors.cardholderName ? (
+                      <div className="invalid-feedback">{cardErrors.cardholderName}</div>
+                    ) : null}
+                  </div>
+
+                  <div className="col-12">
+                    <label className="form-label" htmlFor="cardNumber">
+                      {t('payments.form.cardNumber')}
+                    </label>
+                    <input
+                      autoComplete="cc-number"
+                      className={`form-control ${cardErrors.cardNumber ? 'is-invalid' : ''}`}
+                      id="cardNumber"
+                      inputMode="numeric"
+                      onChange={(event) =>
+                        updateCardFormValue('cardNumber', formatCardNumberInput(event.target.value))
+                      }
+                      placeholder={t('payments.form.cardNumberPlaceholder')}
+                      type="text"
+                      value={cardForm.cardNumber}
+                    />
+                    {cardErrors.cardNumber ? (
+                      <div className="invalid-feedback">{cardErrors.cardNumber}</div>
+                    ) : null}
+                  </div>
+
+                  <div className="col-12 col-md-6">
+                    <label className="form-label" htmlFor="expiry">
+                      {t('payments.form.expiry')}
+                    </label>
+                    <input
+                      autoComplete="cc-exp"
+                      className={`form-control ${cardErrors.expiry ? 'is-invalid' : ''}`}
+                      id="expiry"
+                      inputMode="numeric"
+                      onChange={(event) => updateCardFormValue('expiry', formatExpiryInput(event.target.value))}
+                      placeholder={t('payments.form.expiryPlaceholder')}
+                      type="text"
+                      value={cardForm.expiry}
+                    />
+                    {cardErrors.expiry ? <div className="invalid-feedback">{cardErrors.expiry}</div> : null}
+                  </div>
+
+                  <div className="col-12 col-md-6">
+                    <label className="form-label" htmlFor="cvc">
+                      {t('payments.form.cvc')}
+                    </label>
+                    <input
+                      autoComplete="cc-csc"
+                      className={`form-control ${cardErrors.cvc ? 'is-invalid' : ''}`}
+                      id="cvc"
+                      inputMode="numeric"
+                      onChange={(event) => updateCardFormValue('cvc', event.target.value.replace(/\D/g, '').slice(0, 4))}
+                      placeholder={t('payments.form.cvcPlaceholder')}
+                      type="text"
+                      value={cardForm.cvc}
+                    />
+                    {cardErrors.cvc ? <div className="invalid-feedback">{cardErrors.cvc}</div> : null}
+                  </div>
+                </div>
+
+                <div className="payment-form__demo-note mt-3">
+                  <span>DEMO</span>
+                  <p className="mb-0">{t('payments.form.demoNotice')}</p>
+                </div>
+
+                <div className="d-grid gap-2 mt-4">
+                  <button className="btn btn-brand payment-form__submit" disabled={actionLoading} type="submit">
+                    {actionLoading ? t('payments.actions.processing') : t('payments.actions.paySecurely')}
                   </button>
                   <button
-                    className="btn btn-outline-danger"
+                    className="btn btn-link payment-form__fail-link"
                     disabled={actionLoading}
                     onClick={handleFailPayment}
                     type="button"
                   >
-                    {t('payments.actions.simulateFailure')}
+                    {t('payments.actions.simulateFailureSecondary')}
                   </button>
-                </>
-              ) : null}
+                </div>
+              </form>
+            ) : null}
 
+            <div className="d-flex flex-column flex-sm-row gap-3 mt-4">
               <Link className="btn btn-outline-secondary" to="/my-reservations">
                 {t('payments.actions.backToReservations')}
+              </Link>
+              <Link className="btn btn-outline-brand" to="/payments">
+                {t('payments.actions.myPayments')}
               </Link>
             </div>
           </div>

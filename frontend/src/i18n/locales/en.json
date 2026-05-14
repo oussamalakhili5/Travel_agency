@@ -856,7 +856,7 @@
       "title": "Complete payment for this reservation.",
       "description": "Local development uses a safe mock payment flow, so no real provider keys are required.",
       "loading": "Loading payment details...",
-      "mockNotice": "Use the buttons below to simulate a successful or failed payment."
+      "mockNotice": "Enter demo card details below. The form validates locally and never sends card data to the API."
     },
     "list": {
       "eyebrow": "My payments",
@@ -872,9 +872,12 @@
       "startMock": "Start Mock Payment",
       "simulateSuccess": "Simulate Successful Payment",
       "simulateFailure": "Simulate Failed Payment",
+      "simulateFailureSecondary": "Simulate failed payment",
+      "paySecurely": "Pay securely",
       "processing": "Processing...",
       "backToReservations": "Back to Reservations",
-      "openPayment": "Open Payment"
+      "openPayment": "Open Payment",
+      "myPayments": "My Payments"
     },
     "messages": {
       "pending": "Payment pending. Choose a mock outcome to continue.",
@@ -888,7 +891,34 @@
       "notFound": "This reservation could not be found for your account.",
       "create": "We could not start the mock payment right now.",
       "confirm": "We could not confirm this mock payment right now.",
-      "fail": "We could not mark this payment as failed right now."
+      "fail": "We could not mark this payment as failed right now.",
+      "process": "We could not process this mock payment right now."
+    },
+    "form": {
+      "badge": "Secure demo checkout",
+      "title": "Card payment",
+      "description": "Use demo card details to complete this mock checkout.",
+      "acceptedCards": "Accepted demo card styles",
+      "cardholderName": "Cardholder name",
+      "cardholderPlaceholder": "Test User",
+      "cardNumber": "Card number",
+      "cardNumberPlaceholder": "4242 4242 4242 4242",
+      "expiry": "Expiry date",
+      "expiryPlaceholder": "MM/YY",
+      "cvc": "CVC",
+      "cvcPlaceholder": "123",
+      "demoNotice": "Demo payment - no real charge. Card details stay in this page only.",
+      "successTitle": "Payment complete",
+      "successDescription": "The mock confirmation succeeded and your reservation payment status is updated."
+    },
+    "validation": {
+      "cardholderRequired": "Cardholder name is required.",
+      "cardNumberRequired": "Card number is required.",
+      "cardNumberInvalid": "Card number must contain 16 digits.",
+      "expiryRequired": "Expiry date is required.",
+      "expiryInvalid": "Use MM/YY format with a valid month.",
+      "cvcRequired": "CVC is required.",
+      "cvcInvalid": "CVC must be 3 or 4 digits."
     },
     "fields": {
       "amount": "Amount",

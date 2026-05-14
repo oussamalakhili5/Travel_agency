@@ -554,7 +554,8 @@ img {
 
 .filter-panel .form-label,
 .auth-card .form-label,
-.reservation-panel .form-label {
+.reservation-panel .form-label,
+.payment-form .form-label {
   font-weight: 600;
   color: var(--brand-navy);
 }
@@ -564,7 +565,8 @@ img {
 .auth-card .form-control,
 .auth-card .form-select,
 .reservation-panel .form-control,
-.reservation-panel .form-select {
+.reservation-panel .form-select,
+.payment-form .form-control {
   min-height: 3.35rem;
   border-radius: 1rem;
   border-color: rgba(15, 39, 64, 0.12);
@@ -581,7 +583,8 @@ img {
 .auth-card .form-control:focus,
 .auth-card .form-select:focus,
 .reservation-panel .form-control:focus,
-.reservation-panel .form-select:focus {
+.reservation-panel .form-select:focus,
+.payment-form .form-control:focus {
   border-color: rgba(30, 95, 143, 0.45);
   box-shadow: 0 0 0 0.25rem rgba(30, 95, 143, 0.12);
 }
@@ -1029,6 +1032,106 @@ img {
   gap: 0.8rem;
   color: var(--text-soft);
   font-size: 0.95rem;
+}
+
+.payment-form {
+  padding-top: 1.35rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+.payment-form__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.payment-brand-strip {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.45rem;
+  min-width: 9rem;
+}
+
+.payment-brand-strip span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.1rem;
+  min-height: 2rem;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid rgba(15, 39, 64, 0.12);
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: var(--brand-navy);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.payment-form__demo-note,
+.payment-success {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  border-radius: 1rem;
+}
+
+.payment-form__demo-note {
+  padding: 0.85rem 1rem;
+  background: rgba(46, 143, 163, 0.08);
+  color: var(--text-soft);
+}
+
+.payment-form__demo-note span,
+.payment-success__mark {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.payment-form__demo-note span {
+  width: 3.25rem;
+  min-height: 2rem;
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--brand-blue);
+}
+
+.payment-form__submit {
+  min-height: 3.2rem;
+}
+
+.payment-form__fail-link {
+  color: #b02a37;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.payment-form__fail-link:hover,
+.payment-form__fail-link:focus {
+  color: #842029;
+  text-decoration: underline;
+}
+
+.payment-success {
+  padding: 1rem;
+  border: 1px solid rgba(25, 135, 84, 0.18);
+  background: rgba(25, 135, 84, 0.08);
+}
+
+.payment-success__mark {
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 999px;
+  background: rgba(25, 135, 84, 0.14);
+  color: #146c43;
 }
 
 .reservation-status {
@@ -1577,10 +1680,16 @@ img {
 
   .transport-card__top,
   .reservation-card__top,
+  .payment-form__header,
   .listing-summary,
   .footer-bottom {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .payment-brand-strip {
+    justify-content: flex-start;
+    width: 100%;
   }
 
   .chat-widget {
