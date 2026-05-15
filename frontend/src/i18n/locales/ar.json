@@ -34,6 +34,7 @@
       "browsePackages": "استعرض الباقات",
       "myReservations": "حجوزاتي",
       "paymentHelp": "مساعدة الدفع",
+      "contactSupport": "تواصل مع الدعم",
       "loginHelp": "مساعدة تسجيل الدخول",
       "verifyEmailHelp": "مساعدة التحقق من البريد"
     },
@@ -43,6 +44,7 @@
       "browsePackages": "اعرض لي باقات السفر",
       "myReservations": "اعرض حجوزاتي",
       "paymentHelp": "أحتاج إلى مساعدة في الدفع",
+      "contactSupport": "أحتاج إلى الدعم",
       "loginHelp": "كيف أسجل الدخول؟",
       "verifyEmailHelp": "أحتاج إلى مساعدة في تأكيد بريدي الإلكتروني"
     },
@@ -60,7 +62,8 @@
     "assistantLabel": "المساعد",
     "userLabel": "أنت",
     "requiresAuth": "يتطلب تسجيل الدخول",
-    "redirectFallback": "فتح الصفحة"
+    "redirectFallback": "فتح الصفحة",
+    "responseActionsLabel": "إجراءات مقترحة"
   },
   "footer": {
     "brandTitle": "Atlas Travel Agency",

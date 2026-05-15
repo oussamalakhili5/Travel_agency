@@ -56,7 +56,12 @@ function ChatWindow({
 
       <div className="chat-widget__messages" ref={messagesRef}>
         {messages.map((message) => (
-          <ChatMessage key={message.id} message={message} onRedirect={onRedirect} />
+          <ChatMessage
+            key={message.id}
+            message={message}
+            onQuickAction={onQuickAction}
+            onRedirect={onRedirect}
+          />
         ))}
 
         {showWelcomeState ? (

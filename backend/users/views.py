@@ -24,6 +24,10 @@ EMAIL_DELIVERY_FAILED_DEBUG_MESSAGE = (
     "Verification code generated. Email delivery failed. "
     "Check backend logs in development."
 )
+EMAIL_DELIVERY_FAILED_PUBLIC_MESSAGE = (
+    "Verification code generated, but the email could not be delivered. "
+    "Please contact support or try again later."
+)
 
 
 def build_verification_message(default_message, delivery_result):
@@ -44,6 +48,21 @@ def build_verification_message(default_message, delivery_result):
     return default_message
 
 
+def build_email_delivery_payload(delivery_result):
+    if delivery_result is None or delivery_result.delivered:
+        return None
+
+    payload = {
+        "delivered": False,
+        "message": EMAIL_DELIVERY_FAILED_PUBLIC_MESSAGE,
+    }
+
+    if settings.DEBUG and delivery_result.reason:
+        payload["reason"] = delivery_result.reason
+
+    return payload
+
+
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [permissions.AllowAny]
@@ -52,15 +71,21 @@ class RegisterView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
+        delivery_result = getattr(serializer, "email_delivery_result", None)
+        response_data = {
+            "message": build_verification_message(
+                REGISTRATION_SUCCESS_MESSAGE,
+                delivery_result,
+            ),
+            "user": UserSerializer(user).data,
+        }
+        delivery_payload = build_email_delivery_payload(delivery_result)
+
+        if delivery_payload is not None:
+            response_data["email_delivery"] = delivery_payload
 
         return Response(
-            {
-                "message": build_verification_message(
-                    REGISTRATION_SUCCESS_MESSAGE,
-                    getattr(serializer, "email_delivery_result", None),
-                ),
-                "user": UserSerializer(user).data,
-            },
+            response_data,
             status=status.HTTP_201_CREATED,
         )
 
@@ -96,14 +121,20 @@ class ResendVerificationCodeView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        delivery_result = getattr(serializer, "email_delivery_result", None)
+        response_data = {
+            "message": build_verification_message(
+                RESEND_SUCCESS_MESSAGE,
+                delivery_result,
+            )
+        }
+        delivery_payload = build_email_delivery_payload(delivery_result)
+
+        if delivery_payload is not None:
+            response_data["email_delivery"] = delivery_payload
 
         return Response(
-            {
-                "message": build_verification_message(
-                    RESEND_SUCCESS_MESSAGE,
-                    getattr(serializer, "email_delivery_result", None),
-                )
-            },
+            response_data,
             status=status.HTTP_200_OK,
         )
 

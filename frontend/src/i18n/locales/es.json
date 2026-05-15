@@ -34,6 +34,7 @@
       "browsePackages": "Explorar paquetes",
       "myReservations": "Mis reservas",
       "paymentHelp": "Ayuda con pagos",
+      "contactSupport": "Contactar soporte",
       "loginHelp": "Ayuda de acceso",
       "verifyEmailHelp": "Ayuda de verificación"
     },
@@ -43,6 +44,7 @@
       "browsePackages": "Muéstrame paquetes de viaje",
       "myReservations": "Mostrar mis reservas",
       "paymentHelp": "Necesito ayuda con un pago",
+      "contactSupport": "Necesito soporte",
       "loginHelp": "¿Cómo inicio sesión?",
       "verifyEmailHelp": "Necesito ayuda para verificar mi correo"
     },
@@ -60,7 +62,8 @@
     "assistantLabel": "Asistente",
     "userLabel": "Tú",
     "requiresAuth": "Requiere inicio de sesión",
-    "redirectFallback": "Abrir página"
+    "redirectFallback": "Abrir página",
+    "responseActionsLabel": "Acciones sugeridas"
   },
   "footer": {
     "brandTitle": "Atlas Travel Agency",

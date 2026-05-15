@@ -155,17 +155,21 @@ python manage.py migrate
 ```
 
 Email verification can run in either local console mode or Gmail SMTP mode.
-You can either set these variables in the same Windows PowerShell terminal before
-starting `runserver`, or copy `.env.example` to `.env` and edit the values.
-PowerShell variables override `.env` values when both are present.
+The backend automatically loads `.env` from the repository root or from
+`backend/.env` when either file exists. You can copy `backend/.env.example` to
+`backend/.env` for local placeholders. You can also set variables manually in
+the same Windows PowerShell terminal before starting `runserver`; PowerShell
+variables override `.env` values when both are present.
 
-Mode A: Local console email backend:
+Mode A: Local console email backend. This prints verification emails in the
+backend terminal and does not send real email:
 
 ```powershell
 $env:EMAIL_BACKEND="django.core.mail.backends.console.EmailBackend"
+python manage.py runserver
 ```
 
-Mode B: Gmail SMTP:
+Mode B: Gmail SMTP. This sends real email through Gmail SMTP:
 
 ```powershell
 $env:EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
@@ -174,13 +178,26 @@ $env:EMAIL_PORT="587"
 $env:EMAIL_USE_TLS="True"
 $env:EMAIL_USE_SSL="False"
 $env:EMAIL_HOST_USER="your_email@gmail.com"
-$env:EMAIL_HOST_PASSWORD="your_16_character_google_app_password"
+$env:EMAIL_HOST_PASSWORD="your_new_google_app_password"
 $env:DEFAULT_FROM_EMAIL="your_email@gmail.com"
+python manage.py runserver
 ```
 
-Gmail SMTP requires a Google App Password, not your normal Gmail password.
+Test the active email configuration without registering a user:
+
+```powershell
+python manage.py test_email_delivery recipient@example.com
+```
+
+Gmail SMTP security notes:
+
+- Use a Google App Password, not your normal Gmail password.
+- Never commit `.env`.
+- If an app password was exposed, revoke it in your Google account and create a new one.
+- Do not place real Gmail credentials in `backend/.env.example`; use placeholders only.
+
 After changing email variables, stop and restart `python manage.py runserver`.
-The project includes `.env.example` with the supported email variables:
+The project includes `backend/.env.example` with the supported email variables:
 
 ```text
 EMAIL_BACKEND

@@ -17,6 +17,8 @@ function createMessage(sender, options = {}) {
     requiresAuth: options.requiresAuth ?? false,
     intent: options.intent ?? null,
     entities: options.entities ?? {},
+    quickActions: options.quickActions ?? [],
+    suggestions: options.suggestions ?? [],
   }
 }
 
@@ -77,6 +79,12 @@ function ChatWidget() {
       requestMessage: 'I need payment help',
     },
     {
+      id: 'support',
+      labelKey: 'chatbot.quickActions.contactSupport',
+      messageKey: 'chatbot.quickActionMessages.contactSupport',
+      requestMessage: 'I need support',
+    },
+    {
       id: 'login',
       labelKey: 'chatbot.quickActions.loginHelp',
       messageKey: 'chatbot.quickActionMessages.loginHelp',
@@ -121,6 +129,8 @@ function ChatWidget() {
           requiresAuth: response.requires_auth,
           intent: response.intent,
           entities: response.entities,
+          quickActions: response.quick_actions,
+          suggestions: response.suggestions,
         }),
       ])
     } catch (requestError) {
@@ -140,7 +150,19 @@ function ChatWidget() {
   }
 
   function handleQuickAction(action) {
-    sendMessage(action.requestMessage, { displayTranslationKey: action.messageKey })
+    if (action.requestMessage) {
+      sendMessage(action.requestMessage, { displayTranslationKey: action.messageKey })
+      return
+    }
+
+    if (action.message) {
+      sendMessage(action.message)
+      return
+    }
+
+    if (action.path) {
+      handleRedirect(action)
+    }
   }
 
   function handleRedirect(redirect) {

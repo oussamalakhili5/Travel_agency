@@ -1,9 +1,11 @@
 import { useTranslation } from 'react-i18next'
 
-function ChatMessage({ message, onRedirect }) {
+function ChatMessage({ message, onQuickAction, onRedirect }) {
   const { t } = useTranslation()
   const isBot = message.sender === 'bot'
   const text = message.translationKey ? t(message.translationKey) : message.text
+  const hasQuickActions = isBot && message.quickActions?.length > 0
+  const hasSuggestions = isBot && message.suggestions?.length > 0
 
   return (
     <article
@@ -29,6 +31,29 @@ function ChatMessage({ message, onRedirect }) {
           >
             {message.redirect.label || t('chatbot.redirectFallback')}
           </button>
+        ) : null}
+
+        {hasQuickActions ? (
+          <div className="chat-message__actions" aria-label={t('chatbot.responseActionsLabel')}>
+            {message.quickActions.map((action) => (
+              <button
+                className="chat-message__action-chip"
+                key={`${message.id}-${action.label}`}
+                onClick={() => onQuickAction(action)}
+                type="button"
+              >
+                {action.label}
+              </button>
+            ))}
+          </div>
+        ) : null}
+
+        {hasSuggestions ? (
+          <ul className="chat-message__suggestions">
+            {message.suggestions.map((suggestion) => (
+              <li key={`${message.id}-${suggestion}`}>{suggestion}</li>
+            ))}
+          </ul>
         ) : null}
       </div>
     </article>

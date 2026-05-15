@@ -34,6 +34,7 @@
       "browsePackages": "Parcourir les forfaits",
       "myReservations": "Mes réservations",
       "paymentHelp": "Aide au paiement",
+      "contactSupport": "Contacter le support",
       "loginHelp": "Aide à la connexion",
       "verifyEmailHelp": "Aide à la vérification"
     },
@@ -43,6 +44,7 @@
       "browsePackages": "Montrez-moi les forfaits de voyage",
       "myReservations": "Afficher mes réservations",
       "paymentHelp": "J'ai besoin d'aide pour un paiement",
+      "contactSupport": "J'ai besoin d'aide",
       "loginHelp": "Comment me connecter ?",
       "verifyEmailHelp": "J'ai besoin d'aide pour vérifier mon e-mail"
     },
@@ -60,7 +62,8 @@
     "assistantLabel": "Assistant",
     "userLabel": "Vous",
     "requiresAuth": "Connexion requise",
-    "redirectFallback": "Ouvrir la page"
+    "redirectFallback": "Ouvrir la page",
+    "responseActionsLabel": "Actions suggérées"
   },
   "footer": {
     "brandTitle": "Atlas Travel Agency",

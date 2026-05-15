@@ -11,6 +11,7 @@ from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 CONSOLE_EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+SMTP_EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 
 @dataclass(frozen=True)
@@ -49,6 +50,77 @@ def mask_email_username(value):
     return f"{masked_local}@{domain}"
 
 
+def get_email_configuration_issues():
+    if settings.EMAIL_BACKEND != SMTP_EMAIL_BACKEND:
+        return []
+
+    issues = []
+
+    if not getattr(settings, "EMAIL_HOST", ""):
+        issues.append("EMAIL_HOST is required for SMTP email delivery.")
+    elif settings.EMAIL_HOST != "smtp.gmail.com":
+        issues.append("EMAIL_HOST should be smtp.gmail.com for Gmail SMTP.")
+
+    if int(getattr(settings, "EMAIL_PORT", 0)) != 587:
+        issues.append("EMAIL_PORT must be 587 for Gmail SMTP with TLS.")
+
+    if not getattr(settings, "EMAIL_USE_TLS", False):
+        issues.append("EMAIL_USE_TLS must be True for Gmail SMTP.")
+
+    if getattr(settings, "EMAIL_USE_SSL", False):
+        issues.append("EMAIL_USE_SSL must be False when using Gmail SMTP with TLS.")
+
+    if not getattr(settings, "EMAIL_HOST_USER", ""):
+        issues.append("EMAIL_HOST_USER is required for SMTP email delivery.")
+
+    if not getattr(settings, "EMAIL_HOST_PASSWORD", ""):
+        issues.append("EMAIL_HOST_PASSWORD is required for SMTP email delivery.")
+
+    default_from_email = getattr(settings, "DEFAULT_FROM_EMAIL", "")
+
+    if not default_from_email or "@" not in default_from_email:
+        issues.append("DEFAULT_FROM_EMAIL must be a valid sender email address.")
+
+    return issues
+
+
+def deliver_email(subject, message, recipient_list, from_email=None):
+    configuration_issues = get_email_configuration_issues()
+
+    if configuration_issues:
+        reason = " ".join(configuration_issues)
+        logger.warning("Email delivery configuration issue: %s", reason)
+        return EmailDeliveryResult(delivered=False, reason=reason)
+
+    try:
+        sent_count = send_mail(
+            subject=subject,
+            message=message,
+            from_email=from_email or settings.DEFAULT_FROM_EMAIL,
+            recipient_list=recipient_list,
+            fail_silently=False,
+        )
+    except SMTPAuthenticationError as exc:
+        reason = f"SMTP authentication failed: {exc}"
+        logger.warning("Email delivery failed: %s", reason)
+        return EmailDeliveryResult(delivered=False, reason=reason)
+    except SMTPException as exc:
+        reason = f"SMTP error: {exc}"
+        logger.warning("Email delivery failed: %s", reason)
+        return EmailDeliveryResult(delivered=False, reason=reason)
+    except Exception as exc:
+        reason = f"{exc.__class__.__name__}: {exc}"
+        logger.exception("Email backend exception: %s", reason)
+        return EmailDeliveryResult(delivered=False, reason=reason)
+
+    if sent_count:
+        return EmailDeliveryResult(delivered=True)
+
+    reason = "Email backend reported 0 messages sent."
+    logger.warning("Email delivery failed: %s", reason)
+    return EmailDeliveryResult(delivered=False, reason=reason)
+
+
 def send_email_verification_message(user):
     recipient_email = user.email
 
@@ -76,40 +148,14 @@ def send_email_verification_message(user):
     recipient_list = [recipient_email]
 
     logger.info("Attempting send_mail call with fail_silently=False")
-    try:
-        sent_count = send_mail(
-            subject=subject,
-            message=message,
-            from_email=from_email,
-            recipient_list=recipient_list,
-            fail_silently=False,
-        )
-    except SMTPAuthenticationError as exc:
-        reason = f"SMTP authentication failed: {exc}"
-        logger.warning(
-            "Verification email delivery failed for %s: %s",
-            recipient_email,
-            reason,
-        )
-        return EmailDeliveryResult(delivered=False, reason=reason)
-    except SMTPException as exc:
-        reason = f"SMTP error: {exc}"
-        logger.warning(
-            "Verification email delivery failed for %s: %s",
-            recipient_email,
-            reason,
-        )
-        return EmailDeliveryResult(delivered=False, reason=reason)
-    except Exception as exc:
-        reason = f"{exc.__class__.__name__}: {exc}"
-        logger.exception(
-            "Verification email backend exception for %s: %s",
-            recipient_email,
-            reason,
-        )
-        return EmailDeliveryResult(delivered=False, reason=reason)
+    delivery_result = deliver_email(
+        subject=subject,
+        message=message,
+        from_email=from_email,
+        recipient_list=recipient_list,
+    )
 
-    if sent_count:
+    if delivery_result.delivered:
         logger.info("Verification email sent successfully to: %s", recipient_email)
         if settings.EMAIL_BACKEND == CONSOLE_EMAIL_BACKEND:
             reason = (
@@ -131,13 +177,12 @@ def send_email_verification_message(user):
             )
         return EmailDeliveryResult(delivered=True)
 
-    reason = "Email backend reported 0 messages sent."
     logger.warning(
         "Verification email delivery failed for %s: %s",
         recipient_email,
-        reason,
+        delivery_result.reason,
     )
-    return EmailDeliveryResult(delivered=False, reason=reason)
+    return delivery_result
 
 
 def issue_email_verification(user):
